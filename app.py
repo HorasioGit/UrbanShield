@@ -9,7 +9,7 @@ import time
 MAPS_API_KEY = "1GLJWFf8IEFXQkX9JNLQT0SDEyz5x7hDnaeyJIAR6XPCt9mUhST9JQQJ99CDACYeBjFxDgxpAAAgAZMP3knW"
 
 # --- 1. KONFIGURASI HALAMAN ---
-st.set_page_config(page_title="UrbanShield Navigasi", layout="wide", page_icon="🛡️")
+st.set_page_config(page_title="UrbanShield", layout="wide", page_icon="🛡️")
 
 # UI BARU: Judul yang lebih menjual dan ramah awam
 st.title("🛡️ UrbanShield: Navigasi Logistik Cerdas")
@@ -92,7 +92,7 @@ with col_map:
     st.subheader("Peta Pantauan Cerdas")
     peta_jkt = folium.Map(location=[-6.2088, 106.8456], zoom_start=11, tiles="CartoDB positron")
     
-    if mulai and MAPS_API_KEY != "1GLJWFf8IEFXQkX9JNLQT0SDEyz5x7hDnaeyJIAR6XPCt9mUhST9JQQJ99CDACYeBjFxDgxpAAAgAZMP3knW":
+    if mulai and MAPS_API_KEY != "MASUKKAN_API_KEY_KAMU_DISINI":
         # Menentukan skor evaluasi (Tetap pakai angka asli tapi labelnya nanti diubah)
         if "Sekarang" in waktu_berangkat: auc_score, f1_score, thres = 0.9185, 0.5133, 10.0 
         elif "3 Jam Lagi" in waktu_berangkat: auc_score, f1_score, thres = 0.9951, 0.9188, 15.0 
