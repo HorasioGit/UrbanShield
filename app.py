@@ -45,12 +45,34 @@ def dapatkan_koordinat(alamat):
     return None, None
 
 def dapatkan_rute(lat1, lon1, lat2, lon2, status_banjir):
-    bbox_banjir = "106.8150,-6.2150,106.8250,-6.1850" # Area Sudirman
-    avoid_param = f"&avoid=areas&avoidAreas={bbox_banjir}" if status_banjir == 1 else ""
+    """Meminta Azure menggambar jalan, mengirim GeoJSON POST jika banjir"""
+    url = f"https://atlas.microsoft.com/route/directions/json?api-version=1.0&query={lat1},{lon1}:{lat2},{lon2}&routeType=fastest&subscription-key={MAPS_API_KEY}"
     
-    url = f"https://atlas.microsoft.com/route/directions/json?api-version=1.0&query={lat1},{lon1}:{lat2},{lon2}&routeType=fastest{avoid_param}&subscription-key={MAPS_API_KEY}"
     try:
-        response = requests.get(url).json()
+        if status_banjir == 1:
+            # Satelit Azure SANGAT KETAT. Untuk memblokir area, wajib pakai POST & GeoJSON.
+            headers = {"Content-Type": "application/json"}
+            body = {
+                "avoidAreas": {
+                    "type": "MultiPolygon",
+                    "coordinates": [
+                        [
+                            [
+                                [106.8150, -6.2150], # Pojok Kiri Bawah
+                                [106.8250, -6.2150], # Pojok Kanan Bawah
+                                [106.8250, -6.1850], # Pojok Kanan Atas
+                                [106.8150, -6.1850], # Pojok Kiri Atas
+                                [106.8150, -6.2150]  # Kembali ke Kiri Bawah (Tutup Kotak)
+                            ]
+                        ]
+                    ]
+                }
+            }
+            response = requests.post(url, json=body, headers=headers).json()
+        else:
+            # Cuaca cerah, tanya jalan pakai GET biasa
+            response = requests.get(url).json()
+
         if 'routes' in response and len(response['routes']) > 0:
             jalur = response['routes'][0]['legs'][0]['points']
             waktu_menit = response['routes'][0]['summary']['travelTimeInSeconds'] // 60
@@ -59,7 +81,8 @@ def dapatkan_rute(lat1, lon1, lat2, lon2, status_banjir):
             return rute_koordinat, waktu_menit, jarak_km
         elif 'error' in response:
             return None, 0, 0
-    except: pass
+    except Exception as e:
+        pass
     return None, 0, 0
 
 # --- 4. LAYOUT DASHBOARD (Sisi Kiri: Input, Sisi Kanan: Peta) ---
