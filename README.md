@@ -35,33 +35,33 @@ Jakarta adalah salah satu kota dengan risiko banjir tertinggi di Asia Tenggara. 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    DATA SOURCES (Input)                     │
-│  Open-Meteo API (real-time)  │  BPBD Jakarta (histori)     │
+│  Open-Meteo API (real-time)  │  BPBD Jakarta (histori)      │
 └────────────────┬────────────────────────────────────────────┘
                  │
                  ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                  FEATURE ENGINEERING                        │
-│  Lag features · Rolling sum · Rain streak · Composite idx  │
+│  Lag features · Rolling sum · Rain streak · Composite idx   │
 └────────────────┬────────────────────────────────────────────┘
                  │
                  ▼
 ┌─────────────────────────────────────────────────────────────┐
-│               MODEL 1 — FLOOD PREDICTOR                    │
-│   XGBoost (4 model): Nowcast │ +3h │ +6h │ +12h           │
-│   Output: P(banjir) per horizon → zona risiko              │
+│               MODEL 1 — FLOOD PREDICTOR                     │
+│   XGBoost (4 model): Nowcast │ +3h │ +6h │ +12h             │
+│   Output: P(banjir) per horizon → zona risiko               │
 └────────────────┬────────────────────────────────────────────┘
                  │ bobot zona risiko
                  ▼
 ┌─────────────────────────────────────────────────────────────┐
-│               MODEL 2 — ROUTING ENGINE                     │
-│   Azure Maps Route API + avoidAreas polygon                │
-│   Output: Rute optimal menghindari zona banjir             │
+│               MODEL 2 — ROUTING ENGINE                      │
+│   Azure Maps Route API + avoidAreas polygon                 │
+│   Output: Rute optimal menghindari zona banjir              │
 └────────────────┬────────────────────────────────────────────┘
                  │
                  ▼
 ┌─────────────────────────────────────────────────────────────┐
 │              STREAMLIT APP (deployed on Azure)              │
-│   Live Mode │ Simulasi Manual │ Peta Interaktif            │
+│   Live Mode │ Simulasi Manual │ Peta Interaktif             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -177,7 +177,7 @@ Aplikasi akan terbuka di `http://localhost:8501`
 | Nama | GitHub |
 |---|---|
 | Horasio Nissi Immanuel | [@HorasioGit](https://github.com/HorasioGit) |
-| [Rizki Piji Fathoni] | [@Rizki0907](https://github.com/Rizki0907) |
+| Rizki Piji Fathoni | [@Rizki0907](https://github.com/Rizki0907) |
 
 ---
 
