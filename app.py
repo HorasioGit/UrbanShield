@@ -32,6 +32,15 @@ HORIZONS = {
 
 st.set_page_config(page_title="UrbanShield Navigasi", layout="wide", page_icon="🛡️")
 
+st.markdown(
+    """
+    <head>
+        <meta name="dicoding:email" content="horasionissiimmanuel@gmail.com">
+    </head>
+    """,
+    unsafe_allow_html=True
+)
+
 st.markdown("""
 <style>
     section.main > div { padding-top: 1rem; }
