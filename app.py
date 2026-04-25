@@ -30,16 +30,9 @@ HORIZONS = {
     '+12 Jam':  ('12h', 'target_12h',  12),
 }
 
-st.set_page_config(page_title="UrbanShield Navigasi", layout="wide", page_icon="🛡️")
+st.set_page_config(page_title="UrbanShield", layout="wide", page_icon="🛡️")
 
-st.markdown(
-    """
-    <head>
-        <meta name="dicoding:email" content="horasionissiimmanuel@gmail.com">
-    </head>
-    """,
-    unsafe_allow_html=True
-)
+st.markdown('<head><meta name="dicoding:email" content="horasionissiimmanuel@gmail.com"></head>', unsafe_allow_html=True)
 
 st.markdown("""
 <style>
