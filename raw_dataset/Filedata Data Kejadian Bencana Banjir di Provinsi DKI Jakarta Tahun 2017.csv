@@ -1,0 +1,265 @@
+﻿periode_data,kota_administrasi,kecamatan,kelurahan,rw,jumlah_terdampak_rw,jumlah_terdampak_rt,jumlah_terdampak_kk,jumlah_terdampak_jiwa,ketinggian_air,tanggal_kejadian,lama_genangan,jumlah_meninggal,jumlah_hilang,jumlah_luka_berat,jumlah_luka_ringan,jumlah_pengungsi_tertinggi,jumlah_tempat_pengungsian,nilai_kerugian
+201703,"Jakarta Barat",CENGKARENG,"DURI KOSAMBI","RW 04, 05, 06",3,0,0,0,"0 - 50 cm","23 - 24",0,0,0,0,0,0,0,0
+201703,"Jakarta Barat",CENGKARENG,"RAWA BUAYA","RW 01, 02, 04",3,0,0,0,"30 - 50 cm","23 - 24",0,0,0,0,0,0,0,0
+201703,"Jakarta Barat","KALI DERES",SEMANAN,"RW 06",1,0,0,0,"10 - 20 cm",28,0,0,0,0,0,0,0,0
+201703,"Jakarta Barat","KEBON JERUK","KEBON JERUK","RW 01",1,0,0,0,"20 - 120 cm",3,0,0,0,0,0,0,0,0
+201703,"Jakarta Barat",KEMBANGAN,"KEMBANGAN UTARA","RW 01",1,0,0,0,"5 - 10 cm",4,0,0,0,0,0,0,0,0
+201703,"Jakarta Pusat",KEMAYORAN,"KEBON KOSONG","RW 05",1,0,0,0,"5 - 10 cm",28,0,0,0,0,0,0,0,0
+201703,"Jakarta Selatan",CILANDAK,"CILANDAK BARAT","RW 02",1,0,0,0,"100 cm","1 - 3",0,0,0,0,0,0,0,0
+201703,"Jakarta Selatan",CILANDAK,"PONDOK LABU","RW 01, 03, 07, 09, 010",5,0,0,0,"140 - 160 cm","1 - 8",0,0,0,0,0,0,0,0
+201703,"Jakarta Selatan","KEBAYORAN BARU","CIPETE UTARA","RW 06, 07, 09, 010",4,0,0,0,"60 - 80 cm","2 - 3",0,0,0,0,0,0,0,0
+201703,"Jakarta Selatan","KEBAYORAN BARU",PETOGOGAN,"RW 02, 03",2,0,0,0,"20 - 40 cm","1 - 4",0,0,0,0,0,0,0,0
+201703,"Jakarta Selatan","KEBAYORAN LAMA",CIPULIR,"RW 010",1,0,0,0,"10 - 100 cm",3,0,0,0,0,0,0,0,0
+201703,"Jakarta Selatan","KEBAYORAN LAMA","PONDOK PINANG","RW 05",1,0,0,0,"30 - 80 cm","2 - 3, 8",0,0,0,0,0,0,0,0
+201703,"Jakarta Selatan","MAMPANG PRAPATAN",BANGKA,"RW 02, 03, 04",3,0,0,0,"70 - 100 cm","1 - 4",0,0,0,0,0,0,0,0
+201703,"Jakarta Selatan",PANCORAN,KALIBATA,"RW 05",1,0,0,0,"50 - 100 cm","1 - 4",0,0,0,0,0,0,0,0
+201703,"Jakarta Selatan",PANCORAN,PENGADEGAN,"RW 01",1,0,0,0,"50 - 100 cm","1 - 2, 8",0,0,0,0,0,0,0,0
+201703,"Jakarta Selatan",PANCORAN,RAWAJATI,"RW 07",1,0,0,0,"50 cm","1 - 2",0,0,0,0,0,0,0,0
+201703,"Jakarta Selatan","PASAR MINGGU","CILANDAK TIMUR","RW 01, 03, 04",3,0,0,65,"100 - 120 cm","1 - 4",0,0,0,0,65,2,0,0
+201703,"Jakarta Selatan","PASAR MINGGU","JATI PADANG","RW 02, 03, 04, 05, 06, 08, 010",7,0,0,0,"60 - 100 cm","1 - 2",0,0,0,0,1735,6,0,0
+201703,"Jakarta Selatan","PASAR MINGGU",KEBAGUSAN,"RW 02, 03, 04, 05, 06, 07",6,0,32,120,"80 cm","1 - 2",0,0,0,0,15,3,0,0
+201703,"Jakarta Selatan","PASAR MINGGU","PEJATEN BARAT","RW 02",1,0,0,0,"60 cm","1 - 2",0,0,0,0,0,0,0,0
+201703,"Jakarta Selatan","PASAR MINGGU","PEJATEN TIMUR","RW 05, 06, 07, 08, 010",5,0,105,232,"40 cm","1 - 2, 8",0,0,0,0,0,0,0,0
+201703,"Jakarta Selatan",PESANGGRAHAN,ULUJAMI,"RW 01, 05",2,0,1027,3266,"75 cm","1 - 3, 17 - 18",0,0,0,0,55,1,0,0
+201703,"Jakarta Selatan",TEBET,"BUKIT DURI","RW 010, 011, 012",3,0,0,0,"30 - 40 cm",8,0,0,0,0,0,0,0,0
+201703,"Jakarta Selatan",TEBET,"KEBON BARU","RW 012",1,0,0,0,"5 - 10 cm",28,0,0,0,0,0,0,0,0
+201703,"Jakarta Timur",CAKUNG,"CAKUNG TIMUR","RW 09",1,0,0,0,"50 - 70 cm","18 - 19",0,0,0,0,0,0,0,0
+201703,"Jakarta Timur",CAKUNG,"RAWA TERATE","RW 04, 05",2,0,0,0,"0 - 50 cm",23,0,0,0,0,0,0,0,0
+201703,"Jakarta Timur",CIRACAS,CIBUBUR,"RW 02, 03, 010, 012",4,0,0,0,"20 - 80 cm","1 - 2",0,0,0,0,0,0,0,0
+201703,"Jakarta Timur",CIRACAS,RAMBUTAN,"RW 06",1,0,0,0,"40 cm",1,0,0,0,0,0,0,0,0
+201703,"Jakarta Timur","DUREN SAWIT","DUREN SAWIT","RW 04, 05, 010",3,0,0,0,"20 - 30 cm",18,0,0,0,0,0,0,0,0
+201703,"Jakarta Timur",JATINEGARA,"BIDARA CINA","RW 06, 07, 011",3,0,647,1823,"75 - 120 cm","8 - 9",0,0,0,0,0,0,0,0
+201703,"Jakarta Timur",JATINEGARA,"CIPINANG BESAR SELATAN","RW 010",1,0,0,0,"30 cm",18,0,0,0,0,0,0,0,0
+201703,"Jakarta Timur",JATINEGARA,"CIPINANG MUARA","RW 03, 04, 013",3,0,0,0,"50 cm","2 - 3, 28",0,0,0,0,0,0,0,0
+201703,"Jakarta Timur",JATINEGARA,"KAMPUNG MELAYU","RW 04, 05, 07, 08",4,0,243,828,"20 - 90 cm","1 - 2, 8 - 9, 18",0,0,0,0,0,0,0,0
+201703,"Jakarta Timur","KRAMAT JATI",CAWANG,"RW 01, 02, 03, 05, 08",5,0,1178,3832,"30 - 100 cm","7 - 8",0,0,0,0,0,0,0,0
+201703,"Jakarta Timur","KRAMAT JATI",CILILITAN,"RW 06, 07, 016",3,0,0,0,"40 - 100 cm",8,0,0,0,0,0,0,0,0
+201703,"Jakarta Timur",MAKASAR,"CIPINANG MELAYU","RW 03, 04, 07",3,0,0,0,"25 - 70 cm","1 - 3, 7 - 8, 18, 23",0,0,0,0,0,0,0,0
+201703,"Jakarta Timur",MAKASAR,"HALIM PERDANA KUSUMA","RW 05",1,0,0,0,"5 - 15 cm",2,0,0,0,0,0,0,0,0
+201703,"Jakarta Timur",MAKASAR,MAKASAR,"RW 05",1,0,0,0,"5 - 15 cm",2,0,0,0,0,0,0,0,0
+201703,"Jakarta Timur","PASAR REBO",CIJANTUNG,"RW 01",1,0,0,0,"40 cm","1 - 2",0,0,0,0,0,0,0,0
+201703,"Jakarta Timur","PASAR REBO",PEKAYON,"RW 07",1,0,0,0,"90 cm","1 - 2",0,0,0,0,0,0,0,0
+201705,"Jakarta Barat","KEC. CENGKARENG","KEL. DURI KOSAMBI","RW. 08",1,0,0,0,"10 - 30 cm","1 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Barat","KEC. CENGKARENG","KEL. RAWA BUAYA","RW. 02, RW. 04",2,7,0,0,"25 s/d 40 cm","7 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Barat","KEC. KEMBANGAN ","KEL. JOGLO","RW. 01",1,0,0,0,"10 s/d 30 cm","7 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Barat","KEC. KEMBANGAN ","KEL. KEMBANGAN UTARA","RW. 01, RW. 02, RW. 03, RW. 04, RW 09",5,8,5,20,"10 s/d 80 cm","7 Mei (1 hari)",0,0,0,0,20,1,0,0
+201705,"Jakarta Barat","KEC. KEMBANGAN ","KEL. KEMBANGAN SELATAN","RW. 03",1,0,0,0,"10 s/d 50 cm","7 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Barat","KEC. KEMBANGAN ","KEL. MERUYA SELATAN","RW. 10",1,0,0,0,"10 s/d 30 cm","7 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Barat","KEC. PALMERAH","KEL. SLIPI","RW. 03",1,0,0,0,"10 s/d 30 cm","7 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Barat","KEC. KEBON JERUK","KEL. KEDOYA SELATAN","RW. 05",1,1,0,0,"50 s/d 70 cm","7 Mei (1 hari)",0,0,0,0,20,1,0,0
+201705,"Jakarta Selatan","KEC. CILANDAK","KEL. LEBAK BULUS","RW. 02, RW. 08",2,0,0,0,"10 - 50 cm","1 Mei (1 hari), 7 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Selatan","KEC. CILANDAK","KEL. PONDOK LABU","RW. 01, RW. 03, RW. 07, RW. 10",4,11,0,0,"5 s/d 120 cm","4 - 5  Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Selatan","KEC. MAMPANG PRAPATAN","KEL. BANGKA","RW. 04",1,1,0,0,"80 cm","1 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Selatan","KEC. JAGAKARSA","KEL. SRENGSENG SAWAH","RW. 07",1,0,0,0,"10 s/d 30 cm","2 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Selatan","KEC. JAGAKARSA","KEL. CIPEDAK","RW. 05",1,2,0,0,"30 cm","4 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Selatan","KEC. PASAR MINGGU","KEL. CILANDAK TIMUR","RW. 01, RW. 03",2,3,0,0,"20 s/d 65 cm","4 - 5 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Selatan","KEC. PASAR MINGGU","KEL. PEJATEN TIMUR","RW. 05, RW. 06, RW. 08",3,3,0,0,"10 s/d 20 cm","4 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Selatan","KEC. PASAR MINGGU","KEL. JATIPADANG","RW. 04",1,1,0,0,"20 s/d 40 cm","5 - 6 Mei (2 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Selatan","KEC. KEBAYORAN LAMA","KEL. PONDOK PINANG","RW. 05",1,4,0,0,"20 s/d 40 cm","6 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Timur","KEC. CAKUNG","KEL. CAKUNG TIMUR","RW. 12",1,0,0,0,"10 s/d 40 cm","1 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Timur","KEC. PASAR REBO","KEL. CIJANTUNG","RW. 01",1,1,0,0,"20 s/d 60 cm","2 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Timur","KEC. JATINEGARA","KEL. KAMPUNG MELAYU","RW. 04, RW. 05, RW. 07, RW. 08",4,25,246,835,"5 s/d 110 cm","2 Mei (1 hari), 4 Mei (1 hari), 6 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Timur","KEC. CIRACAS","KEL. RAMBUTAN","RW. 02, RW. 03, RW. 06",3,3,0,0,"20 s/d 30 cm","2 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Timur","KEC. CIRACAS","KEL. SUSUKAN","RW. 03, RW. 04",2,2,0,0,"30 s/d 40 cm","2 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Timur","KEC. CIRACAS","KEL. CIRACAS","RW 10",1,1,0,0,"10 s/d 30 cm","2 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Timur","KEC. MAKASAR","KEL. HALIM PERDANA KUSUMA","RW. 05, RW. 07",2,0,0,0,"5 cm","2 Mei (1 hari)",0,0,0,0,0,0,0,0
+201705,"Jakarta Timur","KEC. KRAMAT JATI","KEL. CAWANG","RW. 01, RW. 02, RW. 03, RW. 05, RW. 08",5,20,805,2565,"5 s/d 60 cm","4 Mei (1 hari), 5 - 6 Mei (2 hari)",0,0,0,0,0,0,0,0
+201710,"Jakarta Barat","KEC. KEBON JERUK","KEL. SUKABUMI SELATAN","RW. 04",1,1,0,0,"10 s/d 70 cm","tgl. 9",0,0,0,0,0,0,0,0
+201710,"Jakarta Selatan","KEC. MAMPANG PRAPATAN","KEL.  BANGKA","RW. 02, 03, 04",3,4,0,0,"20 s/d 80 cm","tgl. 9, 19",0,0,0,0,0,0,0,0
+201710,"Jakarta Selatan","KEC. PANCORAN","KEL. PANCORAN","RW. 04",1,1,0,0,"70 s/d 100 cm","tgl. 9",0,0,0,0,0,0,0,0
+201710,"Jakarta Selatan","KEC. CILANDAK","KEL. PONDOK LABU","RW. 01, 02, 07, 09, 10",5,9,0,0,"40 s/d 70 cm","tgl, 18",0,0,0,0,0,0,0,0
+201710,"Jakarta Selatan","KEC. PASAR MINGGU","KEL. JATI PADANG","RW. 02, 03, 06",3,6,15,0,"10 s/d 60 cm","tgl. 19, 20, 23",0,0,0,0,0,0,0,0
+201710,"Jakarta Selatan","KEC. PASAR MINGGU","KEL.CILANDAK TIMUR","RW. 01, 03, 04",3,5,0,0,"20 s/d 105 cm","tgl. 19",0,0,0,0,0,0,0,0
+201710,"Jakarta Selatan","KEC. KEBAYORAN BARU","KEL. CIPETE UTARA","RW. 06",1,3,0,0,"50 cm","tgl. 19",0,0,0,0,0,0,0,0
+201710,"Jakarta Selatan","KEC. KEBAYORAN BARU","KEL. PETOGOGAN","RW. 01, 02, 03",3,30,0,0,"20 s/d 70 cm","tgl. 19",0,0,0,0,0,0,0,0
+201710,"Jakarta Timur","KEC. JATINEGARA","KEL. KAMPUNG MELAYU","RW 04, 05",2,7,0,0,"30 s/d 50 cm","tgl. 8",0,0,0,0,0,0,0,0
+201710,"Jakarta Timur","KEC. JATINEGARA","KEL. CIPINANG MUARA","RW. 13",1,3,0,0,"20 s/d 40 cm","tgl. 19",0,0,0,0,0,0,0,0
+201710,"Jakarta Timur","KEC. MAKASAR","KEL. CIPINANG MELAYU","RW. 03, 04",2,11,0,0,"20 s/d 45 cm","tgl. 19",0,0,0,0,0,0,0,0
+201711,"Jakarta Barat",CENGKARENG,KAPUK,5,1,1,0,0,"20 - 40 cm","TGL 12",0,0,0,0,0,0,0,0
+201711,"Jakarta Barat",CENGKARENG,"CENGKARENG TIMUR","3, 13",2,2,0,0,"30 - 40 cm","TGL 12",0,0,0,0,0,0,0,0
+201711,"Jakarta Barat",CENGKARENG,"RAWA BUAYA","01, 02, 05, 011",4,5,0,0,"10 - 50 cm","TGL 12, 13",0,0,0,0,0,0,0,0
+201711,"Jakarta Barat",KEMBANGAN,"KEMBANGAN SELATAN","08, 09",2,2,0,0,"10 - 30 cm","TGL 12, 13",0,0,0,0,0,0,0,0
+201711,"Jakarta Barat",KEMBANGAN,SRENGSENG,"01, 02, 05, 07, 08",5,5,0,0,"20 - 50 cm","TGL 12, 17",0,0,0,0,0,0,0,0
+201711,"Jakarta Barat","KEBON JERUK","KEDOYA SELATAN","03, 05",2,6,0,0,"30 - 70 cm","TGL 12, 13",0,0,0,0,0,0,0,0
+201711,"Jakarta Barat","KEBON JERUK","KEDOYA UTARA",8,1,4,0,0,"25 cm","TGL 22",0,0,0,0,0,0,0,0
+201711,"Jakarta Barat","KEBON JERUK","DURI KEPA","02, 013",2,2,0,0,"10 - 40 cm","TGL 13, 17",0,0,0,0,0,0,0,0
+201711,"Jakarta Barat","GROGOL PETAMBURAN","TANJUNG DUREN UTARA","02, 05",2,2,0,0,"10 - 30 cm","TGL 13",0,0,0,0,0,0,0,0
+201711,"Jakarta Barat","GROGOL PETAMBURAN","WIJAYA KUSUMA",8,1,1,0,0,"20 - 25 cm","TGL 17",0,0,0,0,0,0,0,0
+201711,"Jakarta Pusat","CEMPAKA PUTIH","CEMPAKA PUTIH TIMUR",4,1,1,0,0,"10 - 20 cm","TGL 13",0,0,0,0,0,0,0,0
+201711,"Jakarta Selatan","PASAR MINGGU","JATI PADANG","02, 05, 06",3,3,19,40,"10 - 60 cm","TGL 12, 13, 21, 22, 30",0,0,0,0,40,1,0,0
+201711,"Jakarta Selatan","PASAR MINGGU",RAGUNAN,2,1,1,0,0,"10 - 70 cm","TGL 12, 13",0,0,0,0,0,0,0,0
+201711,"Jakarta Selatan","PASAR MINGGU","CILANDAK TIMUR","01, 03",2,3,13,34,"70 cm","TGL 12, 13",0,0,0,0,34,2,0,0
+201711,"Jakarta Selatan","PASAR MINGGU","PEJATEN TIMUR","07, 08",2,3,0,0,"20 - 50 cm","TGL 17",0,0,0,0,0,0,0,0
+201711,"Jakarta Selatan",PANCORAN,PENGADEGAN,1,1,1,0,0,"30 cm","TGL 07",0,0,0,0,0,0,0,0
+201711,"Jakarta Selatan",PESANGGRAHAN,ULUJAMI,"01, 02, 03, 04, 05, 07, 08",7,11,886,3186,"10 - 150 cm","TGL 09, 10, 12, 13, 16, 17",0,0,0,0,430,6,0,0
+201711,"Jakarta Selatan",PESANGGRAHAN,BINTARO,"01, 03, 04, 06, 09",5,5,15,60,"10 - 80 cm","TGL 12, 13",0,0,0,0,60,1,0,0
+201711,"Jakarta Selatan",PESANGGRAHAN,"PETUKANGAN UTARA","08, 09",2,3,0,0,"30 - 40 cm","TGL 12, 13",0,0,0,0,0,0,0,0
+201711,"Jakarta Selatan",PESANGGRAHAN,"PETUKANGAN SELATAN",6,1,1,197,788,"30 - 90 cm","TGL 16, 17",0,0,0,0,0,0,0,0
+201711,"Jakarta Selatan","KEBAYORAN LAMA",CIPULIR,"06, 07, 10",3,3,0,0,"30 - 50 cm","TGL 09, 12, 13, 16, 17",0,0,0,0,0,0,0,0
+201711,"Jakarta Selatan","KEBAYORAN LAMA","PONDOK PINANG","01, 05, 06",3,3,0,0,"10 - 50 cm","TGL 09, 12, 13, 16, 17",0,0,0,0,0,0,0,0
+201711,"Jakarta Selatan","KEBAYORAN LAMA","KEBAYORAN LAMA UTARA",5,1,1,0,0,"10 - 50 cm","TGL 12",0,0,0,0,0,0,0,0
+201711,"Jakarta Selatan","KEBAYORAN BARU","CIPETE UTARA",6,1,3,0,0,"25 cm","TGL 09",0,0,0,0,0,0,0,0
+201711,"Jakarta Selatan","KEBAYORAN BARU",PETOGOGAN,3,1,1,0,0,"10 - 20 cm","TGL 12, 13",0,0,0,0,0,0,0,0
+201711,"Jakarta Selatan",CILANDAK,"CILANDAK BARAT","05, 09",2,2,0,0,"10 - 40 cm","TGL 12, 13",0,0,0,0,0,0,0,0
+201711,"Jakarta Selatan",CILANDAK,"LEBAK BULUS",5,1,1,0,0,"10 - 40 cm","TGL 12",0,0,0,0,0,0,0,0
+201711,"Jakarta Selatan","MAMPANG PRAPATAN",BANGKA,"02, 03, 04",3,3,0,0,"20 - 100 cm","TGL 12",0,0,0,0,0,0,0,0
+201711,"Jakarta Timur",JATINEGARA,"KAMPUNG MELAYU","04,05,07,08",4,21,213,724,"5 - 80 cm","TGL 07, 10, 17, 18",0,0,0,0,0,0,0,0
+201711,"Jakarta Timur",JATINEGARA,"BIDARA CINA","05, 07, 08, 011",4,28,592,1673,"10 - 60 cm","TGL 18",0,0,0,0,0,0,0,0
+201711,"Jakarta Timur","KRAMAT JATI",CAWANG,"01, 02, 03, 05, 08",5,23,0,0,"10 - 50 cm","TGL 07, 18",0,0,0,0,0,0,0,0
+201711,"Jakarta Timur","KRAMAT JATI",CILILITAN,"06, 07",2,6,0,0,"20 - 50 cm","TGL 18",0,0,0,0,0,0,0,0
+201711,"Jakarta Timur",MAKASAR,"CIPINANG MELAYU","03, 04",2,11,0,0,"10 cm","TGL 19, 20",0,0,0,0,0,0,0,0
+201711,"Jakarta Utara","TANJUNG PRIOK","SUNTER JAYA",11,1,1,0,0,"10 - 30 cm","TGL 13",0,0,0,0,0,0,0,0
+201711,"Jakarta Utara",PENJARINGAN,PENJARINGAN,"03, 08, 17",3,3,0,0,"10 - 15 cm","TGL 7, 17",0,0,0,0,0,0,0,0
+201711,"Jakarta Utara",PENJARINGAN,PLUIT,1,1,1,0,0,"20 - 40 cm","TGL 6, 7",0,0,0,0,0,0,0,0
+201711,"Jakarta Utara",PENJARINGAN,"KAMAL MUARA","01, 04",2,2,0,0,"20 - 40 cm","TGL 6, 7",0,0,0,0,0,0,0,0
+201712,"Jakarta Barat",KALIDERES,KAMAL,"01, 04",2,6,0,0,"20 s/d 30 cm","tgl. 03, 04, 06, 20",0,0,0,0,0,0,0,0
+201712,"Jakarta Barat","GROGOL PETAMBURAN","JELAMBAR BARU","01,06, 07",3,2,0,0,"10 s/d 20 cm","tgl. 05, 06, 07, 09",0,0,0,0,0,0,0,0
+201712,"Jakarta Selatan","PASAR MINGGU","JATI PADANG",6,1,1,8,35,"5 - 50 cm","tgl. 01, 11, 16, 20",0,0,0,0,35,1,0,0
+201712,"Jakarta Selatan",PANCORAN,KALIBATA,"05, 09, 10",3,3,0,0,"20 s/d 30 cm","tgl. 12",0,0,0,0,0,0,0,0
+201712,"Jakarta Selatan",SETIABUDI,"KUNINGAN TIMUR",5,1,1,0,0,"20 s/d 25 cm","tgl. 12",0,0,0,0,0,0,0,0
+201712,"Jakarta Selatan",TEBET,"KEBON BARU",6,1,1,0,0,"40 cm","tgl. 12",0,0,0,0,0,0,0,0
+201712,"Jakarta Selatan",TEBET,"BUKIT DURI","04, 06, 08",3,3,0,0,"20 s/d 30 cm","tgl. 12",0,0,0,0,0,0,0,0
+201712,"Jakarta Selatan",TEBET,MANGGARAI,3,1,1,0,0,"20 cm","tgl. 12",0,0,0,0,0,0,0,0
+201712,"Jakarta Selatan",JAGAKARSA,JAGAKARSA,3,1,1,0,0,"10 s/d 20 cm","tgl. 16",0,0,0,0,0,0,0,0
+201712,"Jakarta Selatan",CILANDAK,"PONDOK LABU",1,1,1,0,0,"50 s/d 70 cm","tgl. 20",0,0,0,0,0,0,0,0
+201712,"Jakarta Timur",MAKASAR,"CIPINANG MELAYU","RW. 03, 04",2,11,0,0,"20 s/d 50 cm","tgl. 11, 16, 17, 20",0,0,0,0,0,0,0,0
+201712,"Jakarta Timur",JATINEGARA,"CIPINANG MUARA",13,1,3,0,0,"20 s/d 40 cm","tgl. 11",0,0,0,0,0,0,0,0
+201712,"Jakarta Timur",CAKUNG,"RAWA TERATE",5,1,1,0,0,"20 s/d 40 cm","tgl. 11",0,0,0,0,0,0,0,0
+201712,"Jakarta Timur","PASAR REBO",KALISARI,"03, 11",2,2,0,0,"20 s/d 40 cm","tgl. 11",0,0,0,0,0,0,0,0
+201712,"Jakarta Timur","KRAMAT JATI",CILILITAN,1,1,1,0,0,"10 s/d 50 cm","tgl. 12",0,0,0,0,0,0,0,0
+201712,"Jakarta Utara",PENJARINGAN,"KAPUK MUARA","01,",1,4,0,0,"5 s/d 15 cm","tgl. 03, 06",0,0,0,0,0,0,0,0
+201712,"Jakarta Utara",PENJARINGAN,"KAMAL MUARA","01, 04,",2,2,0,0,"10 s/d 50 cm","tgl. 03, 04, 05, 06, 07, 08",0,0,0,0,0,0,0,0
+201712,"Jakarta Utara",PENJARINGAN,PENJARINGAN,"01, 02, 03, 17",4,4,0,0,"5 s/d 30 cm","tgl. 03, 05, 06",0,0,0,0,0,0,0,0
+201712,"Jakarta Utara",PENJARINGAN,PLUIT,"01, 11, 20, 22",4,4,0,0,"10 s/d 30 cm","tgl. 04, 05, 06",0,0,0,0,0,0,0,0
+201712,"Jakarta Utara",PENJARINGAN,PEJAGALAN,016,1,1,0,0,"10 s/d 20 cm","tgl 05 ",0,0,0,0,0,0,0,0
+201712,"Jakarta Utara",CILINCING,MARUNDA,"01, 02, 04 ,06, 07, 09",6,6,123,369,"5 s/d 30 cm","tgl. 04, 05, 06",0,0,0,0,0,0,0,0
+201712,"Jakarta Utara",CILINCING,CILINCING,"06, 09",2,2,0,0,"5 s/d 15 cm","tgl. 05",0,0,0,0,0,0,0,0
+201712,"Jakarta Utara",PADEMANGAN,ANCOL,10,1,1,0,0,"10 s/d 15 cm","tgl. 05",0,0,0,0,0,0,0,0
+201712,"Jakarta Utara","TANJUNG PRIOK","SUNTER AGUNG","03, 06, 08",3,3,0,0,"05 s/d 15 cm","tgl. 05, 06, 07",0,0,0,0,0,0,0,0
+201712,"Jakarta Utara",KOJA,KOJA,11,1,1,0,0,"10 s/d 15 cm","tgl. 05",0,0,0,0,0,0,0,0
+201712,"Kepulauan Seribu","KEPULAUAN SERIBU SELATAN","PULAU TIDUNG","02, 03",2,5,0,0,"10 s/d 20 cm","tgl. 05",0,0,0,0,0,0,0,0
+201701,"Jakarta Barat","KEBON JERUK","KELAPA DUA",8,1,0,0,0,"20 - 30 cm",10-Nov,0,0,0,0,0,0,0,0
+201701,"Jakarta Selatan","KEBAYORAN BARU",PETOGOGAN,"01, 02, 03",3,0,0,0,"10 - 70 cm",10,0,0,0,0,0,0,0,0
+201701,"Jakarta Selatan","KEBAYORAN LAMA",CIPULIR,11,1,0,0,0,"30 - 40 cm",10,0,0,0,0,0,0,0,0
+201701,"Jakarta Selatan","KEBAYORAN LAMA","KEBAYORAN LAMA SELATAN",12,1,0,0,0,"10 - 40 cm",10,0,0,0,0,0,0,0,0
+201701,"Jakarta Timur","DUREN SAWIT",KLENDER,11,1,0,0,0,"20 - 30 cm",11,0,0,0,0,0,0,0,0
+201702,"Jakarta Barat",CENGKARENG,"CENGKARENG BARAT",2,0,0,0,"80 cm","21 - 24",,0,0,0,0,0,0,0,0
+201702,"Jakarta Barat",CENGKARENG,"CENGKARENG TIMUR",2,0,0,0,"30 - 40 cm","21 - 22",,0,0,0,0,0,0,0,0
+201702,"Jakarta Barat",CENGKARENG,KAPUK,14,0,586,1388,"80 - 90 cm","21 - 23",,0,0,0,0,0,0,0,0
+201702,"Jakarta Barat",CENGKARENG,"KEDAUNG KALI ANGKE",3,0,0,0,"40 - 100 cm","21 - 22",,0,0,0,0,0,0,0,0
+201702,"Jakarta Barat",CENGKARENG,"RAWA BUAYA",10,0,0,0,"100 cm","20 - 24",,0,0,0,0,272,0,0,0
+201702,"Jakarta Barat","GROGOL PETAMBURAN","WIJAYA KESUMA",1,0,0,0,"10 cm",16,,0,0,0,0,0,0,0,0
+201702,"Jakarta Barat","KALI DERES",SEMANAN,4,0,0,0,"40 cm",21,,1,0,0,0,0,0,0,0
+201702,"Jakarta Barat","KALI DERES","TEGAL ALUR",13,0,0,0,"50 - 80 cm","21 - 23",,0,0,0,0,68,0,0,0
+201702,"Jakarta Barat","KEBON JERUK","KEDOYA SELATAN",1,0,0,0,"20 - 70 cm",26,,2,0,0,0,0,0,0,0
+201702,"Jakarta Barat","KEBON JERUK","KEDOYA UTARA",4,0,0,0,"30 - 60 cm","21 - 22",,0,0,0,0,0,0,0,0
+201702,"Jakarta Barat",KEMBANGAN,"KEMBANGAN SELATAN",1,0,0,0,"40 cm",24,,0,0,0,0,0,0,0,0
+201702,"Jakarta Barat",KEMBANGAN,"KEMBANGAN UTARA",4,0,0,0,"60 cm","21 - 22",,0,0,0,0,130,0,0,0
+201702,"Jakarta Barat","TAMAN SARI",GLODOK,1,0,0,0,"50 cm",21,,0,0,0,0,0,0,0,0
+201702,"Jakarta Pusat","CEMPAKA PUTIH","CEMPAKA PUTIH BARAT",2,0,0,0,"30 - 70 cm","21 - 22",,0,0,0,0,0,0,0,0
+201702,"Jakarta Pusat",KEMAYORAN,SERDANG,1,0,0,0,"30 - 70 cm","21 - 22",,0,0,0,0,0,0,0,0
+201702,"Jakarta Pusat","TANAH ABANG",PETAMBURAN,2,0,0,0,"10 - 40 cm","14, 21",,0,0,0,0,0,0,0,0
+201702,"Jakarta Selatan",CILANDAK,"CIPETE SELATAN",1,0,0,0,"30 - 60 cm",26,,0,0,0,0,0,0,0,0
+201702,"Jakarta Selatan",CILANDAK,"PONDOK LABU",2,0,0,0,"25 - 50 cm","24, 26",,0,0,0,0,0,0,0,0
+201702,"Jakarta Selatan","KEBAYORAN BARU",PETOGOGAN,2,0,0,0,"20 - 50 cm","12, 21 - 22, 24",,0,0,0,0,0,0,0,0
+201702,"Jakarta Selatan","KEBAYORAN LAMA",CIPULIR,1,0,0,0,"40 - 50 cm","16, 24 - 26",,0,0,0,0,16,0,0,0
+201702,"Jakarta Selatan","KEBAYORAN LAMA","KEBAYORAN LAMA SELATAN",5,0,0,0,"10 - 20 cm","19, 25 - 26",,0,0,0,0,0,0,0,0
+201702,"Jakarta Selatan","KEBAYORAN LAMA","KEBAYORAN LAMA UTARA",1,0,0,0,"10 cm",24,,0,0,0,0,0,0,0,0
+201702,"Jakarta Selatan","KEBAYORAN LAMA","PONDOK PINANG",2,0,0,0,"80 cm",24,,0,0,0,0,0,0,0,0
+201702,"Jakarta Selatan","MAMPANG PRAPATAN",BANGKA,3,0,0,0,"30 - 50 cm","19, 21 - 22, 26",,1,0,0,0,0,0,0,0
+201702,"Jakarta Selatan","MAMPANG PRAPATAN","KUNINGAN BARAT",2,0,0,0,"100 cm","21 - 22",,0,0,0,0,0,0,0,0
+201702,"Jakarta Selatan",PANCORAN,KALIBATA,5,0,0,0,"60 - 120 cm",21,,0,0,0,0,0,0,0,0
+201702,"Jakarta Selatan",PANCORAN,PENGADEGAN,2,0,30,120,"20 - 80 cm","16, 21 - 22",,0,0,0,0,0,0,0,0
+201702,"Jakarta Selatan",PANCORAN,RAWAJATI,1,0,0,0,"20 - 40 cm","12 - 13, 15 - 17, 25 - 26",,0,0,0,0,0,0,0,0
+201702,"Jakarta Selatan","PASAR MINGGU","CILANDAK TIMUR",2,0,0,0,"20 - 50 cm","12 - 13, 26",,0,0,0,0,0,0,0,0
+201702,"Jakarta Selatan","PASAR MINGGU","JATI PADANG",3,0,0,0,"10 - 20 cm","19, 21 - 22",,0,0,0,0,0,0,0,0
+201702,"Jakarta Selatan","PASAR MINGGU","PEJATEN BARAT",1,0,0,0,"10 - 20 cm",19,,0,0,0,0,0,0,0,0
+201702,"Jakarta Selatan","PASAR MINGGU","PEJATEN TIMUR",6,0,293,0,"40 - 150 cm","16, 19, 25 - 28",,0,0,0,0,0,0,0,0
+201702,"Jakarta Selatan",PESANGGRAHAN,ULUJAMI,2,0,0,0,"20 - 60 cm","24 - 26",,0,0,0,0,0,0,0,0
+201702,"Jakarta Selatan",TEBET,"BUKIT DURI",3,0,700,2600,"30 - 160 cm","12 - 13, 15 - 16, 21 - 22",,0,0,0,0,145,0,0,0
+201702,"Jakarta Selatan",TEBET,"KEBON BARU",1,0,300,700,"20 - 120 cm",16,,0,0,0,0,0,0,0,0
+201702,"Jakarta Timur",CAKUNG,"CAKUNG TIMUR",1,0,0,0,"30 - 90 cm",19,,0,0,0,0,0,0,0,0
+201702,"Jakarta Timur",CAKUNG,PENGGILINGAN,8,0,1200,2950,"50 - 100 cm","21 - 22",,0,0,0,0,1450,0,0,0
+201702,"Jakarta Timur",CAKUNG,"PULO GEBANG",1,0,0,0,"10 - 30 cm",11,,0,0,0,0,0,0,0,0
+201702,"Jakarta Timur",CAKUNG,"RAWA TERATE",3,0,0,0,"100 - 200 cm","19, 21 - 25",,0,0,0,0,800,0,0,0
+201702,"Jakarta Timur",CIPAYUNG,CEGER,1,0,0,0,"50 - 70 cm",21,,0,0,0,0,0,0,0,0
+201702,"Jakarta Timur",CIRACAS,CIBUBUR,4,0,0,0,"10 - 50 cm","15 - 16, 25 - 26",,0,0,0,0,0,0,0,0
+201702,"Jakarta Timur",CIRACAS,RAMBUTAN,4,0,0,0,"10 - 30 cm","16, 19, 21 - 22",,0,0,0,0,0,0,0,0
+201702,"Jakarta Timur","DUREN SAWIT",KLENDER,2,0,0,0,"60 - 100 cm",21,,0,0,0,0,0,0,0,0
+201702,"Jakarta Timur","DUREN SAWIT","PONDOK BAMBU",2,0,0,0,"100 cm","21 - 22",,0,0,0,0,0,0,0,0
+201702,"Jakarta Timur","DUREN SAWIT","PONDOK KELAPA",4,0,237,935,"50 - 150 cm","21 - 22",,0,0,0,0,10,0,0,0
+201702,"Jakarta Timur",JATINEGARA,"BALI MESTER",1,0,0,0,"40 cm",15,,0,0,0,0,0,0,0,0
+201702,"Jakarta Timur",JATINEGARA,"BIDARA CINA",7,0,0,0,"20 - 30 cm","12 - 13, 15 - 16, 21 - 22, 26 - 27",,1,0,0,0,0,0,0,0
+201702,"Jakarta Timur",JATINEGARA,"CIPINANG MUARA",1,0,284,350,"250 cm","19 - 22",,0,0,0,0,500,0,0,0
+201702,"Jakarta Timur",JATINEGARA,"KAMPUNG MELAYU",6,0,443,1678,"30 - 100 cm","11 - 17, 21 - 22, 25 - 28",,0,0,0,0,37,0,0,0
+201702,"Jakarta Timur","KRAMAT JATI",CAWANG,5,22,1188,3896,"70 - 100 cm","12 - 13, 15 - 16, 21 - 22, 25 - 28",,0,0,0,0,550,0,0,0
+201702,"Jakarta Timur","KRAMAT JATI",CILILITAN,4,0,0,0,"15 - 25 cm","15 - 16",,0,0,0,0,0,0,0,0
+201702,"Jakarta Timur","KRAMAT JATI","KRAMAT JATI",2,0,0,0,"20 cm",21,,0,0,0,0,0,0,0,0
+201702,"Jakarta Timur",MAKASAR,"CIPINANG MELAYU",9,0,908,2158,"50 - 200 cm","14, 16, 19 - 24, 26",,0,0,0,0,1727,0,0,0
+201702,"Jakarta Timur",MAKASAR,"HALIM PERDANA KUSUMA",5,0,798,2550,"50 - 70 cm","19, 21 - 22",,0,0,0,0,133,0,0,0
+201702,"Jakarta Timur",MAKASAR,"KEBON PALA",3,0,0,0,"10 - 50 cm","21 - 22",,0,0,0,0,0,0,0,0
+201702,"Jakarta Timur",MAKASAR,MAKASAR,4,0,0,0,"40 - 47 cm","19, 21 - 22",,0,0,0,0,0,0,0,0
+201702,"Jakarta Timur",MATRAMAN,"UTAN KAYU SELATAN",1,0,0,0,"30 - 40 cm","21 - 22",,0,0,0,0,0,0,0,0
+201702,"Jakarta Timur","PASAR REBO",PEKAYON,4,0,0,0,"60 cm","21, 25 - 26",,0,0,0,0,0,0,0,0
+201702,"Jakarta Timur","PULO GADUNG","KAYU PUTIH",1,0,0,0,"30 - 50 cm","21 - 22",,0,0,0,0,0,0,0,0
+201702,"Jakarta Utara",CILINCING,CILINCING,1,0,0,0,"20 - 30 cm",17,,0,0,0,0,0,0,0,0
+201702,"Jakarta Utara",CILINCING,"SEMPER BARAT",8,0,0,0,"20 - 30 cm",17,,0,0,0,0,0,0,0,0
+201702,"Jakarta Utara",CILINCING,"SEMPER TIMUR",4,0,0,0,"15 - 20 cm","17, 19 - 21",,0,0,0,0,0,0,0,0
+201702,"Jakarta Utara",CILINCING,SUKAPURA,1,0,0,0,"40 - 50 cm",21,,0,0,0,0,20,0,0,0
+201702,"Jakarta Utara",KOJA,"TUGU SELATAN",3,0,0,0,"10 - 20 cm","16, 21 - 22",,1,0,0,0,0,0,0,0
+201702,"Jakarta Utara",PENJARINGAN,PEJAGALAN,1,0,0,0,"30 cm",19,,0,0,0,0,0,0,0,0
+201702,"Jakarta Utara",PENJARINGAN,PENJARINGAN,1,0,0,0,"30 - 40 cm","21 - 22",,0,0,0,0,0,0,0,0
+201702,"Jakarta Utara","TANJUNG PRIOK","TANJUNG PRIUK",4,0,0,0,"30 cm",17,,0,0,0,0,0,0,0,0
+201704,"Jakarta Barat",CENGKARENG,"RAWA BUAYA","RW 01, 02, 04",3,0,0,0,"20 - 25 cm",11-Dec,0,0,0,0,0,0,0,0
+201704,"Jakarta Barat","KEBON JERUK","KEDOYA SELATAN","RW 02",1,0,0,0,"30 - 60 cm",11-Dec,0,0,0,0,0,0,0,0
+201704,"Jakarta Barat",KEMBANGAN,"KEMBANGAN UTARA","RW 01",1,0,15,96,"20 - 70 cm",27,0,0,0,0,20,0,0,0
+201704,"Jakarta Selatan",CILANDAK,"CIPETE SELATAN","RW 01, 03, 07",3,0,0,0,"70 - 80 cm",11-Dec,0,0,0,0,475,0,0,0
+201704,"Jakarta Selatan",CILANDAK,"PONDOK LABU","RW 01, 03, 07, 010",4,0,0,0,"80 - 100 cm","3 - 5, 11 - 12",0,0,0,0,0,0,0,0
+201704,"Jakarta Selatan","KEBAYORAN BARU","CIPETE UTARA","RW 02, 06",2,0,0,0,"50 - 60 cm","11 - 12, 26",0,0,0,0,0,0,0,0
+201704,"Jakarta Selatan","KEBAYORAN BARU",PETOGOGAN,"RW 01, 02, 03",3,0,0,0,"70 cm","10 - 12, 26 - 27",0,0,0,0,0,0,0,0
+201704,"Jakarta Selatan","KEBAYORAN LAMA",CIPULIR,"RW 07, 010",2,0,0,0,"20 - 50 cm","4 - 5, 11 - 12",0,0,0,0,0,0,0,0
+201704,"Jakarta Selatan","MAMPANG PRAPATAN",BANGKA,"RW 01, 02, 03, 04",4,0,0,0,"30 - 60 cm","11 - 12, 26",0,0,0,0,0,0,0,0
+201704,"Jakarta Selatan",PANCORAN,RAWAJATI,"RW 07",1,0,0,0,"30 - 50 cm","11, 14, 22 - 23",0,0,0,0,0,0,0,0
+201704,"Jakarta Selatan","PASAR MINGGU","CILANDAK TIMUR","RW 01, 03, 04",3,0,350,1200,"30 - 100 cm","11 - 12, 26",0,0,0,0,16,1,0,0
+201704,"Jakarta Selatan","PASAR MINGGU","PEJATEN TIMUR","RW 05, 06, 07, 08",4,0,10,0,"60 cm","14, 20",0,0,0,0,30,1,0,0
+201704,"Jakarta Selatan","PASAR MINGGU",RAGUNAN,"RW 01, 03, 05, 08, 09",5,0,0,0,"50 - 60 cm",11-Dec,0,0,0,0,0,0,0,0
+201704,"Jakarta Selatan",PESANGGRAHAN,ULUJAMI,"RW 01",1,0,0,0,"15 - 40 cm",11-Dec,0,0,0,0,0,0,0,0
+201704,"Jakarta Selatan","SETIA BUDI","KARET SEMANGGI","RW 04",1,0,0,0,"30 - 60 cm",11-Dec,0,0,0,0,0,0,0,0
+201704,"Jakarta Selatan",TEBET,"KEBON BARU","RW 010",1,0,0,0,"20 cm",14,0,0,0,0,0,0,0,0
+201704,"Jakarta Selatan",TEBET,"BUKIT DURI","RW 010",1,0,0,0,"10 - 40 cm",11,0,0,0,0,0,0,0,0
+201704,"Jakarta Timur",CAKUNG,"CAKUNG TIMUR","RW 05, 09",2,0,0,0,"30 - 45 cm",01-Feb,0,0,0,0,0,0,0,0
+201704,"Jakarta Timur",CAKUNG,"PULO GEBANG","RW 05, 06",2,0,0,0,"40 - 60 cm","1 - 2, 18 - 19",0,0,0,0,0,0,0,0
+201704,"Jakarta Timur",CIRACAS,CIBUBUR,"RW 02, 03, 010, 012",4,0,0,0,"30 - 80 cm","1 - 2, 19",0,0,0,0,0,0,0,0
+201704,"Jakarta Timur",CIRACAS,"KELAPA DUA WETAN","RW 02",1,0,0,0,"10 - 30 cm","22 - 23",0,0,0,0,0,0,0,0
+201704,"Jakarta Timur",CIRACAS,RAMBUTAN,"RW 02, 03, 05, 06",4,0,0,0,"25 - 80 cm",01-Feb,0,0,0,0,0,0,0,0
+201704,"Jakarta Timur","DUREN SAWIT","PONDOK BAMBU","RW 04",1,0,0,0,"10 - 30 cm",11-Dec,0,0,0,0,0,0,0,0
+201704,"Jakarta Timur",JATINEGARA,"BIDARA CINA","RW 05, 07, 011",3,0,0,0,"20 - 40 cm","14, 20",0,0,0,0,0,0,0,0
+201704,"Jakarta Timur",JATINEGARA,"CIPINANG MUARA","RW 013",1,0,0,0,"30 - 40 cm",01-Feb,0,0,0,0,0,0,0,0
+201704,"Jakarta Timur",JATINEGARA,"KAMPUNG MELAYU","RW 04, 05, 07, 08",4,0,246,835,"40 - 100 cm","10 - 11, 14, 20, 22 - 23",0,0,0,0,0,0,0,0
+201704,"Jakarta Timur","KRAMAT JATI",CAWANG,"RW 01, 02, 03, 05, 08",5,0,0,0,"50 - 120 cm","14, 20",0,0,0,0,0,0,0,0
+201704,"Jakarta Timur","KRAMAT JATI",CILILITAN,"RW 05, 06, 07",3,0,0,0,"20 - 50 cm","14, 20",0,0,0,0,0,0,0,0
+201704,"Jakarta Timur",MAKASAR,"CIPINANG MELAYU","RW 03, 04",2,0,0,0,"70 - 200 cm","1 - 2, 11 - 13, 19 - 20, 22 - 23",0,0,0,0,212,4,0,0
+201704,"Jakarta Timur",MAKASAR,"KEBON PALA","RW 09, 010",2,0,0,0,"10 - 20 cm",Dec-13,0,0,0,0,0,0,0,0
+201704,"Jakarta Timur",MAKASAR,MAKASAR,"RW 05",1,0,0,0,"20 - 30 cm","22 - 23",0,0,0,0,0,0,0,0
+201704,"Jakarta Timur","PASAR REBO",KALISARI,"RW 03",1,0,0,0,"10 - 50 cm","22 - 23",0,0,0,0,0,0,0,0
+201704,"Jakarta Timur","PASAR REBO",PEKAYON,"RW 04, 07",2,0,0,0,"50 - 80 cm",01-Feb,0,0,0,0,0,0,0,0
+201706,"Jakarta Selatan","PASAR MINGGU","PEJATEN TIMUR","RW. 06, 07, 08, 10",4,6,22,0,"10 - 40 cm","6 Juni 2017",0,0,0,0,0,0,0,0
+201706,"Jakarta Selatan",TEBET,"KEBON BARU","RW. 10",1,2,0,0,"10 cm","6 Juni 2017",0,0,0,0,0,0,0,0
+201706,"Jakarta Timur",JATINEGARA,"BIDARA CINA","RW. 05, 11",2,8,0,0,"10 - 15 cm","6 Juni 2017",0,0,0,0,0,0,0,0
+201706,"Jakarta Timur",JATINEGARA,"KAMPUNG MELAYU","RW. 04, 05, 07, 08",4,27,251,856,"10 - 110 cm","6 Juni 2017",0,0,0,0,0,0,0,0
+201706,"Jakarta Timur","KRAMAT JATI",CAWANG,"RW. 01, 02, 03, 05, 08, 12",6,28,1136,3691,"10 - 60 cm","6 Juni 2017",0,0,0,0,0,0,0,0
+201707,"Jakarta Selatan","PASAR MINGGU","PEJATEN TIMUR","RW.  07, 08,",2,3,45,0,"10 - 50 cm","10 Juli 2017",0,0,0,0,0,0,0,0
+201707,"Jakarta Selatan","KEBAYORAN LAMA","PONDOK PINANG","RW. 05",1,2,0,0,"05 - 10 cm","23 Juli 2017                                                                        (1 Hari)",0,0,0,0,0,0,0,0
+201707,"Jakarta Timur",JATINEGARA,"BIDARA CINA","RW. 07, 11",2,7,0,0,"10 - 20 cm","10 Juli 2017",0,0,0,0,0,0,0,0
+201707,"Jakarta Timur",JATINEGARA,"KAMPUNG MELAYU","RW. 04, 05, 07, 08",4,21,206,705,"5 - 50 cm","10, 28, 29 Juli 2017",0,0,0,0,0,0,0,0
+201707,"Jakarta Timur","KRAMAT JATI",CAWANG,"RW. 01, 02, 03, 05,",4,17,0,0,"10 - 80 cm","10 Juli 2017",0,0,0,0,0,0,0,0
+201707,"Jakarta Timur",MAKASSAR,"CIPINANG MELAYU","RW 03, 04",2,10,0,0,"10 - 30 cm","10 Juli 2017",0,0,0,0,0,0,0,0
+201707,"Jakarta Timur",CIRACAS,CIBUBUR,"RW 03, 10, 12",3,8,0,0,"10 - 50 cm","29 Juli 2017                                                                         (1 Hari)",0,0,0,0,0,0,0,0
+201707,"Jakarta Timur",CIRACAS,CIRACAS,"RW 03, 04, 05, 06",4,7,0,0,"20 - 30 cm","29 Juli 2017                                                                         (1 Hari)",0,0,0,0,0,0,0,0
+201708,"Jakarta Barat",KEC.KEMBANGAN,"KEL. KEMBANGAN SELATAN","RW. 09",1,2,0,0,"15 cm",tgl.10,0,0,0,0,0,0,0,0
+201708,"Jakarta Selatan","KEC.KEBAYORAN LAMA","KEL. CIPULIR","RW. 10",1,1,0,0,"20 s/d 50 cm",tgl.10,0,0,0,0,0,0,0,0
+201708,"Jakarta Selatan","KEC.KEBAYORAN LAMA","KEL. PONDOK PINANG","RW 05, 08",2,3,0,0,"10 s/d 40 cm",tgl.10,0,0,0,0,0,0,0,0
+201708,"Jakarta Selatan",KEC.CILANDAK,"KEL. PONDOK LABU","RW. 01, 03, 07, 10",4,8,0,0,"10 s/d 80 cm",tgl.10,0,0,0,0,0,0,0,0
+201708,"Jakarta Selatan","KEC.KEBAYORAN BARU","KEL. PETOGOGAN","RW. 02, 03",2,22,0,0,"10 s/d 20 cm",tgl.10,0,0,0,0,0,0,0,0
+201708,"Jakarta Timur","KEC. CIRACAS","KEL. RAMBUTAN","RW. 03, 04, 06",3,6,0,0,"20 s/d 30 cm",tgl.10,0,0,0,0,0,0,0,0
+201709,"Jakarta Selatan","KEC.KEBAYORAN BARU","KEL. PETOGOGAN","RW. 02, 03",2,22,0,0,"10 s/d 50 cm",tgl.27,0,0,0,0,0,0,0,0
