@@ -65,6 +65,22 @@ def _build_live_features(df, horizon_h):
     """
     df = df.copy().sort_values('datetime').reset_index(drop=True)
 
+    # Fitur waktu & Cyclical
+    df['hour']        = df['datetime'].dt.hour
+    df['month']       = df['datetime'].dt.month
+    df['day_of_week'] = df['datetime'].dt.dayofweek
+    df['day_of_year'] = df['datetime'].dt.dayofyear
+    df['is_weekend']  = (df['day_of_week'] >= 5).astype(int)
+    df['musim']       = df['month'].apply(lambda m: 1 if m in [11, 12, 1, 2, 3, 4] else 0)
+    
+    df['hour_sin']    = np.sin(2 * np.pi * df['hour']  / 24)
+    df['hour_cos']    = np.cos(2 * np.pi * df['hour']  / 24)
+    df['month_sin']   = np.sin(2 * np.pi * df['month'] / 12)
+    df['month_cos']   = np.cos(2 * np.pi * df['month'] / 12)
+
+    # Kota encoded (Jakarta Pusat = 1 sesuai mapping notebook)
+    df['kota_encoded'] = 1
+
     # Lag features — hujan & status
     for col in RAIN_COLS + ['status_banjir']:
         for lag in [1, 3, 6, 12]:
@@ -99,10 +115,16 @@ def _build_live_features(df, horizon_h):
         (df['is_raining'] != df['is_raining'].shift()).cumsum()
     ).cumcount()
 
-    # Composite features
+    # Rasio & Composite features
+    df['precip_ratio_3_12']  = df['precip_3h_sum']  / (df['precip_12h_sum'] + 0.001)
+    df['precip_ratio_6_12']  = df['precip_6h_sum']  / (df['precip_12h_sum'] + 0.001)
+    df['precip_intensity']   = df['precipitation']  / (df['precip_3h_sum']  + 0.001)
+
     df['rain_score']     = (df['precipitation'] * 0.4 + df['precip_3h_sum'] * 0.3 +
                             df['precip_6h_sum'] * 0.2 + df['precip_12h_sum'] * 0.1)
     df['saturation_idx'] = df['relative_humidity_2m'] * df['precipitation'] / 100
+    df['heat_index']     = df['temperature_2m'] * df['relative_humidity_2m'] / 100
+    df['wind_energy']    = df['wind_speed_10m'] ** 2
     df['heavy_rain']     = (df['precipitation'] > df['precipitation'].quantile(0.90)).astype(int)
 
     # Ambil baris paling terkini yang datanya sudah lengkap
