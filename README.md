@@ -78,6 +78,24 @@ Empat model XGBoost ditraining secara terpisah dengan target horizon prediksi be
 | Forecast +6 Jam | `model_forecast_6h.pkl` | 0.9841 | 0.8456 | 0.35 |
 | Forecast +12 Jam | `model_forecast_12h.pkl` | 0.9429 | 0.6827 | 0.40 |
 
+### 📈 Visualisasi Evaluasi Model
+
+#### 1. Exploratory Data Analysis (EDA) Overview
+![EDA Overview Jakarta](eda_overview.png)
+*Analisis distribusi data (131k+ baris) menunjukkan korelasi kuat antara akumulasi hujan dan kejadian banjir.*
+
+#### 2. Perbandingan Performa antar Horizon
+![Perbandingan Performa Forecast](eval_forecast_horizon.png)
+*Model +3 Jam menunjukkan performa terbaik (F1: 0.91), sementara performa berdegradasi seiring bertambahnya horizon waktu.*
+
+#### 3. Analisis Feature Importance & Threshold
+![Feature Importance & Threshold Analysis](feature_importance.png)
+*Fitur lag (kondisi sebelumnya) dan akumulasi hujan 12 jam adalah prediktor terkuat. Threshold optimal digunakan untuk keseimbangan Precision/Recall.*
+
+#### 4. Validasi Overfitting (TimeSeriesSplit)
+![Cek Overfitting Model](overfitting_check.png)
+*Validasi menggunakan TimeSeriesSplit 5-Fold menunjukkan gap AUC yang sangat kecil antara Train dan Test, membuktikan model stabil.*
+
 **Data training:** Rekap kejadian banjir BPBD Jakarta (2017, 2019, 2020) digabungkan dengan data cuaca per jam dari Open-Meteo.  
 **Split strategy:** Time-based split — 2017 & 2019 sebagai train set, 2020 sebagai test set (*unseen data*).  
 **Imbalance handling:** `scale_pos_weight` pada XGBoost (rasio ~12.6:1).
