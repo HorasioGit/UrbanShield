@@ -83,15 +83,9 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-c1, c2 = st.columns([0.6, 9.4])
-with c1:
-    logo = os.path.join(os.path.dirname(__file__), 'logo.png')
-    if os.path.exists(logo): st.image(logo, width=75)
-    else: st.markdown("<h1>🛡️</h1>", unsafe_allow_html=True)
-with c2:
-    st.markdown("""<h1 style='background:linear-gradient(90deg,#F18F01,#FAFAFA);
-        -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-        margin-bottom:0;padding-bottom:0;'>UrbanShield</h1>""", unsafe_allow_html=True)
+st.markdown("""<h1 style='background:linear-gradient(90deg,#F18F01,#FAFAFA);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    margin-bottom:0;padding-bottom:0;'>🛡️ UrbanShield</h1>""", unsafe_allow_html=True)
 st.markdown("<p style='font-size:1.1rem;color:#A0AEC0;margin-top:-10px;font-weight:500;'>"
             "Navigasi Logistik Cerdas Berbasis Prediksi Cuaca AI</p>", unsafe_allow_html=True)
 st.divider()
