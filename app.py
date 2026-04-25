@@ -30,7 +30,7 @@ HORIZONS = {
     '+12 Jam':  ('12h', 'target_12h',  12),
 }
 
-st.set_page_config(page_title="UrbanShield Navigasi", layout="wide", page_icon="🛡️")
+st.set_page_config(page_title="UrbanShield", layout="wide", page_icon="🛡️")
 
 st.markdown(
     """
@@ -305,7 +305,7 @@ with col_in:
     st.markdown("---")
     st.markdown("""<div style='padding:10px 12px;background:#1E212B;border-radius:10px;border:1px solid #2E3340;'>
         <p style='color:#A0AEC0;font-size:0.75rem;margin:0;text-align:center;line-height:1.8;'>
-        🤖 <b style='color:#F18F01;'>AI Engine</b>: XGBoost + LGBM + RF<br>
+        🤖 <b style='color:#F18F01;'>AI Engine</b>: XGBoost<br>
         📡 <b style='color:#F18F01;'>Routing</b>: Azure Maps API<br>
         🌐 <b style='color:#F18F01;'>Cuaca Live</b>: Open-Meteo (Jakarta)
         </p></div>""", unsafe_allow_html=True)
