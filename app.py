@@ -30,7 +30,7 @@ HORIZONS = {
     '+12 Jam':  ('12h', 'target_12h',  12),
 }
 
-st.set_page_config(page_title="UrbanShield Navigasi", layout="wide", page_icon="🛡️")
+st.set_page_config(page_title="UrbanShield", layout="wide", page_icon="🛡️")
 
 st.markdown(
     """
@@ -92,9 +92,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown("""<h1 style='background:linear-gradient(90deg,#F18F01,#FAFAFA);
-    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-    margin-bottom:0;padding-bottom:0;'>🛡️ UrbanShield</h1>""", unsafe_allow_html=True)
+st.markdown("""<h1 style='color:#F18F01; margin-bottom:0; padding-bottom:0;'>
+    🛡️ UrbanShield</h1>""", unsafe_allow_html=True)
 st.markdown("<p style='font-size:1.1rem;color:#A0AEC0;margin-top:-10px;font-weight:500;'>"
             "Navigasi Logistik Cerdas Berbasis Prediksi Cuaca AI</p>", unsafe_allow_html=True)
 st.divider()
