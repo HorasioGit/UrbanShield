@@ -35,6 +35,8 @@ st.set_page_config(page_title="UrbanShield Navigasi", layout="wide", page_icon="
 st.markdown("""
 <style>
     section.main > div { padding-top: 1rem; }
+    
+    /* Metrik Card - Force warna font ke terang */
     [data-testid="stMetric"] {
         background: linear-gradient(135deg, #1E212B 60%, #252A36);
         border-radius: 14px; padding: 16px 18px;
@@ -43,17 +45,25 @@ st.markdown("""
         transition: transform 0.2s ease;
     }
     [data-testid="stMetric"]:hover { transform: translateY(-2px); }
-    [data-testid="stMetricValue"] { font-size: 1.6rem !important; font-weight: 700 !important; }
+    [data-testid="stMetricValue"] > div { font-size: 1.6rem !important; font-weight: 700 !important; color: #FAFAFA !important; }
     [data-testid="stMetricLabel"] { font-size: 0.75rem !important; color: #A0AEC0 !important;
         text-transform: uppercase; letter-spacing: 0.05em; }
+        
+    /* Input Field - Force warna font ke putih karena backgroundnya gelap */
     div[data-baseweb="input"] > div {
         border-radius: 10px !important; border: 1px solid #2E3340 !important;
         background-color: #161920 !important;
+    }
+    div[data-baseweb="input"] input {
+        color: #FAFAFA !important; 
+        -webkit-text-fill-color: #FAFAFA !important;
     }
     div[data-baseweb="input"] > div:focus-within {
         border-color: #F18F01 !important;
         box-shadow: 0 0 0 2px rgba(241,143,1,0.25) !important;
     }
+    
+    /* Tombol Primary */
     div.stButton > button[kind="primary"] {
         border-radius: 12px !important; font-weight: 700 !important;
         background: linear-gradient(90deg, #E07B00, #F18F01) !important;
