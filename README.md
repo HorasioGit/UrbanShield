@@ -71,7 +71,7 @@ Jakarta adalah salah satu kota dengan risiko banjir tertinggi di Asia Tenggara. 
 
 Empat model XGBoost ditraining secara terpisah dengan target horizon prediksi berbeda:
 
-| Model | File | AUC | F1-Score | Threshold |
+| Model | File | AUC | F1-Score (Banjir) | Threshold |
 |---|---|---|---|---|
 | Nowcast (T+0) | `model_nowcast_xgboost.pkl` | 0.9185 | 0.5133 | 0.20 |
 | Forecast +3 Jam | `model_forecast_3h.pkl` | 0.9951 | 0.9188 | 0.35 |
