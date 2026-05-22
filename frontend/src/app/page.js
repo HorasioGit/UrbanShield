@@ -1,0 +1,305 @@
+"use client";
+
+import { useState } from 'react';
+import dynamic from 'next/dynamic';
+import { CloudRain, ShieldAlert, Navigation, Activity, DollarSign, Clock, MapPin, Zap } from 'lucide-react';
+
+const DynamicMap = dynamic(() => import('@/components/Map'), { 
+    ssr: false,
+    loading: () => <div className="h-full w-full bg-slate-900/50 animate-pulse rounded-xl" />
+});
+
+export default function Dashboard() {
+    const [rainIntensity, setRainIntensity] = useState(0);
+    const [temperature, setTemperature] = useState(28);
+    const [origin, setOrigin] = useState("Tanjung Priok, Jakarta Utara");
+    const [destination, setDestination] = useState("Sunter Jaya, Jakarta Utara");
+    const [horizon, setHorizon] = useState("0h");
+    const [isLiveMode, setIsLiveMode] = useState(false);
+    
+    const [predictions, setPredictions] = useState({"0h": 0.0, "3h": 0.0, "6h": 0.0, "12h": 0.0});
+    const [advisor, setAdvisor] = useState(null);
+    const [routeData, setRouteData] = useState(null);
+    
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
+
+    const handleScanRoute = async () => {
+        setIsLoading(true);
+        setErrorMsg("");
+        
+        try {
+            // 1. Predict Probabilities
+            const resPred = await fetch('/api/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    precipitation: parseFloat(rainIntensity),
+                    temperature_2m: parseFloat(temperature),
+                    kota_encoded: 1
+                })
+            });
+            const dataPred = await resPred.json();
+            
+            if (dataPred.predictions) {
+                setPredictions(dataPred.predictions);
+                const activeProb = dataPred.predictions[horizon] || 0.0;
+                
+                // 2. Fetch Azure Maps Route
+                const resRoute = await fetch('/api/route', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        origin: origin,
+                        destination: destination,
+                        probability: activeProb
+                    })
+                });
+                
+                if (!resRoute.ok) {
+                    const errData = await resRoute.json();
+                    throw new Error(errData.detail || "Gagal mendapatkan rute dari satelit.");
+                }
+                
+                const dataRoute = await resRoute.json();
+                setRouteData(dataRoute);
+
+                // 3. Get Financial & AI Advisor Insights
+                const advRes = await fetch('/api/advisor', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        probability: activeProb,
+                        distance_km: dataRoute.dist_km,
+                        detour_km: dataRoute.status === "REROUTED_AVOID_FLOOD" ? 4.5 : 0
+                    })
+                });
+                const advData = await advRes.json();
+                setAdvisor(advData);
+            }
+        } catch (error) {
+            console.error(error);
+            setErrorMsg(error.message);
+        }
+        setIsLoading(false);
+    };
+
+    const getDangerColor = (prob) => {
+        if(prob > 0.6) return 'text-rose-400';
+        if(prob > 0.35) return 'text-amber-400';
+        return 'text-emerald-400';
+    };
+
+    const getDangerBg = (prob) => {
+        if(prob > 0.6) return 'bg-rose-500/10 glow-border-rose';
+        if(prob > 0.35) return 'bg-amber-500/10 glow-border-amber';
+        return 'bg-emerald-500/10 border border-emerald-500/30';
+    };
+
+    return (
+        <main className="min-h-screen bg-[#020617] text-slate-100 p-4 md:p-6 font-sans selection:bg-cyan-500/30 overflow-x-hidden relative">
+            {/* Background Ambient Glow */}
+            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-cyan-900/20 blur-[120px] pointer-events-none"></div>
+            <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] rounded-full bg-emerald-900/10 blur-[100px] pointer-events-none"></div>
+
+            {/* Header */}
+            <header className="flex justify-between items-center mb-6 relative z-10">
+                <div className="flex items-center space-x-4">
+                    <div className="p-3 bg-cyan-950/50 rounded-xl border border-cyan-800/50 shadow-[0_0_15px_rgba(34,211,238,0.2)]">
+                        <ShieldAlert className="text-cyan-400 w-7 h-7" />
+                    </div>
+                    <div>
+                        <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-cyan-300 via-blue-400 to-emerald-400 bg-clip-text text-transparent glow-text-cyan">
+                            Single Route Simulator
+                        </h1>
+                        <p className="text-slate-400 text-sm tracking-wide mt-1 uppercase font-semibold">Detailed Urban Navigation & Financial Impact</p>
+                    </div>
+                </div>
+                <div className="flex space-x-4">
+                    <div className="glass-panel px-5 py-2 flex items-center space-x-3 text-sm text-cyan-100 glow-border-cyan rounded-full">
+                        <span className="relative flex h-3 w-3">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
+                        </span>
+                        <span className="font-medium tracking-wide">Azure Satellite Active</span>
+                    </div>
+                </div>
+            </header>
+
+            {/* Main Grid Layout (Changed from 3-6-3 to 3-9 for wider map, or keep 3-6-3 but better spaced) */}
+            <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 h-[calc(100vh-130px)] relative z-10">
+                
+                {/* LEFT PANEL: Cockpit Controls */}
+                <div className="col-span-1 xl:col-span-3 flex flex-col space-y-6 h-full overflow-y-auto pr-2 custom-scrollbar">
+                    
+                    <div className="glass-panel p-6 border-t-2 border-t-cyan-500/50">
+                        <h2 className="text-base font-bold mb-5 flex items-center text-cyan-300 uppercase tracking-widest text-xs">
+                            <Navigation className="w-4 h-4 mr-2" />
+                            Mission Parameters
+                        </h2>
+                        
+                        <div className="space-y-5">
+                            <div>
+                                <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase">Lokasi Keberangkatan</label>
+                                <div className="relative group">
+                                    <MapPin className="w-4 h-4 absolute left-3 top-2.5 text-slate-500 group-focus-within:text-cyan-400 transition-colors" />
+                                    <input type="text" value={origin} onChange={e => setOrigin(e.target.value)}
+                                        className="w-full bg-slate-900/80 border border-slate-700 rounded-lg py-2 pl-9 pr-3 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all" />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase">Tujuan Pengiriman</label>
+                                <div className="relative group">
+                                    <MapPin className="w-4 h-4 absolute left-3 top-2.5 text-slate-500 group-focus-within:text-cyan-400 transition-colors" />
+                                    <input type="text" value={destination} onChange={e => setDestination(e.target.value)}
+                                        className="w-full bg-slate-900/80 border border-slate-700 rounded-lg py-2 pl-9 pr-3 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all" />
+                                </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase">Horizon</label>
+                                    <select value={horizon} onChange={e => setHorizon(e.target.value)}
+                                        className="w-full bg-slate-900/80 border border-slate-700 rounded-lg py-2 px-3 text-sm focus:border-cyan-500 outline-none appearance-none">
+                                        <option value="0h">Nowcast</option>
+                                        <option value="3h">+3 Jam</option>
+                                        <option value="6h">+6 Jam</option>
+                                        <option value="12h">+12 Jam</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase">Data Source</label>
+                                    <div className="flex bg-slate-900/80 rounded-lg p-1 border border-slate-700">
+                                        <button onClick={() => setIsLiveMode(true)} className={`flex-1 text-[10px] py-1 rounded transition-colors ${isLiveMode ? 'bg-cyan-600/30 text-cyan-300 font-bold' : 'text-slate-500'}`}>Live</button>
+                                        <button onClick={() => setIsLiveMode(false)} className={`flex-1 text-[10px] py-1 rounded transition-colors ${!isLiveMode ? 'bg-amber-600/30 text-amber-300 font-bold' : 'text-slate-500'}`}>Sim</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {!isLiveMode && (
+                                <div className="pt-3 pb-1 border-t border-slate-800">
+                                    <label className="flex justify-between text-xs text-slate-400 mb-3 uppercase font-medium">
+                                        <span className="flex items-center text-amber-400"><CloudRain className="w-3 h-3 mr-1"/> Curah Hujan Extremity</span>
+                                        <span className="font-mono bg-slate-800 px-2 py-0.5 rounded text-amber-300">{rainIntensity} mm</span>
+                                    </label>
+                                    <input 
+                                        type="range" min="0" max="50" step="1" value={rainIntensity} onChange={(e) => setRainIntensity(e.target.value)}
+                                        className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                                    />
+                                </div>
+                            )}
+
+                            <button onClick={handleScanRoute} disabled={isLoading}
+                                className="w-full mt-4 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-lg font-bold tracking-wider uppercase text-sm shadow-[0_0_20px_rgba(14,165,233,0.3)] transition-all active:scale-[0.98] disabled:opacity-50 flex justify-center items-center">
+                                {isLoading ? <><Activity className="w-4 h-4 mr-2 animate-spin" /> Uplinking...</> : <><Zap className="w-4 h-4 mr-2" /> Pindai Rute & Risiko</>}
+                            </button>
+                            
+                            {errorMsg && <div className="text-xs text-rose-400 mt-2 bg-rose-500/10 p-2 rounded border border-rose-500/30">{errorMsg}</div>}
+                        </div>
+                    </div>
+
+                    {/* Forecast Horizon Cards */}
+                    <div className="glass-panel p-5 flex-1">
+                        <h2 className="text-xs font-bold mb-4 flex items-center text-slate-400 uppercase tracking-widest">
+                            <Clock className="w-4 h-4 mr-2" />
+                            XGBoost Probability Matrix
+                        </h2>
+                        
+                        <div className="grid grid-cols-2 gap-3">
+                            {['0h', '3h', '6h', '12h'].map(h => (
+                                <div key={h} className={`border rounded-xl p-3 flex flex-col justify-center items-center transition-all-slow ${horizon === h ? 'glow-border-cyan bg-cyan-950/20' : ''} ${horizon !== h ? getDangerBg(predictions[h] || 0) : ''}`}>
+                                    <span className="text-slate-500 text-[9px] font-bold uppercase mb-1 tracking-widest">{h === '0h' ? 'Nowcast' : `+${h} Forecast`}</span>
+                                    <span className={`text-2xl font-black tracking-tighter ${getDangerColor(predictions[h] || 0)}`}>
+                                        {((predictions[h] || 0) * 100).toFixed(1)}%
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* CENTER PANEL: Dynamic Map */}
+                <div className="col-span-1 xl:col-span-6 relative rounded-2xl overflow-hidden border border-slate-700 shadow-[0_0_40px_rgba(0,0,0,0.8)] h-full flex flex-col bg-slate-900 group">
+                    <div className="flex-1 relative">
+                         {routeData && (
+                            <div className="absolute top-5 left-5 z-10 glass-panel px-5 py-3 flex items-center space-x-6 border-slate-600/50 shadow-2xl backdrop-blur-xl">
+                                <div>
+                                    <p className="text-[9px] text-slate-400 uppercase font-bold tracking-widest mb-1">Estimasi Tiba (ETA)</p>
+                                    <p className="text-2xl font-black text-white">{routeData.eta_mins} <span className="text-sm font-medium text-slate-400">Min</span></p>
+                                </div>
+                                <div className="h-10 w-px bg-slate-700"></div>
+                                <div>
+                                    <p className="text-[9px] text-slate-400 uppercase font-bold tracking-widest mb-1">Jarak Tempuh</p>
+                                    <p className="text-2xl font-black text-cyan-400 glow-text-cyan">{routeData.dist_km.toFixed(1)} <span className="text-sm font-medium text-cyan-700">KM</span></p>
+                                </div>
+                            </div>
+                        )}
+                        <DynamicMap routeData={routeData} />
+                        
+                        {/* Map Overlay Frame */}
+                        <div className="absolute inset-0 pointer-events-none border-[4px] border-cyan-500/10 rounded-2xl z-20"></div>
+                        <div className="absolute top-4 right-4 pointer-events-none z-20">
+                            <div className="text-[10px] font-mono text-cyan-500/50 bg-slate-900/50 px-2 py-1 rounded">SAT-COM: CONNECTED</div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* RIGHT PANEL: Advisor & Finance */}
+                <div className="col-span-1 xl:col-span-3 space-y-6 flex flex-col h-full overflow-y-auto pr-2 custom-scrollbar">
+                    
+                    {/* Financial Optimizer */}
+                    <div className="glass-panel glass-accent p-6 flex-1">
+                        <h2 className="text-xs font-bold mb-6 flex items-center text-cyan-300 uppercase tracking-widest">
+                            <DollarSign className="w-4 h-4 mr-2" />
+                            Financial Impact Analysis
+                        </h2>
+                        
+                        <div className="space-y-5">
+                            <div className="flex justify-between items-end border-b border-slate-800 pb-3">
+                                <span className="text-xs text-slate-400 uppercase tracking-wide">Risk Exposure<br/><span className="text-[9px] text-slate-500">Aset Truk & Muatan</span></span>
+                                <span className="font-mono text-rose-400 font-bold text-lg">Rp {advisor?.financials?.potential_loss?.toLocaleString('id-ID') || '0'}</span>
+                            </div>
+                            <div className="flex justify-between items-end border-b border-slate-800 pb-3">
+                                <span className="text-xs text-slate-400 uppercase tracking-wide">Detour Ops Cost<br/><span className="text-[9px] text-slate-500">Biaya Putar Balik</span></span>
+                                <span className="font-mono text-amber-300 font-bold text-lg">Rp {advisor?.financials?.detour_cost?.toLocaleString('id-ID') || '0'}</span>
+                            </div>
+                            <div className="flex justify-between items-end pt-3 bg-emerald-500/10 p-3 rounded-lg border border-emerald-500/20 glow-border-emerald">
+                                <span className="text-xs font-bold text-emerald-400 uppercase tracking-wide">Net Savings<br/><span className="text-[9px] text-emerald-600/80">Diselamatkan AI</span></span>
+                                <span className="font-mono font-black text-emerald-400 text-2xl">Rp {advisor?.financials?.net_savings?.toLocaleString('id-ID') || '0'}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* AI Advisor Text */}
+                    <div className="glass-panel p-6 h-64 flex flex-col relative overflow-hidden">
+                        {/* Decorative background element */}
+                        <div className="absolute -right-4 -bottom-4 text-slate-800/30">
+                            <ShieldAlert className="w-32 h-32" />
+                        </div>
+                        
+                        <h2 className="text-xs font-bold mb-4 flex items-center text-slate-400 uppercase tracking-widest relative z-10">
+                            Gen-AI Advisory
+                        </h2>
+                        <div className={`p-5 rounded-xl flex-1 overflow-y-auto text-sm leading-relaxed border relative z-10 shadow-inner font-medium transition-all-slow ${
+                            advisor?.action === 'REROUTE' ? 'bg-rose-950/40 border-rose-500/50 text-rose-200' : 
+                            advisor?.action === 'PROCEED_WITH_CAUTION' ? 'bg-amber-950/40 border-amber-500/50 text-amber-200' :
+                            advisor?.action === 'PROCEED' ? 'bg-emerald-950/40 border-emerald-500/50 text-emerald-200' :
+                            'bg-slate-900/50 border-slate-700 text-slate-400'
+                        }`}>
+                            {isLoading ? (
+                                <div className="flex flex-col space-y-3 mt-2">
+                                    <div className="h-2 bg-slate-700 rounded animate-pulse w-3/4"></div>
+                                    <div className="h-2 bg-slate-700 rounded animate-pulse w-full"></div>
+                                    <div className="h-2 bg-slate-700 rounded animate-pulse w-5/6"></div>
+                                </div>
+                            ) : (
+                                advisor?.text || "Sistem standby. Masukkan parameter dan pindai satelit untuk memunculkan instruksi manuver."
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    );
+}

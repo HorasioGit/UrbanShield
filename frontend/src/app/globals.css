@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+/* Leaflet CSS */
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+:root {
+  --background: #020617; /* Slate-950 Midnight Blue */
+  --foreground: #f8fafc; /* Slate-50 */
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.65); /* Slate-900 with opacity */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  border-radius: 1rem;
+}
+
+.glass-accent {
+  background: linear-gradient(145deg, rgba(14, 165, 233, 0.1), rgba(16, 185, 129, 0.05));
+  border: 1px solid rgba(14, 165, 233, 0.2);
+}
+
+/* Cyber Glow Effects */
+.glow-text-cyan {
+  text-shadow: 0 0 10px rgba(34, 211, 238, 0.5), 0 0 20px rgba(34, 211, 238, 0.3);
+}
+
+.glow-border-cyan {
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.2), inset 0 0 10px rgba(34, 211, 238, 0.1);
+  border-color: rgba(34, 211, 238, 0.5);
+}
+
+.glow-border-amber {
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.2), inset 0 0 10px rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.5);
+}
+
+.glow-border-rose {
+  box-shadow: 0 0 15px rgba(244, 63, 94, 0.2), inset 0 0 10px rgba(244, 63, 94, 0.1);
+  border-color: rgba(244, 63, 94, 0.5);
+}
+
+/* Smooth Transitions */
+.transition-all-slow {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
