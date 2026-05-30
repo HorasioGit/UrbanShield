@@ -6,6 +6,10 @@ import joblib
 import pandas as pd
 import numpy as np
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 from features import prepare_nowcast_features, prepare_forecast_features
 from azure_maps import geocode, gen_box, get_route
