@@ -143,7 +143,7 @@ export default function Dashboard() {
                                 <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase">Lokasi Keberangkatan</label>
                                 <div className="relative group">
                                     <MapPin className="w-4 h-4 absolute left-3 top-2.5 text-slate-500 group-focus-within:text-cyan-400 transition-colors" />
-                                    <input type="text" value={origin} onChange={e => setOrigin(e.target.value)}
+                                    <input suppressHydrationWarning type="text" value={origin} onChange={e => setOrigin(e.target.value)}
                                         className="w-full bg-slate-900/80 border border-slate-700 rounded-lg py-2 pl-9 pr-3 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all" />
                                 </div>
                             </div>
@@ -151,7 +151,7 @@ export default function Dashboard() {
                                 <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase">Tujuan Pengiriman</label>
                                 <div className="relative group">
                                     <MapPin className="w-4 h-4 absolute left-3 top-2.5 text-slate-500 group-focus-within:text-cyan-400 transition-colors" />
-                                    <input type="text" value={destination} onChange={e => setDestination(e.target.value)}
+                                    <input suppressHydrationWarning type="text" value={destination} onChange={e => setDestination(e.target.value)}
                                         className="w-full bg-slate-900/80 border border-slate-700 rounded-lg py-2 pl-9 pr-3 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all" />
                                 </div>
                             </div>
@@ -159,7 +159,7 @@ export default function Dashboard() {
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase">Horizon</label>
-                                    <select value={horizon} onChange={e => setHorizon(e.target.value)}
+                                    <select suppressHydrationWarning value={horizon} onChange={e => setHorizon(e.target.value)}
                                         className="w-full bg-slate-900/80 border border-slate-700 rounded-lg py-2 px-3 text-sm focus:border-cyan-500 outline-none appearance-none">
                                         <option value="0h">Nowcast</option>
                                         <option value="3h">+3 Jam</option>
@@ -170,8 +170,8 @@ export default function Dashboard() {
                                 <div>
                                     <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase">Data Source</label>
                                     <div className="flex bg-slate-900/80 rounded-lg p-1 border border-slate-700">
-                                        <button onClick={() => setIsLiveMode(true)} className={`flex-1 text-[10px] py-1 rounded transition-colors ${isLiveMode ? 'bg-cyan-600/30 text-cyan-300 font-bold' : 'text-slate-500'}`}>Live</button>
-                                        <button onClick={() => setIsLiveMode(false)} className={`flex-1 text-[10px] py-1 rounded transition-colors ${!isLiveMode ? 'bg-amber-600/30 text-amber-300 font-bold' : 'text-slate-500'}`}>Sim</button>
+                                        <button suppressHydrationWarning onClick={() => setIsLiveMode(true)} className={`flex-1 text-[10px] py-1 rounded transition-colors ${isLiveMode ? 'bg-cyan-600/30 text-cyan-300 font-bold' : 'text-slate-500'}`}>Live</button>
+                                        <button suppressHydrationWarning onClick={() => setIsLiveMode(false)} className={`flex-1 text-[10px] py-1 rounded transition-colors ${!isLiveMode ? 'bg-amber-600/30 text-amber-300 font-bold' : 'text-slate-500'}`}>Sim</button>
                                     </div>
                                 </div>
                             </div>
@@ -182,14 +182,14 @@ export default function Dashboard() {
                                         <span className="flex items-center text-amber-400"><CloudRain className="w-3 h-3 mr-1"/> Curah Hujan Extremity</span>
                                         <span className="font-mono bg-slate-800 px-2 py-0.5 rounded text-amber-300">{rainIntensity} mm</span>
                                     </label>
-                                    <input 
+                                    <input suppressHydrationWarning 
                                         type="range" min="0" max="50" step="1" value={rainIntensity} onChange={(e) => setRainIntensity(e.target.value)}
                                         className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
                                     />
                                 </div>
                             )}
 
-                            <button onClick={handleScanRoute} disabled={isLoading}
+                            <button suppressHydrationWarning onClick={handleScanRoute} disabled={isLoading}
                                 className="w-full mt-4 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-lg font-bold tracking-wider uppercase text-sm shadow-[0_0_20px_rgba(14,165,233,0.3)] transition-all active:scale-[0.98] disabled:opacity-50 flex justify-center items-center">
                                 {isLoading ? <><Activity className="w-4 h-4 mr-2 animate-spin" /> Uplinking...</> : <><Zap className="w-4 h-4 mr-2" /> Pindai Rute & Risiko</>}
                             </button>
