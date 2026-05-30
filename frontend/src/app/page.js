@@ -39,6 +39,8 @@ export default function Dashboard() {
                     if (weatherData && weatherData.current) {
                         currentRain = weatherData.current.precipitation;
                         currentTemp = weatherData.current.temperature_2m;
+                        setRainIntensity(currentRain);
+                        setTemperature(currentTemp);
                         console.log(`Live Weather: Temp ${currentTemp}°C, Rain ${currentRain}mm`);
                     }
                 } catch (err) {
@@ -199,18 +201,20 @@ export default function Dashboard() {
                                 </div>
                             </div>
 
-                            {!isLiveMode && (
-                                <div className="pt-3 pb-1 border-t border-slate-800">
-                                    <label className="flex justify-between text-xs text-slate-400 mb-3 uppercase font-medium">
-                                        <span className="flex items-center text-amber-400"><CloudRain className="w-3 h-3 mr-1"/> Curah Hujan Extremity</span>
-                                        <span className="font-mono bg-slate-800 px-2 py-0.5 rounded text-amber-300">{rainIntensity} mm</span>
-                                    </label>
-                                    <input suppressHydrationWarning 
-                                        type="range" min="0" max="50" step="1" value={rainIntensity} onChange={(e) => setRainIntensity(e.target.value)}
-                                        className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
-                                    />
+                            <div className="mt-5">
+                                <div className="flex justify-between text-xs text-slate-400 mb-2 font-bold uppercase tracking-wider">
+                                    <span className="flex items-center text-[#ffb000]"><Droplet className="w-3 h-3 mr-1" /> Curah Hujan Extremity</span>
+                                    <span className="text-white bg-slate-700/50 px-2 py-1 rounded">{rainIntensity} <span className="text-[9px] text-slate-400">MM</span></span>
                                 </div>
-                            )}
+                                <input 
+                                    type="range" 
+                                    min="0" max="150" step="1"
+                                    value={rainIntensity} 
+                                    onChange={(e) => setRainIntensity(e.target.value)}
+                                    disabled={isLiveMode}
+                                    className={`w-full accent-[#ffb000] ${isLiveMode ? 'cursor-not-allowed opacity-40' : 'cursor-pointer'}`}
+                                />
+                            </div>
 
                             <button suppressHydrationWarning onClick={handleScanRoute} disabled={isLoading}
                                 className="w-full mt-4 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-lg font-bold tracking-wider uppercase text-sm shadow-[0_0_20px_rgba(14,165,233,0.3)] transition-all active:scale-[0.98] disabled:opacity-50 flex justify-center items-center">
