@@ -30,7 +30,8 @@ export default function Dashboard() {
         
         try {
             // 1. Predict Probabilities
-            const resPred = await fetch('/api/predict', {
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://urbanshield-api-h9gqejgffng7arc7.centralus-01.azurewebsites.net';
+            const resPred = await fetch(`${API_URL}/api/predict`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -46,7 +47,7 @@ export default function Dashboard() {
                 const activeProb = dataPred.predictions[horizon] || 0.0;
                 
                 // 2. Fetch Azure Maps Route
-                const resRoute = await fetch('/api/route', {
+                const resRoute = await fetch(`${API_URL}/api/route`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
@@ -65,7 +66,7 @@ export default function Dashboard() {
                 setRouteData(dataRoute);
 
                 // 3. Get Financial & AI Advisor Insights
-                const advRes = await fetch('/api/advisor', {
+                const advRes = await fetch(`${API_URL}/api/advisor`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
