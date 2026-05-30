@@ -28,28 +28,10 @@ export default function Dashboard() {
         setIsLoading(true);
         setErrorMsg("");
         
-            let currentRain = parseFloat(rainIntensity);
-            let currentTemp = parseFloat(temperature);
-            
-            if (isLiveMode) {
-                try {
-                    // Fetch real-time weather for Jakarta (Lat: -6.2, Lon: 106.8)
-                    const weatherRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-6.2088&longitude=106.8456&current=temperature_2m,precipitation&timezone=Asia/Jakarta');
-                    const weatherData = await weatherRes.json();
-                    if (weatherData && weatherData.current) {
-                        currentRain = weatherData.current.precipitation;
-                        currentTemp = weatherData.current.temperature_2m;
-                        setRainIntensity(currentRain);
-                        setTemperature(currentTemp);
-                        console.log(`Live Weather: Temp ${currentTemp}°C, Rain ${currentRain}mm`);
-                    }
-                } catch (err) {
-                    console.error("Failed to fetch live weather", err);
-                }
-            }
-
-            // 1. Predict Probabilities
+        try {
             const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://urbanshield-api-h9gqejgffng7arc7.centralus-01.azurewebsites.net';
+            
+            // 1. Predict Probabilities
             const resPred = await fetch(`${API_URL}/api/predict`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -113,7 +95,6 @@ export default function Dashboard() {
                 const advData = await advRes.json();
                 setAdvisor(advData);
             }
-            }
         } catch (error) {
             console.error(error);
             setErrorMsg(error.message);
@@ -163,10 +144,9 @@ export default function Dashboard() {
                 </div>
             </header>
 
-            {/* Main Grid Layout (Changed from 3-6-3 to 3-9 for wider map, or keep 3-6-3 but better spaced) */}
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 h-[calc(100vh-130px)] relative z-10">
                 
-                {/* LEFT PANEL: Cockpit Controls */}
+                {/* LEFT PANEL */}
                 <div className="col-span-1 xl:col-span-3 flex flex-col space-y-6 h-full overflow-y-auto pr-2 custom-scrollbar">
                     
                     <div className="glass-panel p-6 border-t-2 border-t-cyan-500/50">
@@ -213,20 +193,18 @@ export default function Dashboard() {
                                 </div>
                             </div>
 
-                            <div className="mt-5">
-                                <div className="flex justify-between text-xs text-slate-400 mb-2 font-bold uppercase tracking-wider">
-                                    <span className="flex items-center text-[#ffb000]"><Droplet className="w-3 h-3 mr-1" /> Curah Hujan Extremity</span>
-                                    <span className="text-white bg-slate-700/50 px-2 py-1 rounded">{rainIntensity} <span className="text-[9px] text-slate-400">MM</span></span>
+                            {!isLiveMode && (
+                                <div className="pt-3 pb-1 border-t border-slate-800">
+                                    <label className="flex justify-between text-xs text-slate-400 mb-3 uppercase font-medium">
+                                        <span className="flex items-center text-amber-400"><CloudRain className="w-3 h-3 mr-1"/> Curah Hujan Extremity</span>
+                                        <span className="font-mono bg-slate-800 px-2 py-0.5 rounded text-amber-300">{rainIntensity} mm</span>
+                                    </label>
+                                    <input suppressHydrationWarning 
+                                        type="range" min="0" max="50" step="1" value={rainIntensity} onChange={(e) => setRainIntensity(e.target.value)}
+                                        className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                                    />
                                 </div>
-                                <input 
-                                    type="range" 
-                                    min="0" max="150" step="1"
-                                    value={rainIntensity} 
-                                    onChange={(e) => setRainIntensity(e.target.value)}
-                                    disabled={isLiveMode}
-                                    className={`w-full accent-[#ffb000] ${isLiveMode ? 'cursor-not-allowed opacity-40' : 'cursor-pointer'}`}
-                                />
-                            </div>
+                            )}
 
                             <button suppressHydrationWarning onClick={handleScanRoute} disabled={isLoading}
                                 className="w-full mt-4 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-lg font-bold tracking-wider uppercase text-sm shadow-[0_0_20px_rgba(14,165,233,0.3)] transition-all active:scale-[0.98] disabled:opacity-50 flex justify-center items-center">
@@ -249,7 +227,7 @@ export default function Dashboard() {
                                 <div key={h} className={`border rounded-xl p-3 flex flex-col justify-center items-center transition-all-slow ${horizon === h ? 'glow-border-cyan bg-cyan-950/20' : ''} ${horizon !== h ? getDangerBg(predictions[h] || 0) : ''}`}>
                                     <span className="text-slate-500 text-[9px] font-bold uppercase mb-1 tracking-widest">{h === '0h' ? 'Nowcast' : `+${h} Forecast`}</span>
                                     <span className={`text-2xl font-black tracking-tighter ${getDangerColor(predictions[h] || 0)}`}>
-                                        {((predictions[h] || 0) * 100).toFixed(2)}%
+                                        {((predictions[h] || 0) * 100).toFixed(1)}%
                                     </span>
                                 </div>
                             ))}
@@ -275,7 +253,6 @@ export default function Dashboard() {
                         )}
                         <DynamicMap routeData={routeData} />
                         
-                        {/* Map Overlay Frame */}
                         <div className="absolute inset-0 pointer-events-none border-[4px] border-cyan-500/10 rounded-2xl z-20"></div>
                         <div className="absolute top-4 right-4 pointer-events-none z-20">
                             <div className="text-[10px] font-mono text-cyan-500/50 bg-slate-900/50 px-2 py-1 rounded">SAT-COM: CONNECTED</div>
@@ -283,10 +260,9 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                {/* RIGHT PANEL: Advisor & Finance */}
+                {/* RIGHT PANEL */}
                 <div className="col-span-1 xl:col-span-3 space-y-6 flex flex-col h-full overflow-y-auto pr-2 custom-scrollbar">
                     
-                    {/* Financial Optimizer */}
                     <div className="glass-panel glass-accent p-6 flex-1">
                         <h2 className="text-xs font-bold mb-6 flex items-center text-cyan-300 uppercase tracking-widest">
                             <DollarSign className="w-4 h-4 mr-2" />
@@ -309,9 +285,7 @@ export default function Dashboard() {
                         </div>
                     </div>
 
-                    {/* AI Advisor Text */}
                     <div className="glass-panel p-6 h-64 flex flex-col relative overflow-hidden">
-                        {/* Decorative background element */}
                         <div className="absolute -right-4 -bottom-4 text-slate-800/30">
                             <ShieldAlert className="w-32 h-32" />
                         </div>
