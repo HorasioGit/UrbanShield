@@ -113,6 +113,7 @@ export default function Dashboard() {
                 const advData = await advRes.json();
                 setAdvisor(advData);
             }
+            }
         } catch (error) {
             console.error(error);
             setErrorMsg(error.message);
