@@ -54,14 +54,25 @@ export default function Dashboard() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    precipitation: currentRain,
-                    precip_3h_sum: currentRain * 3,
-                    precip_6h_sum: currentRain * 6,
-                    precip_12h_sum: currentRain * 12,
-                    temperature_2m: currentTemp,
+                    precipitation: parseFloat(rainIntensity),
+                    precip_3h_sum: parseFloat(rainIntensity) * 3,
+                    precip_6h_sum: parseFloat(rainIntensity) * 6,
+                    precip_12h_sum: parseFloat(rainIntensity) * 12,
+                    temperature_2m: parseFloat(temperature),
                     relative_humidity_2m: 85,
-                    bogor_rain: currentRain * 0.5,
-                    kota_encoded: 1
+                    bogor_rain: parseFloat(rainIntensity) * 0.5,
+                    kota_encoded: 1,
+                    dynamic_features: {
+                        precipitation_lag1: parseFloat(rainIntensity),
+                        precipitation_lag3: parseFloat(rainIntensity),
+                        precipitation_lag6: parseFloat(rainIntensity),
+                        precipitation_roll3_mean: parseFloat(rainIntensity),
+                        precipitation_roll6_mean: parseFloat(rainIntensity),
+                        precipitation_roll3_max: parseFloat(rainIntensity),
+                        bogor_rain_lag1: parseFloat(rainIntensity) * 0.5,
+                        bogor_rain_roll3_mean: parseFloat(rainIntensity) * 0.5,
+                        status_banjir_lag1: 0
+                    }
                 })
             });
             const dataPred = await resPred.json();
