@@ -28,20 +28,37 @@ export default function Dashboard() {
         setIsLoading(true);
         setErrorMsg("");
         
-        try {
+            let currentRain = parseFloat(rainIntensity);
+            let currentTemp = parseFloat(temperature);
+            
+            if (isLiveMode) {
+                try {
+                    // Fetch real-time weather for Jakarta (Lat: -6.2, Lon: 106.8)
+                    const weatherRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-6.2088&longitude=106.8456&current=temperature_2m,precipitation&timezone=Asia/Jakarta');
+                    const weatherData = await weatherRes.json();
+                    if (weatherData && weatherData.current) {
+                        currentRain = weatherData.current.precipitation;
+                        currentTemp = weatherData.current.temperature_2m;
+                        console.log(`Live Weather: Temp ${currentTemp}°C, Rain ${currentRain}mm`);
+                    }
+                } catch (err) {
+                    console.error("Failed to fetch live weather", err);
+                }
+            }
+
             // 1. Predict Probabilities
             const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://urbanshield-api-h9gqejgffng7arc7.centralus-01.azurewebsites.net';
             const resPred = await fetch(`${API_URL}/api/predict`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    precipitation: parseFloat(rainIntensity),
-                    precip_3h_sum: parseFloat(rainIntensity) * 3,
-                    precip_6h_sum: parseFloat(rainIntensity) * 6,
-                    precip_12h_sum: parseFloat(rainIntensity) * 12,
-                    temperature_2m: parseFloat(temperature),
+                    precipitation: currentRain,
+                    precip_3h_sum: currentRain * 3,
+                    precip_6h_sum: currentRain * 6,
+                    precip_12h_sum: currentRain * 12,
+                    temperature_2m: currentTemp,
                     relative_humidity_2m: 85,
-                    bogor_rain: parseFloat(rainIntensity) * 0.5,
+                    bogor_rain: currentRain * 0.5,
                     kota_encoded: 1
                 })
             });
