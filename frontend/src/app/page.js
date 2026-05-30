@@ -36,7 +36,12 @@ export default function Dashboard() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     precipitation: parseFloat(rainIntensity),
+                    precip_3h_sum: parseFloat(rainIntensity) * 3,
+                    precip_6h_sum: parseFloat(rainIntensity) * 6,
+                    precip_12h_sum: parseFloat(rainIntensity) * 12,
                     temperature_2m: parseFloat(temperature),
+                    relative_humidity_2m: 85,
+                    bogor_rain: parseFloat(rainIntensity) * 0.5,
                     kota_encoded: 1
                 })
             });
