@@ -40,7 +40,11 @@ app.add_middleware(
 # Bekerja baik di lokal maupun Azure App Service
 # ─────────────────────────────────────────────────────────────────
 BASE_DIR  = os.path.dirname(os.path.abspath(__file__))
-MODEL_DIR = os.path.join(BASE_DIR, "..", "models")
+# Cek apakah folder models ada sejajar (seperti di Azure flattened structure)
+MODEL_DIR = os.path.join(BASE_DIR, "models")
+if not os.path.exists(MODEL_DIR):
+    # Jika tidak ada, naik satu folder (seperti di repo lokal)
+    MODEL_DIR = os.path.join(BASE_DIR, "..", "models")
 
 models = {}
 
