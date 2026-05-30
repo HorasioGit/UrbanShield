@@ -72,7 +72,7 @@ Empat model XGBoost ditraining secara terpisah dengan target horizon prediksi be
 
 #### 1. Exploratory Data Analysis (EDA) Overview
 ![EDA Overview Jakarta](notebooks/visuals/1_eda_overview.png)
-*Analisis distribusi data (131k+ baris) menunjukkan korelasi kuat antara akumulasi hujan dan kejadian banjir.*
+*Analisis distribusi data (175k+ baris) menunjukkan korelasi kuat antara akumulasi hujan dan kejadian banjir.*
 
 #### 2. Evaluasi Model Nowcast
 ![Perbandingan Performa Forecast](notebooks/visuals/2_nowcast_evaluation.png)
@@ -107,7 +107,7 @@ UrbanShield/
 │
 ├── notebooks/                   # R&D Data Science
 │   ├── 2_datathon_prepros.py    
-│   ├── 3_UrbanShield_Code.ipynb # Pembuatan Model Utama
+│   ├── UrbanShield_Code_Final.ipynb # Pembuatan Model Utama
 │   └── visuals/                 # Gambar evaluasi untuk dokumentasi
 │
 ├── data/                        # CSV mentah dan Data Latih
