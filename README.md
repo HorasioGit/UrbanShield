@@ -1,67 +1,57 @@
-# 🛡️ UrbanShield
-### *Navigasi Logistik Cerdas Berbasis Prediksi Cuaca AI*
+# 🛡️ UrbanShield 2.0 Logistics OS
+### *Sistem Operasi Navigasi & Pemantauan Armada Berbasis AI*
 
-> Sistem peringatan dini banjir dan rekomendasi rute evakuasi real-time untuk wilayah DKI Jakarta — dibangun untuk **AI Impact Challenge · Microsoft Elevate × Dicoding 2026**
+> Sistem peringatan dini banjir kelas Enterprise dan rekomendasi rute evakuasi logistik real-time — dibangun untuk **AI Impact Challenge · Microsoft Elevate × Dicoding 2026**
 
-[![Live App](https://img.shields.io/badge/🚀_Live_App-Azure_App_Service-0078D4?style=for-the-badge)](https://urbanshield-live-c6dmdaa8hmepd3bq.canadacentral-01.azurewebsites.net/)
-[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
-[![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io)
+[![Next.js](https://img.shields.io/badge/Next.js-14-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![XGBoost](https://img.shields.io/badge/XGBoost-189AB4?style=for-the-badge)](https://xgboost.readthedocs.io)
 
 ---
 
 ## 📌 Latar Belakang
 
-Jakarta adalah salah satu kota dengan risiko banjir tertinggi di Asia Tenggara. Setiap tahunnya, banjir menyebabkan kerugian ekonomi dan menghambat mobilitas warga secara masif — namun sistem peringatan yang tersedia sering kali bersifat reaktif, bukan prediktif.
+Jakarta adalah salah satu kota dengan risiko banjir tertinggi di Asia Tenggara. Setiap tahunnya, banjir menyebabkan kerugian ekonomi raksasa pada sektor logistik dan menghambat mobilitas warga secara masif. Sistem peringatan yang ada saat ini sering kali bersifat reaktif, bukan prediktif.
 
-**UrbanShield** hadir sebagai solusi *early warning system* berbasis AI yang tidak hanya memprediksi potensi banjir, tetapi juga **secara aktif merekomendasikan rute evakuasi alternatif** yang menghindari area berisiko tinggi — menjawab kebutuhan nyata warga: *"Lewat mana kalau banjir?"*
+**UrbanShield 2.0** hadir sebagai solusi *Logistics OS* (Sistem Operasi Logistik) berbasis AI terpadu. Bukan sekadar memberikan *early warning system*, UrbanShield **secara aktif menghitung risiko finansial kargo, memantau ratusan armada secara simultan, dan merekomendasikan rute evakuasi alternatif** via integrasi Azure Maps.
 
 ---
 
-## 🎯 Fitur Utama
+## 🎯 Fitur Utama Ekosistem
 
-| Fitur | Deskripsi |
+| Modul | Deskripsi |
 |---|---|
-| 🔴 **Live Flood Prediction** | Prediksi risiko banjir real-time dari data cuaca Open-Meteo API |
-| ⏱️ **Multi-Horizon Forecast** | Prakiraan banjir untuk Nowcast, +3 Jam, +6 Jam, dan +12 Jam ke depan |
-| 🗺️ **Smart Route Avoidance** | Rute perjalanan otomatis menghindari zona banjir via Azure Maps |
-| 🎮 **Simulasi Manual** | Mode slider curah hujan untuk demo dan eksplorasi skenario |
-| 📊 **Model Interpretability** | Transparansi prediksi berbasis SHAP feature importance |
+| 📍 **Single Route Simulator** | Dasbor kalkulasi perlindungan finansial mikro dan re-routing cerdas untuk 1 unit perjalanan menggunakan Azure Maps. |
+| 🌦️ **Meteorology Hub** | Pemantauan radar cuaca makro secara live, mendeteksi titik krusial Jabodetabek (termasuk Siaga Bendung Katulampa). |
+| 🚛 **Fleet Command Center** | Pusat kendali skala enterprise. Menyimulasikan pemantauan massal **245 unit truk logistik** yang beroperasi secara bersamaan dengan fitur "Auto-Reroute" berbasis probabilitas banjir AI. |
+| 📊 **Data Science Insights** | Ruang transparansi model ML. Menampilkan *Feature Importance* (SHAP) dinamis dan evaluasi metrik model XGBoost (Recharts). |
+| 👨‍💻 **Developer API Portal** | Dokumentasi B2B interaktif. Mengizinkan perusahaan (contoh: Tokopedia, JNE) untuk menguji langsung API cURL ke backend FastAPI kita. |
 
 ---
 
-## 🏗️ Arsitektur Sistem
+## 🏗️ Arsitektur Sistem (Microservices)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    DATA SOURCES (Input)                     │
-│  Open-Meteo API (real-time)  │  BPBD Jakarta (histori)      │
+│  Open-Meteo API (real-time)  │  BPBD Jakarta + Bogor Hulu   │
 └────────────────┬────────────────────────────────────────────┘
                  │
                  ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                  FEATURE ENGINEERING                        │
-│  Lag features · Rolling sum · Rain streak · Composite idx   │
+│                 BACKEND ENGINE (FastAPI)                    │
+│  - Endpoint /api/route (Route Planning + Weather Injection) │
+│  - Endpoint /api/predict (XGBoost Batch Inference)          │
+│  - Azure Maps Fallback System (Robustness & Fault Tolerance)│
 └────────────────┬────────────────────────────────────────────┘
-                 │
+                 │ JSON API / REST
                  ▼
 ┌─────────────────────────────────────────────────────────────┐
-│               MODEL 1 — FLOOD PREDICTOR                     │
-│   XGBoost (4 model): Nowcast │ +3h │ +6h │ +12h             │
-│   Output: P(banjir) per horizon → zona risiko               │
-└────────────────┬────────────────────────────────────────────┘
-                 │ bobot zona risiko
-                 ▼
-┌─────────────────────────────────────────────────────────────┐
-│               MODEL 2 — ROUTING ENGINE                      │
-│   Azure Maps Route API + avoidAreas polygon                 │
-│   Output: Rute optimal menghindari zona banjir              │
-└────────────────┬────────────────────────────────────────────┘
-                 │
-                 ▼
-┌─────────────────────────────────────────────────────────────┐
-│              STREAMLIT APP (deployed on Azure)              │
-│   Live Mode │ Simulasi Manual │ Peta Interaktif             │
+│                 FRONTEND APP (Next.js App Router)           │
+│  - SSR & CSR Components                                     │
+│  - Leaflet Dynamic Maps & Recharts Data Viz                 │
+│  - Tailwind CSS (Glassmorphism & Cyber-Corporate Theme)     │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -81,43 +71,20 @@ Empat model XGBoost ditraining secara terpisah dengan target horizon prediksi be
 ### 📈 Visualisasi Evaluasi Model
 
 #### 1. Exploratory Data Analysis (EDA) Overview
-![EDA Overview Jakarta](eda_overview.png)
+![EDA Overview Jakarta](notebooks/visuals/1_eda_overview.png)
 *Analisis distribusi data (131k+ baris) menunjukkan korelasi kuat antara akumulasi hujan dan kejadian banjir.*
 
-#### 2. Perbandingan Performa antar Horizon
-![Perbandingan Performa Forecast](eval_forecast_horizon.png)
-*Model +3 Jam menunjukkan performa terbaik (F1: 0.91), sementara performa berdegradasi seiring bertambahnya horizon waktu.*
+#### 2. Evaluasi Model Nowcast
+![Perbandingan Performa Forecast](notebooks/visuals/2_nowcast_evaluation.png)
+*Evaluasi akurasi Nowcast secara real-time.*
 
-#### 3. Analisis Feature Importance & Threshold
-![Feature Importance & Threshold Analysis](feature_importance.png)
-*Fitur lag (kondisi sebelumnya) dan akumulasi hujan 12 jam adalah prediktor terkuat. Threshold optimal digunakan untuk keseimbangan Precision/Recall.*
+#### 3. Perbandingan Performa antar Horizon
+![Perbandingan Performa Forecast](notebooks/visuals/3_forecast_evaluation.png)
+*Model +3 Jam menunjukkan performa terbaik, sementara performa berdegradasi wajar seiring bertambahnya horizon waktu.*
 
-#### 4. Validasi Overfitting (TimeSeriesSplit)
-![Cek Overfitting Model](overfitting_check.png)
-*Validasi menggunakan TimeSeriesSplit 5-Fold menunjukkan gap AUC yang sangat kecil antara Train dan Test, membuktikan model stabil.*
-
-**Data training:** Rekap kejadian banjir BPBD Jakarta (2017, 2019, 2020) digabungkan dengan data cuaca per jam dari Open-Meteo.  
-**Split strategy:** Time-based split — 2017 & 2019 sebagai train set, 2020 sebagai test set (*unseen data*).  
-**Imbalance handling:** `scale_pos_weight` pada XGBoost (rasio ~12.6:1).
-
-### Fitur Utama Model
-- **Lag features:** `precip_lag_1h`, `precip_lag_3h`, `precip_lag_6h`
-- **Rolling sum:** `precip_3h_sum`, `precip_6h_sum`, `precip_12h_sum`, `precip_rolling_24h`
-- **Temporal:** `month`, `hour_sin`, `hour_cos`, `is_rainy_season`, `is_weekend`
-- **Composite:** `rain_score`, `saturation_idx`, `consec_rain`, `rain_acceleration`
-- **Weather:** `temperature_2m`, `relative_humidity_2m`, `weather_code` (WMO ordinal), `wind_speed_10m`
-
----
-
-## ☁️ Layanan Microsoft Azure
-
-| Layanan | Fungsi dalam UrbanShield |
-|---|---|
-| **Azure App Service** | Hosting aplikasi Streamlit + model AI (Python runtime) |
-| **Azure App Service Plan** | Alokasi CPU & RAM untuk server production |
-| **Azure Maps — Geocoding API** | Konversi nama lokasi/alamat ke koordinat lat/lon |
-| **Azure Maps — Route Directions API** | Kalkulasi rute optimal dengan avoidAreas polygon zona banjir |
-| **Azure Resource Group** | Manajemen terpusat semua layanan di atas |
+#### 4. Analisis Feature Importance & Threshold
+![Feature Importance & Threshold Analysis](notebooks/visuals/4_feature_threshold_analysis.png)
+*Fitur lag (kondisi sebelumnya), elevasi tanah, dan curah hujan hulu (Bogor) menjadi prediktor terkuat AI.*
 
 ---
 
@@ -126,67 +93,59 @@ Empat model XGBoost ditraining secara terpisah dengan target horizon prediksi be
 ```
 UrbanShield/
 │
-├── 1_scrap_meteo.ipynb          # Scraping data cuaca Open-Meteo per jam
-├── 2_datathon_prepros.py        # Preprocessing & agregasi ABT dataset
-├── 3_UrbanShield_Code.ipynb     # EDA, Feature Engineering, dan Modeling lengkap
+├── backend/                     # API Microservice
+│   ├── main.py                  # Entry point FastAPI
+│   ├── features.py              # Logic ekstraksi fitur XGBoost
+│   ├── azure_maps.py            # Modul routing & fallback Azure Maps
+│   └── requirements.txt         
 │
-├── app.py                       # Aplikasi Streamlit utama
-├── weather.py                   # Modul Live Weather API & feature engineering
+├── frontend/                    # Aplikasi Antarmuka Web
+│   ├── src/app/                 # Next.js App Router (Halaman & Rute)
+│   ├── src/components/          # Reusable React components (Map, Sidebar)
+│   ├── package.json             
+│   └── globals.css              # Cyber-Corporate Styling
 │
-├── model_nowcast_xgboost.pkl    # Model prediksi banjir T+0
-├── model_forecast_3h.pkl        # Model prediksi banjir T+3 jam
-├── model_forecast_6h.pkl        # Model prediksi banjir T+6 jam
-├── model_forecast_12h.pkl       # Model prediksi banjir T+12 jam
+├── notebooks/                   # R&D Data Science
+│   ├── 2_datathon_prepros.py    
+│   ├── 3_UrbanShield_Code.ipynb # Pembuatan Model Utama
+│   └── visuals/                 # Gambar evaluasi untuk dokumentasi
 │
-├── UrbanShield_ABT_Final.csv    # Dataset ABT hasil agregasi (bahan training)
-├── UrbanShield_Base_Engineered.csv  # Dataset setelah feature engineering
-│
-├── raw_dataset/                 # Dataset mentah sebelum preprocessing
-├── requirements.txt             # Dependensi Python
-└── .github/workflows/           # CI/CD pipeline (GitHub Actions)
+├── data/                        # CSV mentah dan Data Latih
+└── models/                      # .pkl file pre-trained XGBoost
 ```
 
 ---
 
 ## 🚀 Cara Menjalankan Lokal
 
-### 1. Clone repositori
-```bash
-git clone https://github.com/HorasioGit/UrbanShield.git
-cd UrbanShield
-```
+Karena aplikasi sekarang mengadopsi arsitektur terpisah, Anda harus menjalankan Backend dan Frontend secara bersamaan.
 
-### 2. Install dependensi
+### 1. Jalankan Backend (FastAPI)
+Buka terminal pertama, lalu arahkan ke folder backend:
 ```bash
+cd backend
 pip install -r requirements.txt
+uvicorn main:app --reload --port 8000
 ```
+Backend akan berjalan di `http://127.0.0.1:8000`.
 
-### 3. Set environment variable
+### 2. Jalankan Frontend (Next.js)
+Buka terminal kedua, lalu arahkan ke folder frontend:
 ```bash
-# Windows
-set AZURE_MAPS_KEY=your_azure_maps_key_here
-
-# Linux/Mac
-export AZURE_MAPS_KEY=your_azure_maps_key_here
+cd frontend
+npm install
+npm run dev
 ```
-
-### 4. Jalankan aplikasi
-```bash
-streamlit run app.py
-```
-
-Aplikasi akan terbuka di `http://localhost:8501`
+Frontend akan berjalan di `http://localhost:3000`. Silakan buka tautan tersebut di browser Anda.
 
 ---
 
-## 📊 Dataset
+## 📊 Dataset (Diperbarui)
 
 | Dataset | Sumber | Periode | Keterangan |
 |---|---|---|---|
-| Rekap Kejadian Banjir | BPBD Jakarta / Satu Data Jakarta | 2017, 2019, 2020 | Label target per hari per wilayah |
-| Data Cuaca Per Jam | Open-Meteo Historical API | 2017, 2019, 2020 | Scraping per jam, 5 koordinat Jakarta |
-
-> **Catatan keterbatasan data:** Data banjir tahun 2018 dan di luar periode di atas tidak digunakan karena format rekap tidak konsisten (fitur tidak lengkap, agregasi bulanan). Label banjir dari BPBD bersifat per hari, kemudian dipetakan ke level jam menggunakan intensitas curah hujan sebagai proxy temporal.
+| Rekap Kejadian Banjir | BPBD Jakarta / Satu Data Jakarta | 2017 - 2020 | Termasuk penambahan data 2018 untuk historical baseline yang lebih kuat. |
+| Data Cuaca Jakarta & Bogor | Open-Meteo Historical API | 2017 - 2020 | Memasukkan cuaca Hulu Bogor (Katulampa) untuk memperkuat prediksi luapan air kiriman. |
 
 ---
 
@@ -199,14 +158,7 @@ Aplikasi akan terbuka di `http://localhost:8501`
 
 ---
 
-## 📄 Lisensi
-
-Project ini dibuat untuk keperluan kompetisi **AI Impact Challenge — Microsoft Elevate × Dicoding 2026**.
-
----
-
 <p align="center">
-  <img src="https://img.shields.io/badge/Made_with-❤️_&_XGBoost-FF4B4B?style=flat-square" />
-  <img src="https://img.shields.io/badge/Powered_by-Microsoft_Azure-0078D4?style=flat-square&logo=microsoftazure" />
-  <img src="https://img.shields.io/badge/Data-BPBD_Jakarta_×_Open--Meteo-27AE60?style=flat-square" />
+  <img src="https://img.shields.io/badge/Made_with-❤️_&_Next.js-000000?style=flat-square" />
+  <img src="https://img.shields.io/badge/Powered_by-FastAPI_&_Azure-0078D4?style=flat-square&logo=microsoftazure" />
 </p>
