@@ -216,7 +216,7 @@ export default function Dashboard() {
                                 <div key={h} className={`border rounded-xl p-3 flex flex-col justify-center items-center transition-all-slow ${horizon === h ? 'glow-border-cyan bg-cyan-950/20' : ''} ${horizon !== h ? getDangerBg(predictions[h] || 0) : ''}`}>
                                     <span className="text-slate-500 text-[9px] font-bold uppercase mb-1 tracking-widest">{h === '0h' ? 'Nowcast' : `+${h} Forecast`}</span>
                                     <span className={`text-2xl font-black tracking-tighter ${getDangerColor(predictions[h] || 0)}`}>
-                                        {((predictions[h] || 0) * 100).toFixed(3)}%
+                                        {((predictions[h] || 0) * 100).toFixed(2)}%
                                     </span>
                                 </div>
                             ))}
