@@ -28,7 +28,9 @@ jobs:
         run: |
           mkdir -p deploy/models
           cp -r backend/* deploy/
-          cp -r models/* deploy/models/
+          cp models/*.pkl deploy/models/
+          ls -la deploy/
+          ls -la deploy/models/
 
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
