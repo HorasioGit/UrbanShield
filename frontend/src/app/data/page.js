@@ -68,6 +68,9 @@ export default function DataInsights() {
                             </BarChart>
                         </ResponsiveContainer>
                     </div>
+                    <div className="mt-4 text-xs text-slate-400 bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+                        <strong>Interpretasi AI:</strong> Grafik SHAP (*Shapley Additive exPlanations*) membuktikan bahwa <span className="text-cyan-400">Curah Hujan</span> dan <span className="text-cyan-400">Elevasi Tanah</span> adalah dua pemicu utama genangan. Ini memvalidasi kerentanan topografi Jakarta yang secara geografis berada di bawah permukaan laut.
+                    </div>
                 </div>
 
                 <div className="glass-panel p-6">
@@ -88,6 +91,9 @@ export default function DataInsights() {
                                 <Area type="monotone" dataKey="auc" stroke="#10b981" fillOpacity={1} fill="url(#colorAuc)" strokeWidth={3} />
                             </AreaChart>
                         </ResponsiveContainer>
+                    </div>
+                    <div className="mt-4 text-xs text-slate-400 bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+                        <strong>Performa Pembelajaran:</strong> Skor Akurasi (AUC) model terus meroket dari Januari hingga Mei 2024, mencapai puncaknya di angka <strong>0.98</strong>. Ini menandakan mesin XGBoost kita semakin cerdas mengenali pola cuaca ekstrem seiring bertambahnya pasokan data historis.
                     </div>
                 </div>
             </div>

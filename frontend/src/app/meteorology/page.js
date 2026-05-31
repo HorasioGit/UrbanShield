@@ -30,8 +30,12 @@ export default function MeteorologyHub() {
                 <h1 className="text-3xl font-extrabold tracking-tight text-white flex items-center">
                     <CloudLightning className="w-8 h-8 mr-3 text-cyan-400" />
                     Meteorological Radar
+                    <span className="ml-4 px-2 py-0.5 text-[10px] bg-amber-500/20 text-amber-400 border border-amber-500/50 rounded-full flex items-center uppercase tracking-widest font-bold">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse mr-1.5"></span>
+                        Simulated Telemetry
+                    </span>
                 </h1>
-                <p className="text-slate-400 mt-2">Pemantauan titik-titik krusial hidrologi dari Jakarta hingga Bendung Katulampa Bogor.</p>
+                <p className="text-slate-400 mt-2">Pemantauan titik-titik krusial hidrologi dari Jakarta hingga Bendung Katulampa Bogor (Purwarupa Demonstrasi).</p>
             </header>
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6 shrink-0 z-10">

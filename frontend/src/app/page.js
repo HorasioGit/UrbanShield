@@ -139,6 +139,10 @@ export default function Dashboard() {
         } catch (error) {
             console.error(error);
             setErrorMsg(error.message);
+            // Reset semua data ke 0 agar bersih saat error
+            setRouteData(null);
+            setAdvisor(null);
+            setPredictions({"0h": 0.0, "3h": 0.0, "6h": 0.0, "12h": 0.0});
         }
         setIsLoading(false);
     };
@@ -248,6 +252,17 @@ export default function Dashboard() {
                     {/* MAIN AREA: Dynamic Map */}
                     <div className="flex-grow xl:w-2/3 relative rounded-2xl overflow-hidden border border-slate-700 shadow-[0_0_40px_rgba(0,0,0,0.8)] flex flex-col bg-slate-900 group min-h-[500px] xl:min-h-[700px]">
                         <div className="flex-1 relative h-full">
+                            
+                            {/* Error Overlay in the middle of Map */}
+                            {errorMsg && (
+                                <div className="absolute inset-0 z-[2000] flex items-center justify-center bg-slate-900/80 backdrop-blur-md rounded-2xl">
+                                    <div className="bg-rose-950/80 border border-rose-500 p-8 rounded-2xl max-w-md text-center shadow-[0_0_60px_rgba(244,63,94,0.3)]">
+                                        <ShieldAlert className="w-16 h-16 text-rose-500 mx-auto mb-4 animate-pulse" />
+                                        <p className="text-rose-200 text-sm font-mono leading-relaxed">{errorMsg}</p>
+                                    </div>
+                                </div>
+                            )}
+
                             {routeData && (
                                 <div className="absolute top-5 left-5 z-10 glass-panel px-5 py-3 flex items-center space-x-6 border-slate-600/50 shadow-2xl backdrop-blur-xl">
                                     <div>
@@ -333,8 +348,6 @@ export default function Dashboard() {
                                     className="w-full mt-4 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-lg font-bold tracking-wider uppercase text-sm shadow-[0_0_20px_rgba(14,165,233,0.3)] transition-all active:scale-[0.98] disabled:opacity-50 flex justify-center items-center">
                                     {isLoading ? <><Activity className="w-4 h-4 mr-2 animate-spin" /> Uplinking...</> : <><Zap className="w-4 h-4 mr-2" /> Pindai Rute & Risiko</>}
                                 </button>
-                                
-                                {errorMsg && <div className="text-xs text-rose-400 mt-2 bg-rose-500/10 p-2 rounded border border-rose-500/30">{errorMsg}</div>}
                             </div>
                         </div>
 
