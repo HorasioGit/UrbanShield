@@ -312,7 +312,7 @@ def route(req: RouteRequest):
     if not is_in_jabodetabek(lat1, lon1) or not is_in_jabodetabek(lat2, lon2):
         raise HTTPException(
             status_code=400,
-            detail="🚨 [UrbanShield Protocol] Area Terlarang: Titik lokasi berada di luar Zona Radar Jabodetabek. Harap masukkan rute lokal yang valid."
+            detail="🚨 [URBANSHIELD SAT-COM] AKSES DITOLAK: Area tujuan berada di luar perimeter pantauan radar Jabodetabek. Harap berikan koordinat sektor yang sah."
         )
 
     is_danger = req.probability > 0.6

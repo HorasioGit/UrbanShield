@@ -248,14 +248,6 @@ export default function Dashboard() {
                     {/* MAIN AREA: Dynamic Map */}
                     <div className="flex-grow xl:w-2/3 relative rounded-2xl overflow-hidden border border-slate-700 shadow-[0_0_40px_rgba(0,0,0,0.8)] flex flex-col bg-slate-900 group min-h-[500px] xl:min-h-[700px]">
                         <div className="flex-1 relative h-full">
-                            
-                            {/* Cinematic Rain Overlay */}
-                            {(!isLiveMode && (predictions[horizon] || 0) > 0.6) && (
-                                <div className="absolute inset-0 pointer-events-none z-[1000] bg-slate-900/10 rounded-2xl overflow-hidden mix-blend-screen">
-                                    <div className="rain-effect w-full h-full"></div>
-                                </div>
-                            )}
-
                             {routeData && (
                                 <div className="absolute top-5 left-5 z-10 glass-panel px-5 py-3 flex items-center space-x-6 border-slate-600/50 shadow-2xl backdrop-blur-xl">
                                     <div>
