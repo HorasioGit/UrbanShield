@@ -259,28 +259,41 @@ def route(req: RouteRequest):
 
     is_danger = req.probability > 0.6
 
-    # Buat flood avoidance box di titik tengah rute
-    mid_lat = (lat1 + lat2) / 2
-    mid_lon = (lon1 + lon2) / 2
-    box     = gen_box(mid_lat, mid_lon) if is_danger else None
-
-    route_coords, eta_mins, dist_km = get_route(lat1, lon1, lat2, lon2, avoid_box=box)
+    # 1. Dapatkan Rute Normal Tercepat Terlebih Dahulu
+    route_coords, eta_mins, dist_km = get_route(lat1, lon1, lat2, lon2)
 
     if not route_coords:
         raise HTTPException(
             status_code=500,
-            detail="Gagal mengkalkulasi rute."
+            detail="Gagal mengkalkulasi rute awal."
         )
 
-    # Tambahan titik banjir di seluruh kota untuk keperluan simulasi visual
+    box = None
     extra_flood_zones = []
+
     if is_danger:
+        # Ambil aspal yang benar-benar dilewati truk di tengah perjalanan
+        mid_idx = len(route_coords) // 2
+        mid_point_asphalt = route_coords[mid_idx]
+
+        # Buat kotak banjir presisi di atas aspal tersebut
+        box = gen_box(mid_point_asphalt[0], mid_point_asphalt[1])
+
         extra_flood_zones = [
             [-6.1557, 106.9011],  # Kelapa Gading
             [-6.1628, 106.7371],  # Cengkareng
             [-6.2103, 106.8512],  # Manggarai
             [-6.2625, 106.8127],  # Kemang
         ]
+
+        # 2. Kalkulasi ulang rute dengan memaksa Azure Maps memutar menghindari aspal tersebut
+        route_coords, eta_mins, dist_km = get_route(lat1, lon1, lat2, lon2, avoid_box=box)
+
+        if not route_coords:
+            raise HTTPException(
+                status_code=500,
+                detail="Gagal mengkalkulasi rute detour."
+            )
 
     return {
         "status":            "REROUTED_AVOID_FLOOD" if is_danger else "NORMAL_ROUTE",

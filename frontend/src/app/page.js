@@ -13,7 +13,7 @@ export default function Dashboard() {
     const [rainIntensity, setRainIntensity] = useState(0);
     const [temperature, setTemperature] = useState(28);
     const [origin, setOrigin] = useState("Tanjung Priok, Jakarta Utara");
-    const [destination, setDestination] = useState("Sunter Jaya, Jakarta Utara");
+    const [destination, setDestination] = useState("Monas, Jakarta Pusat");
     const [horizon, setHorizon] = useState("0h");
     const [isLiveMode, setIsLiveMode] = useState(false);
     
