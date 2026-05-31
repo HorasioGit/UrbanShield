@@ -260,7 +260,8 @@ def route(req: RouteRequest):
     is_danger = req.probability > 0.6
 
     # 1. Dapatkan Rute Normal Tercepat Terlebih Dahulu
-    route_coords, eta_mins, dist_km = get_route(lat1, lon1, lat2, lon2)
+    # 1. Dapatkan Rute Normal Tercepat Terlebih Dahulu
+    route_coords, eta_mins, dist_km_normal = get_route(lat1, lon1, lat2, lon2)
 
     if not route_coords:
         raise HTTPException(
@@ -270,6 +271,7 @@ def route(req: RouteRequest):
 
     box = None
     extra_flood_zones = []
+    dist_km_final = dist_km_normal
 
     if is_danger:
         # Ambil aspal yang benar-benar dilewati truk di tengah perjalanan
@@ -287,7 +289,8 @@ def route(req: RouteRequest):
         ]
 
         # 2. Kalkulasi ulang rute dengan memaksa Azure Maps memutar menghindari aspal tersebut
-        route_coords, eta_mins, dist_km = get_route(lat1, lon1, lat2, lon2, avoid_box=box)
+        # 2. Kalkulasi ulang rute dengan memaksa Azure Maps memutar menghindari aspal tersebut
+        route_coords, eta_mins, dist_km_final = get_route(lat1, lon1, lat2, lon2, avoid_box=box)
 
         if not route_coords:
             raise HTTPException(
@@ -301,7 +304,9 @@ def route(req: RouteRequest):
         "destination_coords":[lat2, lon2],
         "route_coords":      route_coords,
         "eta_mins":          eta_mins,
-        "dist_km":           round(dist_km, 2),
+        "dist_km":           round(dist_km_final, 2),
+        "dist_km_normal":    round(dist_km_normal, 2),
+        "detour_km":         round(max(0, dist_km_final - dist_km_normal), 2) if is_danger else 0.0,
         "avoid_box":         box,
         "extra_flood_zones": extra_flood_zones,
     }

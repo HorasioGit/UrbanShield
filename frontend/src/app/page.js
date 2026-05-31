@@ -114,7 +114,7 @@ export default function Dashboard() {
                     body: JSON.stringify({ 
                         probability: activeProb,
                         distance_km: dataRoute.dist_km,
-                        detour_km: dataRoute.status === "REROUTED_AVOID_FLOOD" ? 4.5 : 0
+                        detour_km: dataRoute.detour_km || 0
                     })
                 });
                 const advData = await advRes.json();
