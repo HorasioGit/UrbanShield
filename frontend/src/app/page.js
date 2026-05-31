@@ -30,6 +30,7 @@ export default function Dashboard() {
 
         let currentRain = parseFloat(rainIntensity);
         let currentTemp = parseFloat(temperature);
+        let currentBogor = parseFloat(rainIntensity) * 0.5;
 
         if (isLiveMode) {
             try {
@@ -41,7 +42,15 @@ export default function Dashboard() {
                     currentTemp = weatherData.current.temperature_2m;
                     setRainIntensity(currentRain);
                     setTemperature(currentTemp);
-                    console.log(`Live Weather: Temp ${currentTemp}°C, Rain ${currentRain}mm`);
+                    console.log(`Live Weather JKT: Temp ${currentTemp}°C, Rain ${currentRain}mm`);
+                }
+                
+                // Fetch real-time weather for Bogor/Katulampa (Lat: -6.5944, Lon: 106.7892)
+                const weatherBogorRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-6.5944&longitude=106.7892&current=precipitation&timezone=Asia/Jakarta');
+                const weatherBogorData = await weatherBogorRes.json();
+                if (weatherBogorData && weatherBogorData.current) {
+                    currentBogor = weatherBogorData.current.precipitation;
+                    console.log(`Live Weather BGR: Rain ${currentBogor}mm`);
                 }
             } catch (err) {
                 console.error("Failed to fetch live weather", err);
@@ -62,12 +71,13 @@ export default function Dashboard() {
                     precip_12h_sum: currentRain * 12,
                     temperature_2m: currentTemp,
                     relative_humidity_2m: 85,
-                    bogor_rain: currentRain * 0.5,
+                    bogor_rain: currentBogor,
                     kota_encoded: 1,
+                    is_simulation: !isLiveMode,
                     dynamic_features: {
-                        precipitation_roll3_max: parseFloat(rainIntensity),
-                        bogor_rain_lag1: parseFloat(rainIntensity) * 0.5,
-                        bogor_rain_roll3_mean: parseFloat(rainIntensity) * 0.5,
+                        precipitation_roll3_max: currentRain,
+                        bogor_rain_lag1: currentBogor,
+                        bogor_rain_roll3_mean: currentBogor,
                         status_banjir_lag1: 0
                     }
                 })

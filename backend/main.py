@@ -97,6 +97,7 @@ class PredictRequest(BaseModel):
     soil_temperature_0_to_7cm: float = 26.0
     bogor_rain:          float = 0.0
     kota_encoded:        int   = 1
+    is_simulation:       bool  = False
     # Waktu (opsional, default ke jam 12 bulan 1)
     hour:       int = 12
     month:      int = 1
@@ -174,6 +175,18 @@ def predict(req: PredictRequest):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Prediction error: {str(e)}")
+
+    # =================================================================
+    # SUTRADARA DEMO (SIMULATION OVERRIDE)
+    # =================================================================
+    if req.is_simulation:
+        for horizon in result.keys():
+            if req.precipitation >= 35:
+                # Bahaya (akan memicu avoid_box dan detour karena > 0.5)
+                result[horizon] = round(min(0.99, result[horizon] + 0.85), 4)
+            elif req.precipitation >= 20:
+                # Waspada (probability naik tapi belum sampai detour)
+                result[horizon] = round(min(0.49, result[horizon] + 0.35), 4)
 
     return {"predictions": result}
 
