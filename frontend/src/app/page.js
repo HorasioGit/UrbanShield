@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import { CloudRain, ShieldAlert, Navigation, Activity, DollarSign, Clock, MapPin, Zap } from 'lucide-react';
+import { CloudRain, ShieldAlert, Navigation, Activity, DollarSign, Clock, MapPin, Zap, History } from 'lucide-react';
 
 const DynamicMap = dynamic(() => import('@/components/Map'), { 
     ssr: false,
@@ -23,6 +23,12 @@ export default function Dashboard() {
     
     const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
+    const [history, setHistory] = useState([]);
+
+    useEffect(() => {
+        const saved = localStorage.getItem('urbanshield_history');
+        if (saved) setHistory(JSON.parse(saved));
+    }, []);
 
     const handleScanRoute = async () => {
         setIsLoading(true);
@@ -119,6 +125,16 @@ export default function Dashboard() {
                 });
                 const advData = await advRes.json();
                 setAdvisor(advData);
+                
+                // Save to history
+                const newHist = [{
+                    origin: origin,
+                    destination: destination,
+                    prob: activeProb,
+                    time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+                }, ...history].slice(0, 3);
+                setHistory(newHist);
+                localStorage.setItem('urbanshield_history', JSON.stringify(newHist));
             }
         } catch (error) {
             console.error(error);
@@ -232,6 +248,14 @@ export default function Dashboard() {
                     {/* MAIN AREA: Dynamic Map */}
                     <div className="flex-grow xl:w-2/3 relative rounded-2xl overflow-hidden border border-slate-700 shadow-[0_0_40px_rgba(0,0,0,0.8)] flex flex-col bg-slate-900 group min-h-[500px] xl:min-h-[700px]">
                         <div className="flex-1 relative h-full">
+                            
+                            {/* Cinematic Rain Overlay */}
+                            {(!isLiveMode && (predictions[horizon] || 0) > 0.6) && (
+                                <div className="absolute inset-0 pointer-events-none z-[1000] bg-slate-900/10 rounded-2xl overflow-hidden mix-blend-screen">
+                                    <div className="rain-effect w-full h-full"></div>
+                                </div>
+                            )}
+
                             {routeData && (
                                 <div className="absolute top-5 left-5 z-10 glass-panel px-5 py-3 flex items-center space-x-6 border-slate-600/50 shadow-2xl backdrop-blur-xl">
                                     <div>
@@ -338,6 +362,34 @@ export default function Dashboard() {
                                         </span>
                                     </div>
                                 ))}
+                            </div>
+                        </div>
+
+                        {/* Persistent History Log */}
+                        <div className="glass-panel p-5 shrink-0">
+                            <h2 className="text-xs font-bold mb-4 flex items-center text-slate-400 uppercase tracking-widest">
+                                <History className="w-4 h-4 mr-2" />
+                                Riwayat Pindai Terbaru
+                            </h2>
+                            <div className="space-y-3">
+                                {history.length === 0 ? (
+                                    <div className="text-xs text-slate-500 italic text-center py-2">Belum ada riwayat</div>
+                                ) : (
+                                    history.map((item, idx) => (
+                                        <div key={idx} className="bg-slate-900/50 rounded-lg p-3 border border-slate-700 text-[10px] shadow-inner">
+                                            <div className="flex justify-between items-start mb-1.5">
+                                                <span className="text-slate-400 font-mono">{item.time}</span>
+                                                <span className={`font-bold ${item.prob > 0.6 ? 'text-rose-400' : 'text-emerald-400'}`}>
+                                                    {(item.prob * 100).toFixed(0)}% Risk
+                                                </span>
+                                            </div>
+                                            <div className="flex flex-col gap-1 text-slate-300">
+                                                <div className="truncate"><span className="text-cyan-500 mr-1 font-bold">O:</span>{item.origin}</div>
+                                                <div className="truncate"><span className="text-blue-500 mr-1 font-bold">D:</span>{item.destination}</div>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
                             </div>
                         </div>
                     </div>

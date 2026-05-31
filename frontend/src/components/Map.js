@@ -94,10 +94,9 @@ export default function Map({ routeData }) {
             {route_coords && route_coords.length > 0 && (
                 <Polyline 
                     positions={route_coords} 
-                    color={isDanger ? "#10b981" : "#3b82f6"} 
+                    color="#3b82f6" 
                     weight={6} 
                     opacity={0.85}
-                    dashArray={isDanger ? "10, 10" : ""} 
                 />
             )}
 

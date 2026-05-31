@@ -298,10 +298,21 @@ def route(req: RouteRequest):
     lat1, lon1 = geocode(req.origin)
     lat2, lon2 = geocode(req.destination)
 
-    if lat1 is None or lat2 is None:
+    if not (lat1 and lon1 and lat2 and lon2):
         raise HTTPException(
             status_code=400,
-            detail="Alamat tidak dikenali. Gunakan nama kelurahan/daerah spesifik."
+            detail="Gagal menemukan koordinat untuk lokasi yang diberikan."
+        )
+
+    # Pagar Gaib Jabodetabek (Geofencing)
+    def is_in_jabodetabek(lat, lon):
+        # Bounding box approximate Jabodetabek
+        return (-6.80 <= lat <= -5.90) and (106.30 <= lon <= 107.20)
+
+    if not is_in_jabodetabek(lat1, lon1) or not is_in_jabodetabek(lat2, lon2):
+        raise HTTPException(
+            status_code=400,
+            detail="🚨 [UrbanShield Protocol] Area Terlarang: Titik lokasi berada di luar Zona Radar Jabodetabek. Harap masukkan rute lokal yang valid."
         )
 
     is_danger = req.probability > 0.6
