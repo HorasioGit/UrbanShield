@@ -13,10 +13,10 @@ L.Icon.Default.mergeOptions({
 });
 
 const truckIcon = new L.Icon({
-    iconUrl: 'https://cdn-icons-png.flaticon.com/512/2765/2765058.png',
-    iconSize: [32, 32],
-    iconAnchor: [16, 32],
-    popupAnchor: [0, -32],
+    iconUrl: 'https://cdn-icons-png.flaticon.com/512/1048/1048313.png',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+    popupAnchor: [0, -40]
 });
 
 // Component to dynamically fit bounds
