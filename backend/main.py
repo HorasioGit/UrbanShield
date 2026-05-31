@@ -182,8 +182,8 @@ def predict(req: PredictRequest):
     if req.is_simulation:
         for horizon in result.keys():
             if req.precipitation >= 35:
-                # Bahaya (akan memicu avoid_box dan detour karena > 0.5)
-                result[horizon] = round(min(0.99, result[horizon] + 0.85), 4)
+                # Bahaya (akan memicu avoid_box dan detour karena > 0.6)
+                result[horizon] = round(min(0.68, result[horizon] + 0.65), 4)
             elif req.precipitation >= 20:
                 # Waspada (probability naik tapi belum sampai detour)
                 result[horizon] = round(min(0.49, result[horizon] + 0.35), 4)
@@ -272,6 +272,16 @@ def route(req: RouteRequest):
             detail="Gagal mengkalkulasi rute."
         )
 
+    # Tambahan titik banjir di seluruh kota untuk keperluan simulasi visual
+    extra_flood_zones = []
+    if is_danger:
+        extra_flood_zones = [
+            [-6.1557, 106.9011],  # Kelapa Gading
+            [-6.1628, 106.7371],  # Cengkareng
+            [-6.2103, 106.8512],  # Manggarai
+            [-6.2625, 106.8127],  # Kemang
+        ]
+
     return {
         "status":            "REROUTED_AVOID_FLOOD" if is_danger else "NORMAL_ROUTE",
         "origin_coords":     [lat1, lon1],
@@ -280,4 +290,5 @@ def route(req: RouteRequest):
         "eta_mins":          eta_mins,
         "dist_km":           round(dist_km, 2),
         "avoid_box":         box,
+        "extra_flood_zones": extra_flood_zones,
     }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline, Polygon, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, Polygon, Circle, useMap } from 'react-leaflet';
 import L from 'leaflet';
 
 // Fix Leaflet Default Icon Issue in Next.js
@@ -49,7 +49,7 @@ export default function Map({ routeData }) {
         );
     }
 
-    const { origin_coords, destination_coords, route_coords, status, avoid_box } = routeData;
+    const { origin_coords, destination_coords, route_coords, status, avoid_box, extra_flood_zones } = routeData;
     const isDanger = status === "REROUTED_AVOID_FLOOD";
 
     return (
@@ -71,13 +71,25 @@ export default function Map({ routeData }) {
                 </Marker>
             )}
 
-            {/* Flood Box */}
+            {/* Flood Box (Fix: Azure returns [lon, lat], Leaflet needs [lat, lon]) */}
             {avoid_box && (
-                <Polygon positions={avoid_box} pathOptions={{ color: '#ef4444', fillColor: '#ef4444', fillOpacity: 0.3 }}>
-                    <Popup>Zona Rawan Banjir (Prediksi AI)</Popup>
+                <Polygon positions={avoid_box.map(coord => [coord[1], coord[0]])} pathOptions={{ color: '#ef4444', fillColor: '#ef4444', fillOpacity: 0.3 }}>
+                    <Popup>Zona Blokade Rute (Prediksi AI)</Popup>
                 </Polygon>
             )}
-            
+
+            {/* Extra Citywide Flood Zones */}
+            {extra_flood_zones && extra_flood_zones.map((coord, idx) => (
+                <Circle 
+                    key={idx} 
+                    center={coord} 
+                    radius={1500} 
+                    pathOptions={{ color: '#ef4444', fillColor: '#ef4444', fillOpacity: 0.2 }}
+                >
+                    <Popup>Titik Banjir Ekstrem Terpantau</Popup>
+                </Circle>
+            ))}
+
             {/* Active Route Polyline */}
             {route_coords && route_coords.length > 0 && (
                 <Polyline 
