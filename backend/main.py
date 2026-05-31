@@ -6,10 +6,29 @@ import joblib
 import pandas as pd
 import numpy as np
 import os
+from datetime import datetime, timedelta
+from openai import AzureOpenAI
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
+
+# Inisialisasi Azure OpenAI
+AZURE_OPENAI_KEY = os.getenv("AZURE_OPENAI_KEY")
+AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
+AZURE_OPENAI_DEPLOYMENT_NAME = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME")
+
+ai_client = None
+if AZURE_OPENAI_KEY and AZURE_OPENAI_ENDPOINT:
+    try:
+        ai_client = AzureOpenAI(
+            api_key=AZURE_OPENAI_KEY,
+            api_version="2024-02-01",
+            azure_endpoint=AZURE_OPENAI_ENDPOINT
+        )
+        print("✅ Azure OpenAI berhasil diinisialisasi")
+    except Exception as e:
+        print(f"❌ Gagal menginisialisasi Azure OpenAI: {e}")
 
 from features import prepare_nowcast_features, prepare_forecast_features
 from azure_maps import geocode, gen_box, get_route
@@ -209,26 +228,54 @@ def advisor(req: AdvisorRequest):
     if prob > 0.6:
         action  = "REROUTE"
         savings = TRUCK_LOSS_COST - detour_cost
-        text    = (
-            f"🚨 [BAHAYA] Probabilitas banjir sangat tinggi ({prob*100:.1f}%). "
-            f"Rute armada telah dialihkan otomatis. "
-            f"Keputusan ini menyelamatkan potensi kerugian Rp {TRUCK_LOSS_COST:,.0f} "
-            f"dengan biaya tambahan hanya Rp {detour_cost:,.0f}."
-        )
+        condition = "BAHAYA (Rute memutar karena banjir)"
     elif prob > 0.35:
         action  = "PROCEED_WITH_CAUTION"
         savings = 0.0
-        text    = (
-            f"⚠️ [WASPADA] Risiko genangan ringan ({prob*100:.1f}%). "
-            f"Perjalanan dapat dilanjutkan dengan ekstra hati-hati."
-        )
+        condition = "WASPADA (Risiko genangan ringan)"
     else:
         action  = "PROCEED"
         savings = 0.0
-        text    = (
-            f"✅ [AMAN] Rute terpantau aman dari potensi banjir ({prob*100:.1f}%). "
-            f"Silakan lanjutkan perjalanan normal."
-        )
+        condition = "AMAN"
+
+    text = ""
+    # Coba gunakan Azure OpenAI jika tersedia
+    if ai_client and AZURE_OPENAI_DEPLOYMENT_NAME:
+        try:
+            prompt = f"""Sistem mendeteksi probabilitas banjir: {prob*100:.1f}%.
+Status Tindakan: {condition}.
+Potensi Kerugian Truk & Muatan jika nekat: Rp {TRUCK_LOSS_COST:,.0f}.
+Biaya Putar Balik (Detour): Rp {detour_cost:,.0f}.
+Penghematan Bersih perusahaan: Rp {max(savings, 0):,.0f}.
+
+Berikan 1-2 kalimat laporan peringatan atau saran yang sangat profesional dan dramatis untuk ditampilkan di dashboard.
+Jangan menggunakan formatting markdown seperti bintang/asterisks."""
+            
+            response = ai_client.chat.completions.create(
+                model=AZURE_OPENAI_DEPLOYMENT_NAME,
+                messages=[
+                    {"role": "system", "content": "Anda adalah AI Penasihat Logistik UrbanShield yang cerdas, tegas, dan profesional."},
+                    {"role": "user", "content": prompt}
+                ],
+                max_tokens=150,
+                temperature=0.7
+            )
+            text = response.choices[0].message.content.strip()
+            # Tambahkan prefix icon sesuai status agar tetap cantik
+            if prob > 0.6: text = "🚨 " + text
+            elif prob > 0.35: text = "⚠️ " + text
+            else: text = "✅ " + text
+        except Exception as e:
+            print(f"OpenAI error: {e}")
+            
+    # Fallback jika OpenAI gagal atau error limit
+    if not text:
+        if prob > 0.6:
+            text = f"🚨 [BAHAYA] Probabilitas banjir sangat tinggi ({prob*100:.1f}%). Rute armada telah dialihkan otomatis. Keputusan ini menyelamatkan potensi kerugian Rp {TRUCK_LOSS_COST:,.0f} dengan biaya tambahan hanya Rp {detour_cost:,.0f}."
+        elif prob > 0.35:
+            text = f"⚠️ [WASPADA] Risiko genangan ringan ({prob*100:.1f}%). Perjalanan dapat dilanjutkan dengan ekstra hati-hati."
+        else:
+            text = f"✅ [AMAN] Rute terpantau aman dari potensi banjir ({prob*100:.1f}%). Silakan lanjutkan perjalanan normal."
 
     return {
         "text":   text,
