@@ -169,7 +169,7 @@ export default function Dashboard() {
                 </div>
             </header>
 
-            <div className="flex flex-col gap-6 h-[calc(100vh-130px)] relative z-10 overflow-hidden">
+            <div className="flex flex-col gap-6 relative z-10 overflow-visible">
                 
                 {/* TOP ROW: Scoreboard */}
                 <div className="flex flex-col xl:flex-row gap-6 shrink-0 xl:h-48">
@@ -228,9 +228,9 @@ export default function Dashboard() {
                 </div>
 
                 {/* BOTTOM ROW: Map & Sidebar */}
-                <div className="flex-1 flex flex-col xl:flex-row gap-6 min-h-0 overflow-hidden pb-4">
+                <div className="flex-1 flex flex-col xl:flex-row gap-6 pb-4">
                     {/* MAIN AREA: Dynamic Map */}
-                    <div className="flex-grow xl:w-2/3 relative rounded-2xl overflow-hidden border border-slate-700 shadow-[0_0_40px_rgba(0,0,0,0.8)] flex flex-col bg-slate-900 group">
+                    <div className="flex-grow xl:w-2/3 relative rounded-2xl overflow-hidden border border-slate-700 shadow-[0_0_40px_rgba(0,0,0,0.8)] flex flex-col bg-slate-900 group min-h-[500px] xl:min-h-[700px]">
                         <div className="flex-1 relative h-full">
                             {routeData && (
                                 <div className="absolute top-5 left-5 z-10 glass-panel px-5 py-3 flex items-center space-x-6 border-slate-600/50 shadow-2xl backdrop-blur-xl">
@@ -255,7 +255,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* SIDEBAR: Mission Parameters */}
-                    <div className="xl:w-1/3 w-full flex flex-col space-y-6 overflow-y-auto pr-2 custom-scrollbar h-full">
+                    <div className="xl:w-1/3 w-full flex flex-col space-y-6 h-full">
                         <div className="glass-panel p-6 border-t-2 border-t-cyan-500/50 shrink-0">
                             <h2 className="text-base font-bold mb-5 flex items-center text-cyan-300 uppercase tracking-widest text-xs">
                                 <Navigation className="w-4 h-4 mr-2" />
