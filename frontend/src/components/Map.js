@@ -60,13 +60,13 @@ export default function Map({ routeData }) {
             />
             
             {origin_coords && (
-                <Marker position={origin_coords}>
-                    <Popup>Keberangkatan</Popup>
+                <Marker position={origin_coords} icon={truckIcon}>
+                    <Popup>Keberangkatan Armada</Popup>
                 </Marker>
             )}
             
             {destination_coords && (
-                <Marker position={destination_coords} icon={truckIcon}>
+                <Marker position={destination_coords}>
                     <Popup>Tujuan Logistik</Popup>
                 </Marker>
             )}
