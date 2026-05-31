@@ -27,6 +27,26 @@ export default function Dashboard() {
     const handleScanRoute = async () => {
         setIsLoading(true);
         setErrorMsg("");
+
+        let currentRain = parseFloat(rainIntensity);
+        let currentTemp = parseFloat(temperature);
+
+        if (isLiveMode) {
+            try {
+                // Fetch real-time weather for Jakarta (Lat: -6.2, Lon: 106.8)
+                const weatherRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-6.2088&longitude=106.8456&current=temperature_2m,precipitation&timezone=Asia/Jakarta');
+                const weatherData = await weatherRes.json();
+                if (weatherData && weatherData.current) {
+                    currentRain = weatherData.current.precipitation;
+                    currentTemp = weatherData.current.temperature_2m;
+                    setRainIntensity(currentRain);
+                    setTemperature(currentTemp);
+                    console.log(`Live Weather: Temp ${currentTemp}°C, Rain ${currentRain}mm`);
+                }
+            } catch (err) {
+                console.error("Failed to fetch live weather", err);
+            }
+        }
         
         try {
             const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://urbanshield-api-h9gqejgffng7arc7.centralus-01.azurewebsites.net';
@@ -36,20 +56,15 @@ export default function Dashboard() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    precipitation: parseFloat(rainIntensity),
-                    precip_3h_sum: parseFloat(rainIntensity) * 3,
-                    precip_6h_sum: parseFloat(rainIntensity) * 6,
-                    precip_12h_sum: parseFloat(rainIntensity) * 12,
-                    temperature_2m: parseFloat(temperature),
+                    precipitation: currentRain,
+                    precip_3h_sum: currentRain * 3,
+                    precip_6h_sum: currentRain * 6,
+                    precip_12h_sum: currentRain * 12,
+                    temperature_2m: currentTemp,
                     relative_humidity_2m: 85,
-                    bogor_rain: parseFloat(rainIntensity) * 0.5,
+                    bogor_rain: currentRain * 0.5,
                     kota_encoded: 1,
                     dynamic_features: {
-                        precipitation_lag1: parseFloat(rainIntensity),
-                        precipitation_lag3: parseFloat(rainIntensity),
-                        precipitation_lag6: parseFloat(rainIntensity),
-                        precipitation_roll3_mean: parseFloat(rainIntensity),
-                        precipitation_roll6_mean: parseFloat(rainIntensity),
                         precipitation_roll3_max: parseFloat(rainIntensity),
                         bogor_rain_lag1: parseFloat(rainIntensity) * 0.5,
                         bogor_rain_roll3_mean: parseFloat(rainIntensity) * 0.5,
@@ -193,18 +208,17 @@ export default function Dashboard() {
                                 </div>
                             </div>
 
-                            {!isLiveMode && (
-                                <div className="pt-3 pb-1 border-t border-slate-800">
-                                    <label className="flex justify-between text-xs text-slate-400 mb-3 uppercase font-medium">
-                                        <span className="flex items-center text-amber-400"><CloudRain className="w-3 h-3 mr-1"/> Curah Hujan Extremity</span>
-                                        <span className="font-mono bg-slate-800 px-2 py-0.5 rounded text-amber-300">{rainIntensity} mm</span>
-                                    </label>
-                                    <input suppressHydrationWarning 
-                                        type="range" min="0" max="50" step="1" value={rainIntensity} onChange={(e) => setRainIntensity(e.target.value)}
-                                        className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
-                                    />
-                                </div>
-                            )}
+                            <div className="pt-3 pb-1 border-t border-slate-800">
+                                <label className="flex justify-between text-xs text-slate-400 mb-3 uppercase font-medium">
+                                    <span className="flex items-center text-amber-400"><CloudRain className="w-3 h-3 mr-1"/> Curah Hujan Extremity</span>
+                                    <span className="font-mono bg-slate-800 px-2 py-0.5 rounded text-amber-300">{rainIntensity} mm</span>
+                                </label>
+                                <input suppressHydrationWarning 
+                                    type="range" min="0" max="50" step="1" value={rainIntensity} onChange={(e) => setRainIntensity(e.target.value)}
+                                    disabled={isLiveMode}
+                                    className={`w-full h-1.5 bg-slate-800 rounded-lg appearance-none accent-amber-500 ${isLiveMode ? 'cursor-not-allowed opacity-40' : 'cursor-pointer'}`}
+                                />
+                            </div>
 
                             <button suppressHydrationWarning onClick={handleScanRoute} disabled={isLoading}
                                 className="w-full mt-4 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-lg font-bold tracking-wider uppercase text-sm shadow-[0_0_20px_rgba(14,165,233,0.3)] transition-all active:scale-[0.98] disabled:opacity-50 flex justify-center items-center">
@@ -227,7 +241,7 @@ export default function Dashboard() {
                                 <div key={h} className={`border rounded-xl p-3 flex flex-col justify-center items-center transition-all-slow ${horizon === h ? 'glow-border-cyan bg-cyan-950/20' : ''} ${horizon !== h ? getDangerBg(predictions[h] || 0) : ''}`}>
                                     <span className="text-slate-500 text-[9px] font-bold uppercase mb-1 tracking-widest">{h === '0h' ? 'Nowcast' : `+${h} Forecast`}</span>
                                     <span className={`text-2xl font-black tracking-tighter ${getDangerColor(predictions[h] || 0)}`}>
-                                        {((predictions[h] || 0) * 100).toFixed(1)}%
+                                        {((predictions[h] || 0) * 100).toFixed(2)}%
                                     </span>
                                 </div>
                             ))}
