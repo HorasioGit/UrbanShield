@@ -4,16 +4,16 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip,
 import { Activity, PieChart as PieChartIcon, Mountain } from 'lucide-react';
 
 const floodDistribution = [
-  { name: 'Rute Aman (No Flood)', value: 72 },
-  { name: 'Tergenang Banjir (Flood)', value: 28 },
+  { name: 'Rute Aman (No Flood)', value: 162517 },
+  { name: 'Tergenang Banjir (Flood)', value: 12768 },
 ];
 const COLORS = ['#22d3ee', '#8a2be2'];
 
 const rainfallCorrelation = [
-  { name: '0-20mm (Gerimis)', insiden: 120 },
-  { name: '20-50mm (Sedang)', insiden: 450 },
-  { name: '50-100mm (Lebat)', insiden: 1850 },
-  { name: '>100mm (Ekstrem)', insiden: 3200 },
+  { name: '0-20mm (Gerimis)', insiden: 268 },
+  { name: '20-50mm (Sedang)', insiden: 2500 },
+  { name: '50-100mm (Lebat)', insiden: 4000 },
+  { name: '>100mm (Ekstrem)', insiden: 6000 },
 ];
 
 const elevationRisk = [
@@ -36,7 +36,7 @@ export default function ExploratoryDataAnalysis() {
                     Exploratory Data Analysis
                 </h1>
                 <p className="text-slate-400 max-w-3xl text-sm sm:text-base leading-relaxed">
-                    Visualisasi wawasan historis dari jutaan titik data spasial dan presipitasi iklim di Jabodetabek. Metrik ini merupakan *ground truth* sebelum model AI XGBoost mempelajari pola bahaya.
+                    Visualisasi wawasan historis dari 175.285 titik data spasial dan presipitasi iklim di Jabodetabek. Metrik ini merupakan *ground truth* sebelum model AI XGBoost mempelajari pola bahaya.
                 </p>
             </header>
 
@@ -74,7 +74,7 @@ export default function ExploratoryDataAnalysis() {
                     <div className="mt-6 pt-4 border-t border-slate-800 flex items-start">
                         <div className="w-2 h-2 rounded-full bg-cyan-400 mt-1.5 mr-3 glow-border-cyan shrink-0"></div>
                         <p className="text-sm text-slate-400 leading-relaxed">
-                            <strong className="text-white block mb-1">Ketimpangan Data (Imbalance):</strong> Rasio jalanan yang kering (Aman) mendominasi 72% dari dataset, sementara insiden banjir hanya 28%. Ketimpangan ini membuat model *Machine Learning* harus dioptimasi secara khusus (contoh: *SMOTE*) agar tidak bias ke arah "Aman".
+                            <strong className="text-white block mb-1">Ketimpangan Data (Imbalance):</strong> Dari total 175.285 baris *dataset*, rute yang kering (Aman) mendominasi 92.7% (162.517 kasus), sementara insiden banjir hanya 7.3% (12.768 kasus). Ketimpangan masif ini (*Scale Pos Weight* 12.7x) diatasi menggunakan algoritma penyeimbang (SMOTE/Class Weight) di *backend* agar AI tidak bias.
                         </p>
                     </div>
                 </div>
@@ -108,7 +108,7 @@ export default function ExploratoryDataAnalysis() {
                     <div className="mt-6 pt-4 border-t border-slate-800 flex items-start">
                         <div className="w-2 h-2 rounded-full bg-purple-400 mt-1.5 mr-3 glow-border-cyan shrink-0"></div>
                         <p className="text-sm text-slate-400 leading-relaxed">
-                            <strong className="text-white block mb-1">Ambang Batas Bencana:</strong> Visualisasi membuktikan terjadinya lonjakan eksponensial (*spike*) insiden genangan ketika curah hujan melampaui angka 50mm. Angka 50mm ini menjadi parameter *threshold* krusial dalam sistem peringatan dini UrbanShield.
+                            <strong className="text-white block mb-1">Ambang Batas Bencana:</strong> Dari 12.768 total titik banjir, mayoritas eksponensial (lebih dari 10.000 insiden) terjadi ketika curah hujan melampaui angka 50mm. Angka ini tervalidasi sebagai parameter *threshold* krusial dalam algoritma prediksi bahaya UrbanShield.
                         </p>
                     </div>
                 </div>
@@ -141,7 +141,7 @@ export default function ExploratoryDataAnalysis() {
                     <div className="mt-6 pt-4 border-t border-slate-800 flex items-start">
                         <div className="w-2 h-2 rounded-full bg-cyan-400 mt-1.5 mr-3 glow-border-cyan shrink-0"></div>
                         <p className="text-sm text-slate-400 leading-relaxed">
-                            <strong className="text-white block mb-1">Geografi Jakarta Utara:</strong> Probabilitas genangan tertinggi (85%) terkonsentrasi kuat pada elevasi 0-5 mdpl (*meter di atas permukaan laut*). Data ini menegaskan urgensi proteksi ekstra untuk rute logistik yang melewati area pesisir seperti Pelabuhan Tanjung Priok dan Cengkareng.
+                            <strong className="text-white block mb-1">Geografi Jakarta Utara:</strong> Probabilitas genangan tertinggi (85%) terkonsentrasi kuat pada elevasi 0-5 mdpl (*meter di atas permukaan laut*). Sebanyak lebih dari 10.800 kasus banjir terkunci di dataran rendah pesisir, menegaskan urgensi mitigasi armada untuk area sekitar Pelabuhan Tanjung Priok.
                         </p>
                     </div>
                 </div>
