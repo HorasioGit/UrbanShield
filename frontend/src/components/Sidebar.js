@@ -12,6 +12,7 @@ export default function Sidebar() {
         { name: "Meteorology Hub", href: "/meteorology", icon: CloudLightning },
         { name: "Fleet Command", href: "/fleet", icon: Truck },
         { name: "Data Insights", href: "/data", icon: Database },
+        { name: "Market Intelligence", href: "/eda", icon: Activity },
         { name: "API Portal", href: "/api-portal", icon: Code },
     ];
 
