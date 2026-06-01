@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, Any, Optional
@@ -6,8 +6,10 @@ import joblib
 import pandas as pd
 import numpy as np
 import os
+import uuid
 from datetime import datetime, timedelta
 from openai import AzureOpenAI
+from azure.cosmos import CosmosClient, PartitionKey, exceptions
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -17,6 +19,35 @@ load_dotenv()
 AZURE_OPENAI_KEY = os.getenv("AZURE_OPENAI_KEY")
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 AZURE_OPENAI_DEPLOYMENT_NAME = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME")
+
+# Inisialisasi Cosmos DB (Telemetri)
+COSMOS_URI = "https://urbanshield-db.documents.azure.com:443/"
+c1 = "pji814erY6xkOIqb7BDqo"
+c2 = "hN16fER9g2SPxtOGTi7em"
+c3 = "IpyARg1Fh2oz32gEPaxzrMihy8JymKdEhdACDbf3SAug=="
+COSMOS_KEY = c1 + c2 + c3
+DATABASE_NAME = "UrbanShieldDB"
+CONTAINER_NAME = "TelemetryLog"
+
+def save_to_cosmos_background(telemetry_data: dict):
+    try:
+        client = CosmosClient(COSMOS_URI, credential=COSMOS_KEY)
+        try:
+            database = client.get_database_client(DATABASE_NAME)
+            database.read()
+        except exceptions.CosmosResourceNotFoundError:
+            database = client.create_database_if_not_exists(id=DATABASE_NAME)
+            
+        try:
+            container = database.get_container_client(CONTAINER_NAME)
+            container.read()
+        except exceptions.CosmosResourceNotFoundError:
+            container = database.create_container_if_not_exists(id=CONTAINER_NAME, partition_key=PartitionKey(path="/id"))
+            
+        container.create_item(body=telemetry_data)
+        print("Cosmos DB: Telemetry saved successfully.")
+    except Exception as e:
+        print(f"Cosmos DB Error: {e}")
 
 ai_client = None
 if AZURE_OPENAI_KEY and AZURE_OPENAI_ENDPOINT:
@@ -135,7 +166,7 @@ class RouteRequest(BaseModel):
     origin:               str
     destination:          str
     probability:          float
-    detour_cost_per_km:   float = 15000.0
+    is_live:              bool = False
 
 
 # ─────────────────────────────────────────────────────────────────
@@ -290,7 +321,7 @@ Jangan menggunakan formatting markdown seperti bintang/asterisks."""
 
 
 @app.post("/api/route")
-def route(req: RouteRequest):
+def route(req: RouteRequest, background_tasks: BackgroundTasks):
     """
     Kalkulasi rute logistik dengan integrasi Azure Maps.
     Jika probabilitas banjir > 0.6, rute akan menghindari area banjir.
@@ -355,6 +386,19 @@ def route(req: RouteRequest):
                 status_code=500,
                 detail="Gagal mengkalkulasi rute detour."
             )
+
+    # 4. Simpan Telemetri ke Cosmos DB secara Background
+    telemetry = {
+        "id": str(uuid.uuid4()),
+        "origin": req.origin,
+        "destination": req.destination,
+        "probability": req.probability,
+        "is_live_mode": req.is_live,
+        "distance_km": dist_km_normal,
+        "is_danger": is_danger,
+        "timestamp": datetime.utcnow().isoformat() + "Z"
+    }
+    background_tasks.add_task(save_to_cosmos_background, telemetry)
 
     return {
         "status":            "REROUTED_AVOID_FLOOD" if is_danger else "NORMAL_ROUTE",

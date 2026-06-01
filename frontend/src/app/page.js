@@ -132,7 +132,8 @@ export default function Dashboard() {
                     body: JSON.stringify({ 
                         origin: origin,
                         destination: destination,
-                        probability: activeProb
+                        probability: activeProb,
+                        is_live: isLiveMode
                     })
                 });
                 
@@ -168,6 +169,7 @@ export default function Dashboard() {
                     destination: destination,
                     prob: activeProb,
                     time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+                    isLive: isLiveMode
                 }, ...history].slice(0, 3);
                 setHistory(newHist);
                 localStorage.setItem('urbanshield_history', JSON.stringify(newHist));
@@ -427,7 +429,12 @@ export default function Dashboard() {
                                     history.map((item, idx) => (
                                         <div key={idx} className="bg-slate-900/50 rounded-lg p-3 border border-slate-700 text-[10px] shadow-inner">
                                             <div className="flex justify-between items-start mb-1.5">
-                                                <span className="text-slate-400 font-mono">{item.time}</span>
+                                                <span className="text-slate-400 font-mono">
+                                                    {item.time} 
+                                                    <span className={`ml-2 px-1.5 py-0.5 rounded text-[8px] font-bold ${item.isLive ? 'bg-cyan-900/50 text-cyan-400 border border-cyan-700/50' : 'bg-amber-900/50 text-amber-400 border border-amber-700/50'}`}>
+                                                        {item.isLive ? 'LIVE' : 'SIM'}
+                                                    </span>
+                                                </span>
                                                 <span className={`font-bold ${item.prob > 0.6 ? 'text-rose-400' : 'text-emerald-400'}`}>
                                                     {(item.prob * 100).toFixed(0)}% Risk
                                                 </span>
