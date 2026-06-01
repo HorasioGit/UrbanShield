@@ -175,6 +175,14 @@ export default function Dashboard() {
         } catch (error) {
             console.error(error);
             setErrorMsg(error.message);
+            
+            // Putar suara peringatan error
+            if(error.message.includes("AKSES DITOLAK")) {
+                 playVoiceWarning("Sistem mendeteksi anomali. Akses Ditolak. Area tujuan berada di luar perimeter pantauan radar Jabodetabek.");
+            } else {
+                 playVoiceWarning("Kegagalan tautan satelit. Harap periksa kembali parameter masukan Anda.");
+            }
+
             // Reset semua data ke 0 agar bersih saat error
             setRouteData(null);
             setAdvisor(null);
