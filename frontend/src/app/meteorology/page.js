@@ -1,16 +1,20 @@
 "use client";
 
-import { CloudLightning, Thermometer, Wind, Droplets } from 'lucide-react';
+import { CloudLightning, Thermometer, Wind, Droplets, Activity } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 
 const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
 const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
 const CircleMarker = dynamic(() => import('react-leaflet').then(mod => mod.CircleMarker), { ssr: false });
+const Circle = dynamic(() => import('react-leaflet').then(mod => mod.Circle), { ssr: false });
 const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
 
 export default function MeteorologyHub() {
     const [isMounted, setIsMounted] = useState(false);
+    const [showRain, setShowRain] = useState(true);
+    const [showTopography, setShowTopography] = useState(false);
+    const [showHistorical, setShowHistorical] = useState(false);
 
     useEffect(() => {
         setIsMounted(true);
@@ -22,6 +26,21 @@ export default function MeteorologyHub() {
         { name: "Jakarta Selatan (Blok M)", lat: -6.2444, lon: 106.8006, rain: 2, color: '#10b981' },
         { name: "Depok", lat: -6.4025, lon: 106.8227, rain: 0, color: '#10b981' },
         { name: "Bogor (Bendung Katulampa)", lat: -6.6345, lon: 106.8344, rain: 60, color: '#ef4444' }
+    ];
+
+    const topoNodes = [
+        { name: "Penjaringan (0.5m mdpl)", lat: -6.1176, lon: 106.8026, elevation: 0.5, radius: 2500 },
+        { name: "Tanjung Priok (1.0m mdpl)", lat: -6.1158, lon: 106.8856, elevation: 1.0, radius: 2000 },
+        { name: "Kelapa Gading (2.0m mdpl)", lat: -6.1557, lon: 106.9011, elevation: 2.0, radius: 2200 },
+        { name: "Cengkareng (3.0m mdpl)", lat: -6.1628, lon: 106.7371, elevation: 3.0, radius: 2800 }
+    ];
+
+    const historicalHotspots = [
+        { name: "Titik Banjir Sunter Jaya (1.200 Kejadian)", lat: -6.1420, lon: 106.8780, incidents: 1200, radius: 1500 },
+        { name: "Titik Banjir Pluit (850 Kejadian)", lat: -6.1100, lon: 106.7967, incidents: 850, radius: 1200 },
+        { name: "Titik Banjir Manggarai (2.100 Kejadian)", lat: -6.2103, lon: 106.8512, incidents: 2100, radius: 1800 },
+        { name: "Titik Banjir Kemang (950 Kejadian)", lat: -6.2625, lon: 106.8127, incidents: 950, radius: 1400 },
+        { name: "Titik Banjir Kampung Melayu (1.800 Kejadian)", lat: -6.2230, lon: 106.8630, incidents: 1800, radius: 1600 }
     ];
 
     return (
@@ -71,22 +90,77 @@ export default function MeteorologyHub() {
 
             <div className="flex-1 glass-panel rounded-2xl overflow-hidden border border-slate-700 relative z-10 shadow-2xl">
                 {isMounted ? (
-                    <MapContainer center={[-6.25, 106.84]} zoom={10} className="h-full w-full" zoomControl={false}>
-                        <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
-                        {nodes.map(node => (
-                            <CircleMarker 
-                                key={node.name}
-                                center={[node.lat, node.lon]}
-                                pathOptions={{ color: node.color, fillColor: node.color }}
-                                radius={node.rain > 30 ? 30 : node.rain > 10 ? 15 : 8}
-                                fillOpacity={0.4}
-                            >
-                                <Popup>
-                                    <b>{node.name}</b><br/>Curah Hujan: {node.rain} mm
-                                </Popup>
-                            </CircleMarker>
-                        ))}
-                    </MapContainer>
+                    <div className="relative w-full h-full">
+                        {/* Floating Layer Control Panel */}
+                        <div className="absolute top-4 right-4 z-[1000] glass-panel p-4 flex flex-col gap-2.5 w-60 border-slate-800/50 shadow-2xl">
+                            <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 flex items-center">
+                                <Activity className="w-4 h-4 mr-2 text-cyan-400 animate-pulse" />
+                                Radar Layer Control
+                            </h3>
+                            <label className="flex items-center space-x-3 text-xs text-slate-300 cursor-pointer hover:text-slate-100 transition-colors">
+                                <input type="checkbox" checked={showRain} onChange={() => setShowRain(!showRain)}
+                                    className="w-4 h-4 rounded border-slate-700 bg-slate-900 text-cyan-500 focus:ring-cyan-500 accent-cyan-500 outline-none cursor-pointer" />
+                                <span className="font-semibold">Satelit Curah Hujan</span>
+                            </label>
+                            <label className="flex items-center space-x-3 text-xs text-slate-300 cursor-pointer hover:text-slate-100 transition-colors">
+                                <input type="checkbox" checked={showTopography} onChange={() => setShowTopography(!showTopography)}
+                                    className="w-4 h-4 rounded border-slate-700 bg-slate-900 text-purple-500 focus:ring-purple-500 accent-purple-500 outline-none cursor-pointer" />
+                                <span className="font-semibold">Kerentanan Topografi</span>
+                            </label>
+                            <label className="flex items-center space-x-3 text-xs text-slate-300 cursor-pointer hover:text-slate-100 transition-colors">
+                                <input type="checkbox" checked={showHistorical} onChange={() => setShowHistorical(!showHistorical)}
+                                    className="w-4 h-4 rounded border-slate-700 bg-slate-900 text-rose-500 focus:ring-rose-500 accent-rose-500 outline-none cursor-pointer" />
+                                <span className="font-semibold">Titik Banjir Historis</span>
+                            </label>
+                        </div>
+
+                        <MapContainer center={[-6.25, 106.84]} zoom={10} className="h-full w-full" zoomControl={false}>
+                            <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
+                            
+                            {/* Rainfall Layer */}
+                            {showRain && nodes.map(node => (
+                                <CircleMarker 
+                                    key={node.name}
+                                    center={[node.lat, node.lon]}
+                                    pathOptions={{ color: node.color, fillColor: node.color }}
+                                    radius={node.rain > 30 ? 30 : node.rain > 10 ? 15 : 8}
+                                    fillOpacity={0.4}
+                                >
+                                    <Popup>
+                                        <b>{node.name}</b><br/>Curah Hujan: {node.rain} mm
+                                    </Popup>
+                                </CircleMarker>
+                            ))}
+
+                            {/* Topography Layer */}
+                            {showTopography && topoNodes.map(node => (
+                                <Circle 
+                                    key={node.name}
+                                    center={[node.lat, node.lon]}
+                                    radius={node.radius}
+                                    pathOptions={{ color: '#a855f7', fillColor: '#a855f7', fillOpacity: 0.15, weight: 1.5 }}
+                                >
+                                    <Popup>
+                                        <b>{node.name}</b><br/>Elevasi Rendah: {node.elevation}m mdpl<br/>Kerentanan Sangat Tinggi
+                                    </Popup>
+                                </Circle>
+                            ))}
+
+                            {/* Historical Hotspots Layer */}
+                            {showHistorical && historicalHotspots.map(node => (
+                                <Circle 
+                                    key={node.name}
+                                    center={[node.lat, node.lon]}
+                                    radius={node.radius}
+                                    pathOptions={{ color: '#f43f5e', fillColor: '#f43f5e', fillOpacity: 0.2, weight: 2, dashArray: "5, 5" }}
+                                >
+                                    <Popup>
+                                        <b>{node.name}</b><br/>Total Kejadian Historis: {node.incidents} kali
+                                    </Popup>
+                                </Circle>
+                            ))}
+                        </MapContainer>
+                    </div>
                 ) : (
                      <div className="h-full w-full bg-slate-900/50 animate-pulse flex items-center justify-center">Loading Satelit...</div>
                 )}

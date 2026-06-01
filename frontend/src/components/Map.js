@@ -94,9 +94,12 @@ export default function Map({ routeData }) {
             {route_coords && route_coords.length > 0 && (
                 <Polyline 
                     positions={route_coords} 
-                    color="#3b82f6" 
-                    weight={6} 
-                    opacity={0.85}
+                    pathOptions={{
+                        className: "animated-route-line",
+                        color: "#3b82f6", 
+                        weight: 6, 
+                        opacity: 0.85
+                    }}
                 />
             )}
 

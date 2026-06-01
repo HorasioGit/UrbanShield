@@ -108,3 +108,16 @@ body {
   0% { background-position: 0 0, 15px 15px; }
   100% { background-position: 0 1000px, 15px 1000px; }
 }
+
+/* Animated Polyline (Rute Mengalir) */
+.animated-route-line {
+  stroke-dasharray: 15, 15;
+  animation: routeFlow 2.5s linear infinite;
+}
+
+@keyframes routeFlow {
+  to {
+    stroke-dashoffset: -30;
+  }
+}
+
