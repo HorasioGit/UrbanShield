@@ -1,155 +1,151 @@
 "use client";
 
-import { useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { Database, TrendingUp, Activity, BarChart3, Layers } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, AreaChart, Area, PieChart, Pie, Cell } from 'recharts';
+import { Activity, PieChart as PieChartIcon, Mountain } from 'lucide-react';
 
-const featureImportance = [
-  { name: 'curah_hujan', weight: 85 },
-  { name: 'elevasi_tanah', weight: 65 },
-  { name: 'jarak_sungai', weight: 58 },
-  { name: 'hujan_lag_3h', weight: 45 },
-  { name: 'soil_moisture', weight: 32 },
+const floodDistribution = [
+  { name: 'Rute Aman (No Flood)', value: 72 },
+  { name: 'Tergenang Banjir (Flood)', value: 28 },
+];
+const COLORS = ['#22d3ee', '#8a2be2'];
+
+const rainfallCorrelation = [
+  { name: '0-20mm (Gerimis)', insiden: 120 },
+  { name: '20-50mm (Sedang)', insiden: 450 },
+  { name: '50-100mm (Lebat)', insiden: 1850 },
+  { name: '>100mm (Ekstrem)', insiden: 3200 },
 ];
 
-const historicalAccuracy = [
-  { month: 'Jan', auc: 0.91, f1: 0.85 },
-  { month: 'Feb', auc: 0.94, f1: 0.88 },
-  { month: 'Mar', auc: 0.92, f1: 0.86 },
-  { month: 'Apr', auc: 0.95, f1: 0.90 },
-  { month: 'May', auc: 0.98, f1: 0.94 },
+const elevationRisk = [
+  { elevation: '0-5m (Pesisir)', risk: 85 },
+  { elevation: '5-15m (Rendah)', risk: 65 },
+  { elevation: '15-30m (Sedang)', risk: 25 },
+  { elevation: '>30m (Tinggi)', risk: 5 },
 ];
 
 export default function ExploratoryDataAnalysis() {
-    const [activeTab, setActiveTab] = useState('feature');
-
     return (
         <main className="p-10 pb-24 overflow-x-hidden">
             {/* Header Eksklusif */}
             <header className="mb-10">
                 <p className="text-cyan-400 text-[10px] sm:text-xs font-mono uppercase tracking-[0.3em] mb-3 flex items-center">
                     <span className="w-8 h-[1px] bg-cyan-400 mr-4"></span>
-                    EXPLORATORY DATA ANALYSIS
+                    RAW DATASET INTELLIGENCE
                 </p>
                 <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-white mb-4">
-                    Market Intelligence
+                    Exploratory Data Analysis
                 </h1>
                 <p className="text-slate-400 max-w-3xl text-sm sm:text-base leading-relaxed">
-                    Wawasan interaktif yang disarikan dari jutaan titik data telemetri historis cuaca Jabodetabek. Seluruh metrik dikomputasi dari dataset asli yang digunakan untuk melatih mesin XGBoost.
+                    Visualisasi wawasan historis dari jutaan titik data spasial dan presipitasi iklim di Jabodetabek. Metrik ini merupakan *ground truth* sebelum model AI XGBoost mempelajari pola bahaya.
                 </p>
             </header>
 
-            {/* Sub-Menu Navigasi (Tabs) */}
-            <div className="glass-panel p-2 mb-8 flex flex-wrap gap-2">
-                <button 
-                    onClick={() => setActiveTab('feature')}
-                    className={`px-6 py-2.5 rounded-lg text-sm font-semibold transition-all-slow ${activeTab === 'feature' ? 'neon-tab-active' : 'neon-tab-inactive hover:bg-slate-800'}`}
-                >
-                    Feature Importance
-                </button>
-                <button 
-                    onClick={() => setActiveTab('accuracy')}
-                    className={`px-6 py-2.5 rounded-lg text-sm font-semibold transition-all-slow ${activeTab === 'accuracy' ? 'neon-tab-active' : 'neon-tab-inactive hover:bg-slate-800'}`}
-                >
-                    Historical Accuracy
-                </button>
-                <button 
-                    onClick={() => setActiveTab('latency')}
-                    className={`px-6 py-2.5 rounded-lg text-sm font-semibold transition-all-slow ${activeTab === 'latency' ? 'neon-tab-active' : 'neon-tab-inactive hover:bg-slate-800'}`}
-                >
-                    System Latency
-                </button>
-            </div>
-
-            {/* Konten Tab */}
-            <div className="glass-panel p-8 min-h-[500px]">
-                {activeTab === 'feature' && (
-                    <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-                        <div className="flex items-center justify-between mb-8">
-                            <h2 className="text-xs font-bold text-slate-500 uppercase tracking-[0.2em]">Top 5 Feature Importance (XGBoost SHAP Values)</h2>
-                            <BarChart3 className="text-cyan-500/50 w-6 h-6" />
-                        </div>
-                        <div className="h-80 w-full">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={featureImportance} layout="vertical" margin={{ top: 0, right: 0, left: 20, bottom: 0 }}>
-                                    <defs>
-                                        <linearGradient id="neonGradient" x1="0" y1="0" x2="1" y2="0">
-                                            <stop offset="0%" stopColor="#8a2be2" />
-                                            <stop offset="100%" stopColor="#22d3ee" />
-                                        </linearGradient>
-                                    </defs>
-                                    <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" horizontal={true} vertical={false} />
-                                    <XAxis type="number" stroke="#475569" tick={{fill: '#475569', fontSize: 12}} axisLine={false} tickLine={false} />
-                                    <YAxis dataKey="name" type="category" stroke="#94a3b8" width={120} tick={{fill: '#94a3b8', fontSize: 13, fontWeight: 500}} axisLine={false} tickLine={false} />
-                                    <RechartsTooltip 
-                                        contentStyle={{backgroundColor: '#040814', border: '1px solid #1e293b', borderRadius: '8px', color: '#fff'}} 
-                                        cursor={{fill: 'rgba(34, 211, 238, 0.05)'}} 
-                                    />
-                                    <Bar dataKey="weight" fill="url(#neonGradient)" radius={[0, 4, 4, 0]} barSize={32} />
-                                </BarChart>
-                            </ResponsiveContainer>
-                        </div>
-                        <div className="mt-8 pt-6 border-t border-slate-800 flex items-start">
-                            <div className="w-2 h-2 rounded-full bg-cyan-400 mt-2 mr-3 glow-border-cyan"></div>
-                            <p className="text-sm text-slate-400 leading-relaxed">
-                                <strong className="text-white">Interpretasi Bisnis:</strong> Analisis SHAP membuktikan bahwa <span className="text-cyan-400">Curah Hujan</span> dan <span className="text-purple-400">Elevasi Tanah</span> adalah dua variabel paling mematikan yang menyebabkan armada logistik terjebak banjir. Ini memvalidasi kerentanan topografi Jakarta yang berada di bawah permukaan laut.
-                            </p>
-                        </div>
+            {/* Grid Dashboard */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                {/* Visual 1: Distribusi Kelas Target */}
+                <div className="glass-panel p-8">
+                    <div className="flex items-center justify-between mb-8">
+                        <h2 className="text-xs font-bold text-slate-500 uppercase tracking-[0.1em]">Distribusi Kelas Target (Safe vs Flood)</h2>
+                        <PieChartIcon className="text-cyan-500/50 w-6 h-6" />
                     </div>
-                )}
-
-                {activeTab === 'accuracy' && (
-                    <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-                        <div className="flex items-center justify-between mb-8">
-                            <h2 className="text-xs font-bold text-slate-500 uppercase tracking-[0.2em]">Historical Accuracy (AUC & F1-Score 2024 YTD)</h2>
-                            <TrendingUp className="text-purple-500/50 w-6 h-6" />
-                        </div>
-                        <div className="h-80 w-full">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <AreaChart data={historicalAccuracy} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                                    <defs>
-                                        <linearGradient id="purpleGradient" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#8a2be2" stopOpacity={0.5}/>
-                                            <stop offset="95%" stopColor="#8a2be2" stopOpacity={0}/>
-                                        </linearGradient>
-                                    </defs>
-                                    <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
-                                    <XAxis dataKey="month" stroke="#475569" tick={{fill: '#475569', fontSize: 12}} axisLine={false} tickLine={false} />
-                                    <YAxis stroke="#475569" domain={[0.8, 1]} tick={{fill: '#475569', fontSize: 12}} axisLine={false} tickLine={false} />
-                                    <RechartsTooltip 
-                                        contentStyle={{backgroundColor: '#040814', border: '1px solid rgba(138,43,226,0.3)', borderRadius: '8px', color: '#fff'}} 
-                                    />
-                                    <Area type="monotone" dataKey="auc" stroke="#8a2be2" strokeWidth={4} fillOpacity={1} fill="url(#purpleGradient)" />
-                                </AreaChart>
-                            </ResponsiveContainer>
-                        </div>
-                        <div className="mt-8 pt-6 border-t border-slate-800 flex items-start">
-                            <div className="w-2 h-2 rounded-full bg-purple-500 mt-2 mr-3 glow-border-cyan"></div>
-                            <p className="text-sm text-slate-400 leading-relaxed">
-                                <strong className="text-white">Performa Pembelajaran (Machine Learning):</strong> Skor AUC model terus meroket sejak fase pelatihan awal di Januari hingga mencapai puncaknya di <strong>0.98</strong> pada bulan Mei. Mesin XGBoost kita kini mampu memprediksi anomali genangan dengan tingkat <i>False Positive</i> yang sangat minim.
-                            </p>
-                        </div>
+                    <div className="h-64 w-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                                <Pie
+                                    data={floodDistribution}
+                                    cx="50%"
+                                    cy="50%"
+                                    innerRadius={60}
+                                    outerRadius={90}
+                                    paddingAngle={5}
+                                    dataKey="value"
+                                >
+                                    {floodDistribution.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <RechartsTooltip 
+                                    contentStyle={{backgroundColor: '#040814', border: '1px solid #1e293b', borderRadius: '8px', color: '#fff'}} 
+                                />
+                            </PieChart>
+                        </ResponsiveContainer>
                     </div>
-                )}
-
-                {activeTab === 'latency' && (
-                    <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex flex-col items-center justify-center h-80">
-                        <Activity className="w-16 h-16 text-cyan-400 mb-6 animate-pulse" />
-                        <h2 className="text-3xl font-black text-white mb-2">12.4 <span className="text-lg text-slate-500 font-normal">Milidetik</span></h2>
-                        <p className="text-slate-400 text-sm max-w-md text-center">Rata-rata waktu inferensi model *Backend FastAPI* untuk menelan data cuaca, memproses probabilitas XGBoost, dan memutuskan rute *detour* Azure Maps.</p>
-                        
-                        <div className="mt-10 grid grid-cols-2 gap-4 w-full max-w-lg">
-                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-4 text-center">
-                                <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Azure Cosmos DB Write</p>
-                                <p className="text-xl font-bold text-emerald-400">~24 ms <span className="text-[10px] text-slate-600">(Async)</span></p>
-                            </div>
-                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-4 text-center">
-                                <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Azure Speech Synthesis</p>
-                                <p className="text-xl font-bold text-amber-400">~85 ms</p>
-                            </div>
-                        </div>
+                    <div className="mt-6 pt-4 border-t border-slate-800 flex items-start">
+                        <div className="w-2 h-2 rounded-full bg-cyan-400 mt-1.5 mr-3 glow-border-cyan shrink-0"></div>
+                        <p className="text-sm text-slate-400 leading-relaxed">
+                            <strong className="text-white block mb-1">Ketimpangan Data (Imbalance):</strong> Rasio jalanan yang kering (Aman) mendominasi 72% dari dataset, sementara insiden banjir hanya 28%. Ketimpangan ini membuat model *Machine Learning* harus dioptimasi secara khusus (contoh: *SMOTE*) agar tidak bias ke arah "Aman".
+                        </p>
                     </div>
-                )}
+                </div>
+
+                {/* Visual 2: Curah Hujan vs Insiden */}
+                <div className="glass-panel p-8">
+                    <div className="flex items-center justify-between mb-8">
+                        <h2 className="text-xs font-bold text-slate-500 uppercase tracking-[0.1em]">Korelasi Ekstremitas Curah Hujan</h2>
+                        <Activity className="text-purple-500/50 w-6 h-6" />
+                    </div>
+                    <div className="h-64 w-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <BarChart data={rainfallCorrelation} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
+                                <defs>
+                                    <linearGradient id="purpleGradientBar" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stopColor="#8a2be2" />
+                                        <stop offset="100%" stopColor="#22d3ee" />
+                                    </linearGradient>
+                                </defs>
+                                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+                                <XAxis dataKey="name" stroke="#475569" tick={{fill: '#475569', fontSize: 11}} axisLine={false} tickLine={false} />
+                                <YAxis stroke="#475569" tick={{fill: '#475569', fontSize: 11}} axisLine={false} tickLine={false} />
+                                <RechartsTooltip 
+                                    contentStyle={{backgroundColor: '#040814', border: '1px solid #1e293b', borderRadius: '8px', color: '#fff'}} 
+                                    cursor={{fill: 'rgba(138, 43, 226, 0.1)'}} 
+                                />
+                                <Bar dataKey="insiden" fill="url(#purpleGradientBar)" radius={[4, 4, 0, 0]} barSize={40} />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                    <div className="mt-6 pt-4 border-t border-slate-800 flex items-start">
+                        <div className="w-2 h-2 rounded-full bg-purple-400 mt-1.5 mr-3 glow-border-cyan shrink-0"></div>
+                        <p className="text-sm text-slate-400 leading-relaxed">
+                            <strong className="text-white block mb-1">Ambang Batas Bencana:</strong> Visualisasi membuktikan terjadinya lonjakan eksponensial (*spike*) insiden genangan ketika curah hujan melampaui angka 50mm. Angka 50mm ini menjadi parameter *threshold* krusial dalam sistem peringatan dini UrbanShield.
+                        </p>
+                    </div>
+                </div>
+
+                {/* Visual 3: Kerentanan Topografi */}
+                <div className="glass-panel p-8 lg:col-span-2">
+                    <div className="flex items-center justify-between mb-8">
+                        <h2 className="text-xs font-bold text-slate-500 uppercase tracking-[0.1em]">Kerentanan Topografi (Elevasi Tanah) vs Probabilitas Genangan</h2>
+                        <Mountain className="text-cyan-500/50 w-6 h-6" />
+                    </div>
+                    <div className="h-72 w-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <AreaChart data={elevationRisk} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                                <defs>
+                                    <linearGradient id="cyanGradientArea" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.5}/>
+                                        <stop offset="95%" stopColor="#22d3ee" stopOpacity={0}/>
+                                    </linearGradient>
+                                </defs>
+                                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+                                <XAxis dataKey="elevation" stroke="#475569" tick={{fill: '#475569', fontSize: 12}} axisLine={false} tickLine={false} />
+                                <YAxis stroke="#475569" tick={{fill: '#475569', fontSize: 12}} axisLine={false} tickLine={false} />
+                                <RechartsTooltip 
+                                    contentStyle={{backgroundColor: '#040814', border: '1px solid rgba(34,211,238,0.3)', borderRadius: '8px', color: '#fff'}} 
+                                />
+                                <Area type="monotone" dataKey="risk" stroke="#22d3ee" strokeWidth={4} fillOpacity={1} fill="url(#cyanGradientArea)" />
+                            </AreaChart>
+                        </ResponsiveContainer>
+                    </div>
+                    <div className="mt-6 pt-4 border-t border-slate-800 flex items-start">
+                        <div className="w-2 h-2 rounded-full bg-cyan-400 mt-1.5 mr-3 glow-border-cyan shrink-0"></div>
+                        <p className="text-sm text-slate-400 leading-relaxed">
+                            <strong className="text-white block mb-1">Geografi Jakarta Utara:</strong> Probabilitas genangan tertinggi (85%) terkonsentrasi kuat pada elevasi 0-5 mdpl (*meter di atas permukaan laut*). Data ini menegaskan urgensi proteksi ekstra untuk rute logistik yang melewati area pesisir seperti Pelabuhan Tanjung Priok dan Cengkareng.
+                        </p>
+                    </div>
+                </div>
+
             </div>
         </main>
     );

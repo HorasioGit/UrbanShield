@@ -11,8 +11,8 @@ export default function Sidebar() {
         { name: "Route Simulator", href: "/", icon: Navigation },
         { name: "Meteorology Hub", href: "/meteorology", icon: CloudLightning },
         { name: "Fleet Command", href: "/fleet", icon: Truck },
+        { name: "Exploratory Data Analysis", href: "/eda", icon: Activity },
         { name: "Data Insights", href: "/data", icon: Database },
-        { name: "Market Intelligence", href: "/eda", icon: Activity },
         { name: "API Portal", href: "/api-portal", icon: Code },
     ];
 
