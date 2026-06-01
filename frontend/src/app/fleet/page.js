@@ -106,7 +106,8 @@ export default function FleetCommand() {
                             {isDispatching ? (
                                 <><RefreshCw className="w-3.5 h-3.5 mr-2 animate-spin" /> Uplinking satelit...</>
                             ) : (
-                                <><Play className="w-3.5 h-3.5 mr-2" /> Mulai Dispatch Konvoi</>}
+                                <><Play className="w-3.5 h-3.5 mr-2" /> Mulai Dispatch Konvoi</>
+                            )}
                         </button>
                         {isDispatching && (
                             <div className="text-xs text-slate-400 font-mono">
