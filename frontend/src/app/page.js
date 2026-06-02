@@ -237,37 +237,37 @@ export default function Dashboard() {
                 <div className="flex flex-col xl:flex-row gap-6 shrink-0">
                     {/* Mission Parameters (TOP ROW VERSION) */}
                     <div className="flex-1 glass-panel p-6 border-t-2 border-t-cyan-500/50 flex flex-col justify-center shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
-                        <h2 className="text-base font-bold mb-5 flex items-center text-cyan-300 uppercase tracking-widest text-xs">
+                        <h2 className="text-base font-bold mb-6 flex items-center text-cyan-300 uppercase tracking-widest text-xs">
                             <Navigation className="w-4 h-4 mr-2" />
                             Mission Parameters
                         </h2>
                         
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
-                            <div className="space-y-4">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
+                            <div className="lg:col-span-5 space-y-5">
                                 <div>
-                                    <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase">Lokasi Keberangkatan</label>
+                                    <label className="text-[10px] text-cyan-500/80 mb-2 block font-bold uppercase tracking-widest">Lokasi Keberangkatan</label>
                                     <div className="relative group">
                                         <MapPin className="w-4 h-4 absolute left-3 top-2.5 text-slate-500 group-focus-within:text-cyan-400 transition-colors" />
                                         <input suppressHydrationWarning type="text" value={origin} onChange={e => setOrigin(e.target.value)}
-                                            className="w-full bg-slate-900/80 border border-slate-700 rounded-lg py-2 pl-9 pr-3 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all shadow-inner" />
+                                            className="w-full bg-slate-900/80 border border-slate-700/50 rounded-lg py-2 pl-10 pr-3 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/50 outline-none transition-all shadow-inner text-slate-200" />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase">Tujuan Pengiriman</label>
+                                    <label className="text-[10px] text-cyan-500/80 mb-2 block font-bold uppercase tracking-widest">Tujuan Pengiriman</label>
                                     <div className="relative group">
                                         <MapPin className="w-4 h-4 absolute left-3 top-2.5 text-slate-500 group-focus-within:text-cyan-400 transition-colors" />
                                         <input suppressHydrationWarning type="text" value={destination} onChange={e => setDestination(e.target.value)}
-                                            className="w-full bg-slate-900/80 border border-slate-700 rounded-lg py-2 pl-9 pr-3 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all shadow-inner" />
+                                            className="w-full bg-slate-900/80 border border-slate-700/50 rounded-lg py-2 pl-10 pr-3 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/50 outline-none transition-all shadow-inner text-slate-200" />
                                     </div>
                                 </div>
                             </div>
                             
-                            <div className="space-y-4">
+                            <div className="lg:col-span-4 space-y-5">
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase">Horizon</label>
+                                        <label className="text-[10px] text-cyan-500/80 mb-2 block font-bold uppercase tracking-widest">Horizon</label>
                                         <select suppressHydrationWarning value={horizon} onChange={e => setHorizon(e.target.value)}
-                                            className="w-full bg-slate-900/80 border border-slate-700 rounded-lg py-2 px-3 text-sm focus:border-cyan-500 outline-none appearance-none shadow-inner">
+                                            className="w-full bg-slate-900/80 border border-slate-700/50 rounded-lg py-2 px-3 text-sm focus:border-cyan-500 outline-none appearance-none shadow-inner text-slate-200 cursor-pointer">
                                             <option value="0h">Nowcast</option>
                                             <option value="3h">+3 Jam</option>
                                             <option value="6h">+6 Jam</option>
@@ -275,8 +275,8 @@ export default function Dashboard() {
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase text-center">Data Source</label>
-                                        <div className="flex bg-slate-900/80 rounded-lg p-1 border border-slate-700 shadow-inner">
+                                        <label className="text-[10px] text-cyan-500/80 mb-2 block font-bold uppercase tracking-widest text-center">Data Source</label>
+                                        <div className="flex bg-slate-900/80 rounded-lg p-1 border border-slate-700/50 shadow-inner">
                                             <button suppressHydrationWarning onClick={() => setIsLiveMode(true)} className={`flex-1 text-[10px] py-1.5 rounded transition-all duration-300 ${isLiveMode ? 'bg-cyan-500 text-slate-900 font-extrabold shadow-[0_0_10px_rgba(6,182,212,0.8)]' : 'text-slate-500 hover:text-cyan-400'}`}>LIVE (API)</button>
                                             <button suppressHydrationWarning onClick={() => setIsLiveMode(false)} className={`flex-1 text-[10px] py-1.5 rounded transition-all duration-300 ${!isLiveMode ? 'bg-amber-500 text-slate-900 font-extrabold shadow-[0_0_10px_rgba(245,158,11,0.8)]' : 'text-slate-500 hover:text-amber-400'}`}>SIMULASI</button>
                                         </div>
@@ -284,9 +284,9 @@ export default function Dashboard() {
                                 </div>
                                 {!isLiveMode ? (
                                     <div className="pt-2">
-                                        <label className="flex justify-between text-xs text-slate-400 mb-2 uppercase font-medium">
-                                            <span className="flex items-center text-amber-400"><CloudRain className="w-3 h-3 mr-1"/> Curah Hujan Extremity</span>
-                                            <span className="font-mono bg-slate-800 px-2 py-0.5 rounded text-amber-300 shadow-inner">{rainIntensity} mm</span>
+                                        <label className="flex justify-between text-[10px] text-cyan-500/80 mb-2 uppercase font-bold tracking-widest">
+                                            <span className="flex items-center text-amber-400"><CloudRain className="w-3 h-3 mr-1"/> Hujan Extremity</span>
+                                            <span className="font-mono bg-slate-950/80 px-2 py-0.5 rounded border border-amber-900/50 text-amber-400 shadow-inner">{rainIntensity} mm</span>
                                         </label>
                                         <input suppressHydrationWarning 
                                             type="range" min="0" max="50" step="1" value={rainIntensity} onChange={(e) => setRainIntensity(e.target.value)}
@@ -294,13 +294,16 @@ export default function Dashboard() {
                                         />
                                     </div>
                                 ) : (
-                                    <div className="pt-2 flex items-center justify-center h-[52px] bg-slate-900/50 rounded-lg border border-cyan-900/30 shadow-inner">
-                                        <span className="text-xs text-cyan-400/70 font-mono animate-pulse flex items-center"><Activity className="w-4 h-4 mr-2" /> Live Open-Meteo Connection Active</span>
+                                    <div className="pt-1 flex items-center justify-center h-[52px] bg-cyan-950/20 rounded-lg border border-cyan-800/40 shadow-[inset_0_0_15px_rgba(34,211,238,0.1)]">
+                                        <span className="text-[11px] text-cyan-300 font-mono flex items-center tracking-widest uppercase font-bold">
+                                            <span className="relative flex h-2 w-2 mr-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span></span>
+                                            Open-Meteo Active
+                                        </span>
                                     </div>
                                 )}
                             </div>
 
-                            <div className="h-full flex flex-col justify-end">
+                            <div className="lg:col-span-3 h-full flex flex-col justify-end">
                                 <button suppressHydrationWarning onClick={handleScanRoute} disabled={isLoading}
                                     className="w-full h-[52px] bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg font-bold tracking-wider uppercase text-sm shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.7)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex justify-center items-center">
                                     {isLoading ? <><Activity className="w-4 h-4 mr-2 animate-spin" /> Uplinking...</> : <><Zap className="w-4 h-4 mr-2" /> Pindai Rute & Risiko</>}
@@ -386,22 +389,22 @@ export default function Dashboard() {
                             
                             <div className="flex flex-col gap-4 z-10 relative">
                                 {/* Card 1: Risk */}
-                                <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-700 flex flex-col justify-center shadow-inner relative overflow-hidden">
-                                    <div className="absolute -right-2 -top-2 w-16 h-16 bg-rose-500/10 rounded-full blur-xl pointer-events-none"></div>
-                                    <span className="text-[10px] text-slate-400 uppercase tracking-wide block mb-1">Risk Exposure</span>
-                                    <span className="font-mono text-rose-400 font-bold text-xl drop-shadow-[0_0_8px_rgba(244,63,94,0.6)]">Rp {advisor?.financials?.potential_loss?.toLocaleString('id-ID') || '0'}</span>
+                                <div className="bg-gradient-to-br from-rose-950/40 to-slate-900/60 p-5 rounded-xl border border-rose-900/50 flex flex-col justify-center shadow-inner relative overflow-hidden group hover:border-rose-500/50 transition-colors duration-300">
+                                    <div className="absolute -right-4 -top-4 w-20 h-20 bg-rose-500/20 rounded-full blur-2xl pointer-events-none group-hover:bg-rose-500/30 transition-all"></div>
+                                    <span className="text-[11px] text-rose-300/70 uppercase tracking-widest font-bold block mb-1">Risk Exposure</span>
+                                    <span className="font-mono text-rose-400 font-bold text-2xl drop-shadow-[0_0_12px_rgba(244,63,94,0.6)]">Rp {advisor?.financials?.potential_loss?.toLocaleString('id-ID') || '0'}</span>
                                 </div>
                                 {/* Card 2: Detour */}
-                                <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-700 flex flex-col justify-center shadow-inner relative overflow-hidden">
-                                    <div className="absolute -right-2 -top-2 w-16 h-16 bg-amber-500/10 rounded-full blur-xl pointer-events-none"></div>
-                                    <span className="text-[10px] text-slate-400 uppercase tracking-wide block mb-1">Detour Cost</span>
-                                    <span className="font-mono text-amber-300 font-bold text-xl drop-shadow-[0_0_8px_rgba(245,158,11,0.6)]">Rp {advisor?.financials?.detour_cost?.toLocaleString('id-ID') || '0'}</span>
+                                <div className="bg-gradient-to-br from-amber-950/40 to-slate-900/60 p-5 rounded-xl border border-amber-900/50 flex flex-col justify-center shadow-inner relative overflow-hidden group hover:border-amber-500/50 transition-colors duration-300">
+                                    <div className="absolute -right-4 -top-4 w-20 h-20 bg-amber-500/20 rounded-full blur-2xl pointer-events-none group-hover:bg-amber-500/30 transition-all"></div>
+                                    <span className="text-[11px] text-amber-300/70 uppercase tracking-widest font-bold block mb-1">Detour Cost</span>
+                                    <span className="font-mono text-amber-300 font-bold text-2xl drop-shadow-[0_0_12px_rgba(245,158,11,0.6)]">Rp {advisor?.financials?.detour_cost?.toLocaleString('id-ID') || '0'}</span>
                                 </div>
                                 {/* Card 3: Net Savings */}
-                                <div className="bg-emerald-500/10 p-5 rounded-xl border border-emerald-500/30 glow-border-emerald flex flex-col justify-center shadow-[0_0_20px_rgba(16,185,129,0.15)] relative overflow-hidden">
-                                    <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
-                                    <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wide block mb-1">Net Savings</span>
-                                    <span className="font-mono font-black text-emerald-400 text-3xl drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]">Rp {advisor?.financials?.net_savings?.toLocaleString('id-ID') || '0'}</span>
+                                <div className="bg-gradient-to-br from-emerald-900/40 to-emerald-950/60 p-6 rounded-xl border border-emerald-500/50 glow-border-emerald flex flex-col justify-center shadow-[0_0_30px_rgba(16,185,129,0.2)] relative overflow-hidden group">
+                                    <div className="absolute -right-6 -bottom-6 w-32 h-32 bg-emerald-500/30 rounded-full blur-3xl pointer-events-none"></div>
+                                    <span className="text-xs font-bold text-emerald-300 uppercase tracking-widest block mb-1">Net Savings</span>
+                                    <span className="font-mono font-black text-emerald-400 text-4xl drop-shadow-[0_0_15px_rgba(16,185,129,1)]">Rp {advisor?.financials?.net_savings?.toLocaleString('id-ID') || '0'}</span>
                                 </div>
                             </div>
                         </div>
@@ -416,19 +419,22 @@ export default function Dashboard() {
                                 Gen-AI Advisory
                             </h2>
                             
-                            <div className={`p-5 rounded-xl flex-1 flex items-center justify-center text-sm leading-relaxed border relative z-10 shadow-inner font-medium transition-all-slow ${
-                                advisor?.action === 'REROUTE' ? 'bg-rose-950/40 border-rose-500/50 text-rose-200' : 
-                                advisor?.action === 'PROCEED_WITH_CAUTION' ? 'bg-amber-950/40 border-amber-500/50 text-amber-200' :
-                                advisor?.action === 'PROCEED' ? 'bg-emerald-950/40 border-emerald-500/50 text-emerald-200' :
-                                'bg-slate-900/50 border-slate-700 text-slate-400 text-center'
+                            <div className={`p-6 rounded-xl flex-1 flex items-center justify-center text-[13px] leading-relaxed border relative z-10 shadow-2xl font-bold transition-all-slow tracking-wide ${
+                                advisor?.action === 'REROUTE' ? 'bg-rose-950/60 border-rose-500/80 text-rose-200 shadow-[inset_0_0_30px_rgba(244,63,94,0.2)]' : 
+                                advisor?.action === 'PROCEED_WITH_CAUTION' ? 'bg-amber-950/60 border-amber-500/80 text-amber-200 shadow-[inset_0_0_30px_rgba(245,158,11,0.2)]' :
+                                advisor?.action === 'PROCEED' ? 'bg-emerald-950/60 border-emerald-500/80 text-emerald-200 shadow-[inset_0_0_30px_rgba(16,185,129,0.2)]' :
+                                'bg-slate-900/60 border-slate-700/80 text-slate-400 text-center shadow-[inset_0_0_20px_rgba(0,0,0,0.5)]'
                             }`}>
                                 {isLoading ? (
                                     <div className="flex flex-col items-center space-y-3 text-cyan-400 animate-pulse">
-                                        <Activity className="w-6 h-6 animate-spin" />
-                                        <span className="text-xs">Menghitung proyeksi rute...</span>
+                                        <Activity className="w-8 h-8 animate-spin" />
+                                        <span className="text-xs uppercase tracking-widest font-bold">Menghitung matriks...</span>
                                     </div>
                                 ) : (
-                                    advisor?.text || "SISTEM STANDBY. Masukkan parameter dan pindai satelit untuk memunculkan instruksi manuver."
+                                    <div className="flex items-start text-left">
+                                        {advisor?.action && <Activity className={`w-5 h-5 mr-3 shrink-0 ${advisor?.action === 'REROUTE' ? 'text-rose-400' : advisor?.action === 'PROCEED' ? 'text-emerald-400' : 'text-amber-400'}`} />}
+                                        <span>{advisor?.text || "SISTEM STANDBY. Masukkan parameter dan pindai satelit untuk instruksi manuver."}</span>
+                                    </div>
                                 )}
                             </div>
                         </div>
