@@ -17,7 +17,7 @@ export default function Sidebar() {
     ];
 
     return (
-        <aside className="w-64 h-screen bg-[#030712] border-r border-slate-800/50 flex flex-col relative z-50 shadow-[5px_0_15px_rgba(0,0,0,0.5)]">
+        <aside className="w-64 h-screen bg-[#040814]/60 backdrop-blur-2xl border-r border-white/5 flex flex-col relative z-50 shadow-[10px_0_30px_rgba(0,0,0,0.5)]">
             <div className="p-6 flex items-center space-x-3 border-b border-slate-800/50">
                 <div className="p-2 bg-cyan-950/50 rounded-xl border border-cyan-800/50 shadow-[0_0_10px_rgba(34,211,238,0.2)]">
                     <ShieldAlert className="text-cyan-400 w-6 h-6 glow-text-cyan" />

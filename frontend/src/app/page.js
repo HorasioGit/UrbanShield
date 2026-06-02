@@ -248,19 +248,19 @@ export default function Dashboard() {
                         
                         <div className="flex justify-between items-stretch gap-4 mt-6 z-10 relative h-full">
                             {/* Card 1: Risk */}
-                            <div className="flex-1 bg-slate-900/60 p-4 rounded-xl border border-slate-700 flex flex-col justify-center">
+                            <div className="flex-1 bg-slate-900/60 p-4 rounded-xl border border-slate-700 flex flex-col justify-center shadow-inner">
                                 <span className="text-[10px] text-slate-400 uppercase tracking-wide block mb-1">Risk Exposure</span>
-                                <span className="font-mono text-rose-400 font-bold text-xl">Rp {advisor?.financials?.potential_loss?.toLocaleString('id-ID') || '0'}</span>
+                                <span className="font-mono text-rose-400 font-bold text-xl drop-shadow-[0_0_8px_rgba(244,63,94,0.6)]">Rp {advisor?.financials?.potential_loss?.toLocaleString('id-ID') || '0'}</span>
                             </div>
                             {/* Card 2: Detour */}
-                            <div className="flex-1 bg-slate-900/60 p-4 rounded-xl border border-slate-700 flex flex-col justify-center">
+                            <div className="flex-1 bg-slate-900/60 p-4 rounded-xl border border-slate-700 flex flex-col justify-center shadow-inner">
                                 <span className="text-[10px] text-slate-400 uppercase tracking-wide block mb-1">Detour Cost</span>
-                                <span className="font-mono text-amber-300 font-bold text-xl">Rp {advisor?.financials?.detour_cost?.toLocaleString('id-ID') || '0'}</span>
+                                <span className="font-mono text-amber-300 font-bold text-xl drop-shadow-[0_0_8px_rgba(245,158,11,0.6)]">Rp {advisor?.financials?.detour_cost?.toLocaleString('id-ID') || '0'}</span>
                             </div>
                             {/* Card 3: Net Savings */}
-                            <div className="flex-1 bg-emerald-500/10 p-4 rounded-xl border border-emerald-500/30 glow-border-emerald flex flex-col justify-center">
+                            <div className="flex-1 bg-emerald-500/10 p-4 rounded-xl border border-emerald-500/30 glow-border-emerald flex flex-col justify-center shadow-[0_0_20px_rgba(16,185,129,0.15)]">
                                 <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wide block mb-1">Net Savings</span>
-                                <span className="font-mono font-black text-emerald-400 text-2xl">Rp {advisor?.financials?.net_savings?.toLocaleString('id-ID') || '0'}</span>
+                                <span className="font-mono font-black text-emerald-400 text-2xl drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]">Rp {advisor?.financials?.net_savings?.toLocaleString('id-ID') || '0'}</span>
                             </div>
                         </div>
                     </div>
@@ -296,7 +296,7 @@ export default function Dashboard() {
                 {/* BOTTOM ROW: Map & Sidebar */}
                 <div className="flex-1 flex flex-col xl:flex-row gap-6 pb-4">
                     {/* MAIN AREA: Dynamic Map */}
-                    <div className="flex-grow xl:w-2/3 relative rounded-2xl overflow-hidden border border-slate-700 shadow-[0_0_40px_rgba(0,0,0,0.8)] flex flex-col bg-slate-900 group min-h-[500px] xl:min-h-[700px]">
+                    <div className="flex-grow xl:w-2/3 relative rounded-2xl overflow-hidden border border-cyan-900/50 shadow-[0_0_40px_rgba(8,145,178,0.15)] flex flex-col bg-slate-900/50 group min-h-[500px] xl:min-h-[700px] backdrop-blur-sm">
                         <div className="flex-1 relative h-full">
                             
                             {/* Error Overlay in the middle of Map */}
@@ -324,8 +324,15 @@ export default function Dashboard() {
                             )}
                             <DynamicMap routeData={routeData} />
                             
-                            <div className="absolute inset-0 pointer-events-none border-[4px] border-cyan-500/10 rounded-2xl z-20"></div>
-                            <div className="absolute bottom-4 right-4 pointer-events-none z-20">
+                            <div className="absolute inset-0 pointer-events-none border-[2px] border-cyan-500/20 rounded-2xl z-20 transition-all duration-700 group-hover:border-cyan-400/40 group-hover:shadow-[inset_0_0_20px_rgba(34,211,238,0.2)]"></div>
+                            
+                            {/* HUD Corners */}
+                            <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-cyan-500/60 pointer-events-none z-30 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                            <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-cyan-500/60 pointer-events-none z-30 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                            <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-cyan-500/60 pointer-events-none z-30 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                            <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-cyan-500/60 pointer-events-none z-30 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+
+                            <div className="absolute bottom-6 right-8 pointer-events-none z-20">
                                 <div className="text-[10px] font-mono text-cyan-500/50 bg-slate-900/50 px-2 py-1 rounded">SAT-COM: CONNECTED</div>
                             </div>
                         </div>
@@ -391,7 +398,7 @@ export default function Dashboard() {
                                 )}
 
                                 <button suppressHydrationWarning onClick={handleScanRoute} disabled={isLoading}
-                                    className="w-full mt-4 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-lg font-bold tracking-wider uppercase text-sm shadow-[0_0_20px_rgba(14,165,233,0.3)] transition-all active:scale-[0.98] disabled:opacity-50 flex justify-center items-center">
+                                    className="w-full mt-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg font-bold tracking-wider uppercase text-sm shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.7)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex justify-center items-center">
                                     {isLoading ? <><Activity className="w-4 h-4 mr-2 animate-spin" /> Uplinking...</> : <><Zap className="w-4 h-4 mr-2" /> Pindai Rute & Risiko</>}
                                 </button>
                             </div>
