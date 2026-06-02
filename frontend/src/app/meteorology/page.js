@@ -15,18 +15,76 @@ export default function MeteorologyHub() {
     const [showRain, setShowRain] = useState(true);
     const [showTopography, setShowTopography] = useState(false);
     const [showHistorical, setShowHistorical] = useState(false);
+    
+    const [realTemp, setRealTemp] = useState("...");
+    const [realHumid, setRealHumid] = useState("...");
+    const [realWind, setRealWind] = useState("...");
+    const [katulampaStatus, setKatulampaStatus] = useState("...");
+    
+    const initialNodes = [
+        { name: "Jakarta Utara (Priok)", lat: -6.1158, lon: 106.8856, rain: 0, color: '#10b981' },
+        { name: "Jakarta Pusat (Monas)", lat: -6.1751, lon: 106.8272, rain: 0, color: '#10b981' },
+        { name: "Jakarta Selatan (Blok M)", lat: -6.2444, lon: 106.8006, rain: 0, color: '#10b981' },
+        { name: "Depok", lat: -6.4025, lon: 106.8227, rain: 0, color: '#10b981' },
+        { name: "Bogor (Bendung Katulampa)", lat: -6.6345, lon: 106.8344, rain: 0, color: '#10b981' }
+    ];
+    
+    const [liveNodes, setLiveNodes] = useState(initialNodes);
 
     useEffect(() => {
         setIsMounted(true);
+        fetchRealtimeData();
     }, []);
 
-    const nodes = [
-        { name: "Jakarta Utara (Priok)", lat: -6.1158, lon: 106.8856, rain: 45, color: '#ef4444' },
-        { name: "Jakarta Pusat (Monas)", lat: -6.1751, lon: 106.8272, rain: 15, color: '#f59e0b' },
-        { name: "Jakarta Selatan (Blok M)", lat: -6.2444, lon: 106.8006, rain: 2, color: '#10b981' },
-        { name: "Depok", lat: -6.4025, lon: 106.8227, rain: 0, color: '#10b981' },
-        { name: "Bogor (Bendung Katulampa)", lat: -6.6345, lon: 106.8344, rain: 60, color: '#ef4444' }
-    ];
+    const fetchRealtimeData = async () => {
+        try {
+            // Fetch for Jakarta Center (for the top cards)
+            const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-6.2088&longitude=106.8456&current=temperature_2m,relative_humidity_2m,wind_speed_10m&timezone=Asia/Jakarta');
+            const data = await res.json();
+            if (data && data.current) {
+                setRealTemp(`${data.current.temperature_2m}°C`);
+                setRealHumid(`${data.current.relative_humidity_2m}%`);
+                setRealWind(`${data.current.wind_speed_10m} km/h`);
+            }
+            
+            // Fetch for Bogor (Katulampa)
+            const bogorRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-6.6345&longitude=106.8344&current=precipitation&timezone=Asia/Jakarta');
+            const bogorData = await bogorRes.json();
+            let bRain = 0;
+            if (bogorData && bogorData.current) {
+                bRain = bogorData.current.precipitation;
+                if (bRain > 50) setKatulampaStatus("Siaga 1");
+                else if (bRain > 20) setKatulampaStatus("Siaga 2");
+                else if (bRain > 5) setKatulampaStatus("Siaga 3");
+                else setKatulampaStatus("Siaga 4 (Aman)");
+            }
+
+            // Update Nodes with real precipitation
+            const updatedNodes = await Promise.all(initialNodes.map(async (node) => {
+                const nRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${node.lat}&longitude=${node.lon}&current=precipitation&timezone=Asia/Jakarta`);
+                const nData = await nRes.json();
+                let rain = 0;
+                if (nData && nData.current) {
+                    rain = nData.current.precipitation;
+                }
+                
+                let color = '#10b981'; // Green
+                if (rain > 10) color = '#f59e0b'; // Yellow
+                if (rain > 30) color = '#ef4444'; // Red
+                
+                return { ...node, rain, color };
+            }));
+            
+            setLiveNodes(updatedNodes);
+
+        } catch (error) {
+            console.error("Gagal mengambil data meteo realtime", error);
+            setRealTemp("Error");
+            setRealHumid("Error");
+            setRealWind("Error");
+            setKatulampaStatus("Error");
+        }
+    };
 
     const topoNodes = [
         { name: "Penjaringan (0.5m mdpl)", lat: -6.1176, lon: 106.8026, elevation: 0.5, radius: 2500 },
@@ -49,12 +107,12 @@ export default function MeteorologyHub() {
                 <h1 className="text-3xl font-extrabold tracking-tight text-white flex items-center">
                     <CloudLightning className="w-8 h-8 mr-3 text-cyan-400" />
                     Meteorological Radar
-                    <span className="ml-4 px-2 py-0.5 text-[10px] bg-amber-500/20 text-amber-400 border border-amber-500/50 rounded-full flex items-center uppercase tracking-widest font-bold">
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse mr-1.5"></span>
-                        Simulated Telemetry
+                    <span className="ml-4 px-2 py-0.5 text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 rounded-full flex items-center uppercase tracking-widest font-bold">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span>
+                        Real-Time Telemetry
                     </span>
                 </h1>
-                <p className="text-slate-400 mt-2">Pemantauan titik-titik krusial hidrologi dari Jakarta hingga Bendung Katulampa Bogor (Purwarupa Demonstrasi).</p>
+                <p className="text-slate-400 mt-2">Pemantauan titik-titik krusial hidrologi secara langsung menggunakan data satelit Open-Meteo.</p>
             </header>
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6 shrink-0 z-10">
@@ -62,28 +120,28 @@ export default function MeteorologyHub() {
                     <Thermometer className="w-8 h-8 text-cyan-400" />
                     <div>
                         <p className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Rata-Rata Suhu</p>
-                        <p className="text-2xl font-black text-white">28.5°C</p>
+                        <p className="text-2xl font-black text-white">{realTemp}</p>
                     </div>
                 </div>
                 <div className="glass-panel p-4 border-l-2 border-l-blue-500 flex items-center space-x-4">
                     <Droplets className="w-8 h-8 text-blue-400" />
                     <div>
                         <p className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Kelembapan Udara</p>
-                        <p className="text-2xl font-black text-white">82%</p>
+                        <p className="text-2xl font-black text-white">{realHumid}</p>
                     </div>
                 </div>
                 <div className="glass-panel p-4 border-l-2 border-l-slate-400 flex items-center space-x-4">
                     <Wind className="w-8 h-8 text-slate-400" />
                     <div>
                         <p className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Kecepatan Angin</p>
-                        <p className="text-2xl font-black text-white">14 km/h</p>
+                        <p className="text-2xl font-black text-white">{realWind}</p>
                     </div>
                 </div>
                 <div className="glass-panel p-4 border-l-2 border-l-rose-500 flex items-center space-x-4">
-                    <CloudLightning className="w-8 h-8 text-rose-400 animate-pulse" />
+                    <CloudLightning className={`w-8 h-8 ${katulampaStatus.includes('Aman') ? 'text-emerald-400' : 'text-rose-400 animate-pulse'}`} />
                     <div>
-                        <p className="text-[10px] text-rose-400 uppercase tracking-widest font-bold">Status Katulampa</p>
-                        <p className="text-2xl font-black text-rose-400">Siaga 2</p>
+                        <p className={`text-[10px] uppercase tracking-widest font-bold ${katulampaStatus.includes('Aman') ? 'text-emerald-400' : 'text-rose-400'}`}>Status Katulampa</p>
+                        <p className={`text-2xl font-black ${katulampaStatus.includes('Aman') ? 'text-emerald-400' : 'text-rose-400'}`}>{katulampaStatus}</p>
                     </div>
                 </div>
             </div>
@@ -118,7 +176,7 @@ export default function MeteorologyHub() {
                             <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
                             
                             {/* Rainfall Layer */}
-                            {showRain && nodes.map(node => (
+                            {showRain && liveNodes.map(node => (
                                 <CircleMarker 
                                     key={node.name}
                                     center={[node.lat, node.lon]}

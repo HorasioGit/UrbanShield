@@ -1,0 +1,17 @@
+import re
+
+filepath = "features.py"
+with open(filepath, "r", encoding="utf-8") as f:
+    content = f.read()
+
+# Exact features from the model error output
+new_features_str = "[\n    'temperature_2m', 'relative_humidity_2m', 'surface_pressure', 'wind_speed_10m', 'wind_direction_10m', 'weather_code', 'soil_temperature_0_to_7cm', 'precipitation', 'bogor_rain', 'precip_3h_sum', 'precip_6h_sum', 'precip_12h_sum', 'hour', 'month', 'day_of_week', 'day_of_year', 'is_weekend', 'musim', 'kota_encoded', 'hour_sin', 'hour_cos', 'month_sin', 'month_cos', 'precip_ratio_3_12', 'precip_ratio_6_12', 'precip_intensity', 'rain_score', 'saturation_idx', 'heat_index', 'wind_energy', 'is_raining', 'heavy_rain', 'precipitation_lag1', 'precipitation_lag3', 'precipitation_lag6', 'precipitation_lag12', 'precip_3h_sum_lag1', 'precip_3h_sum_lag3', 'precip_3h_sum_lag6', 'precip_3h_sum_lag12', 'precip_6h_sum_lag1', 'precip_6h_sum_lag3', 'precip_6h_sum_lag6', 'precip_6h_sum_lag12', 'precip_12h_sum_lag1', 'precip_12h_sum_lag3', 'precip_12h_sum_lag6', 'precip_12h_sum_lag12', 'bogor_rain_lag1', 'bogor_rain_lag3', 'bogor_rain_lag6', 'bogor_rain_lag12', 'status_banjir_lag1', 'status_banjir_lag3', 'status_banjir_lag6', 'status_banjir_lag12', 'temperature_2m_lag1', 'temperature_2m_lag3', 'temperature_2m_lag6', 'relative_humidity_2m_lag1', 'relative_humidity_2m_lag3', 'relative_humidity_2m_lag6', 'surface_pressure_lag1', 'surface_pressure_lag3', 'surface_pressure_lag6', 'wind_speed_10m_lag1', 'wind_speed_10m_lag3', 'wind_speed_10m_lag6', 'soil_temperature_0_to_7cm_lag1', 'soil_temperature_0_to_7cm_lag3', 'soil_temperature_0_to_7cm_lag6', 'weather_code_lag1', 'weather_code_lag3', 'weather_code_lag6', 'precipitation_roll3_mean', 'precipitation_roll3_max', 'precipitation_roll3_std', 'precipitation_roll6_mean', 'precipitation_roll6_max', 'precipitation_roll6_std', 'precipitation_roll12_mean', 'precipitation_roll12_max', 'precipitation_roll12_std', 'precip_3h_sum_roll3_mean', 'precip_3h_sum_roll3_max', 'precip_3h_sum_roll3_std', 'precip_3h_sum_roll6_mean', 'precip_3h_sum_roll6_max', 'precip_3h_sum_roll6_std', 'precip_3h_sum_roll12_mean', 'precip_3h_sum_roll12_max', 'precip_3h_sum_roll12_std', 'precip_6h_sum_roll3_mean', 'precip_6h_sum_roll3_max', 'precip_6h_sum_roll3_std', 'precip_6h_sum_roll6_mean', 'precip_6h_sum_roll6_max', 'precip_6h_sum_roll6_std', 'precip_6h_sum_roll12_mean', 'precip_6h_sum_roll12_max', 'precip_6h_sum_roll12_std', 'precip_12h_sum_roll3_mean', 'precip_12h_sum_roll3_max', 'precip_12h_sum_roll3_std', 'precip_12h_sum_roll6_mean', 'precip_12h_sum_roll6_max', 'precip_12h_sum_roll6_std', 'precip_12h_sum_roll12_mean', 'precip_12h_sum_roll12_max', 'precip_12h_sum_roll12_std', 'bogor_rain_roll3_mean', 'bogor_rain_roll3_max', 'bogor_rain_roll3_std', 'bogor_rain_roll6_mean', 'bogor_rain_roll6_max', 'bogor_rain_roll6_std', 'bogor_rain_roll12_mean', 'bogor_rain_roll12_max', 'bogor_rain_roll12_std', 'relative_humidity_2m_roll3_mean', 'relative_humidity_2m_roll6_mean', 'temperature_2m_roll3_mean', 'temperature_2m_roll6_mean', 'precip_trend_3h', 'precip_trend_6h', 'rain_acceleration', 'consec_rain', 'bogor_x_precip', 'rain_x_humidity', 'rain_persistence', 'high_rain_flag', 'consec_rain_approx', 'precip_max_3h', 'precip_max_6h'\n]"
+
+# Use regex to replace the old FORECAST_FEATURES array
+pattern = r"FORECAST_FEATURES\s*=\s*\[.*?\]"
+new_content = re.sub(pattern, "FORECAST_FEATURES = " + new_features_str, content, flags=re.DOTALL)
+
+with open(filepath, "w", encoding="utf-8") as f:
+    f.write(new_content)
+
+print("Berhasil update features.py!")
