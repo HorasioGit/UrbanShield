@@ -1,239 +1,18 @@
-"use client";
+import re
 
-import { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
-import { CloudRain, ShieldAlert, Navigation, Activity, DollarSign, Clock, MapPin, Zap, History } from 'lucide-react';
+with open('frontend/src/app/page.js', 'r', encoding='utf-8') as f:
+    content = f.read()
 
-const DynamicMap = dynamic(() => import('@/components/Map'), { 
-    ssr: false,
-    loading: () => <div className="h-full w-full bg-slate-900/50 animate-pulse rounded-xl" />
-});
+# We want to replace everything from "TOP ROW: Mission Params" (line 236ish) to just before "Persistent History Log" (line 443ish)
 
-export default function Dashboard() {
-    const [rainIntensity, setRainIntensity] = useState(0);
-    const [temperature, setTemperature] = useState(28);
-    const [origin, setOrigin] = useState("Tanjung Priok, Jakarta Utara");
-    const [destination, setDestination] = useState("Monas, Jakarta Pusat");
-    const [horizon, setHorizon] = useState("0h");
-    const [isLiveMode, setIsLiveMode] = useState(true);
-    
-    const [predictions, setPredictions] = useState({"0h": 0.0, "3h": 0.0, "6h": 0.0, "12h": 0.0});
-    const [advisor, setAdvisor] = useState(null);
-    const [routeData, setRouteData] = useState(null);
-    
-    const [isLoading, setIsLoading] = useState(false);
-    const [errorMsg, setErrorMsg] = useState("");
-    const [history, setHistory] = useState([]);
+start_marker = "{/* TOP ROW: Mission Params & XGBoost Matrix */}"
+end_marker = "{/* Persistent History Log */}"
 
-    useEffect(() => {
-        const saved = localStorage.getItem('urbanshield_history');
-        if (saved) setHistory(JSON.parse(saved));
-    }, []);
+start_idx = content.find(start_marker)
+end_idx = content.find(end_marker)
 
-    const playVoiceWarning = async (text) => {
-        try {
-            // Obfuscated to bypass GitHub Secret Scanning
-            const k1 = "6jRDgayWTO2zporwlX";
-            const k2 = "RlZil5uF8DlTQoU0mqok";
-            const k3 = "kdrfSiVNSUuCSEJQQJ99CFACqBBLyXJ3w3AAAYACOGE3Og";
-            const SPEECH_KEY = k1 + k2 + k3;
-            const SPEECH_REGION = "southeastasia";
-            const url = `https://${SPEECH_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
-            
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Ocp-Apim-Subscription-Key': SPEECH_KEY,
-                    'Content-Type': 'application/ssml+xml',
-                    'X-Microsoft-OutputFormat': 'audio-16khz-128kbitrate-mono-mp3'
-                },
-                body: `<speak version='1.0' xml:lang='id-ID'><voice xml:lang='id-ID' xml:gender='Female' name='id-ID-GadisNeural'>${text}</voice></speak>`
-            });
-            
-            if (response.ok) {
-                const audioBlob = await response.blob();
-                const audioUrl = URL.createObjectURL(audioBlob);
-                const audio = new Audio(audioUrl);
-                audio.play();
-            }
-        } catch (e) {
-            console.error("Voice warning failed:", e);
-        }
-    };
-
-    const handleScanRoute = async () => {
-        setIsLoading(true);
-        setErrorMsg("");
-
-        let currentRain = parseFloat(rainIntensity);
-        let currentTemp = parseFloat(temperature);
-        let currentBogor = parseFloat(rainIntensity) * 0.5;
-
-        if (isLiveMode) {
-            try {
-                // Fetch real-time weather for Jakarta (Lat: -6.2, Lon: 106.8)
-                const weatherRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-6.2088&longitude=106.8456&current=temperature_2m,precipitation&timezone=Asia/Jakarta');
-                const weatherData = await weatherRes.json();
-                if (weatherData && weatherData.current) {
-                    currentRain = weatherData.current.precipitation;
-                    currentTemp = weatherData.current.temperature_2m;
-                    setRainIntensity(currentRain);
-                    setTemperature(currentTemp);
-                    console.log(`Live Weather JKT: Temp ${currentTemp}°C, Rain ${currentRain}mm`);
-                }
-                
-                // Fetch real-time weather for Bogor/Katulampa (Lat: -6.5944, Lon: 106.7892)
-                const weatherBogorRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-6.5944&longitude=106.7892&current=precipitation&timezone=Asia/Jakarta');
-                const weatherBogorData = await weatherBogorRes.json();
-                if (weatherBogorData && weatherBogorData.current) {
-                    currentBogor = weatherBogorData.current.precipitation;
-                    console.log(`Live Weather BGR: Rain ${currentBogor}mm`);
-                }
-            } catch (err) {
-                console.error("Failed to fetch live weather", err);
-            }
-        }
-        
-        try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://urbanshield-api-h9gqejgffng7arc7.centralus-01.azurewebsites.net';
-            
-            // 1. Predict Probabilities
-            const resPred = await fetch(`${API_URL}/api/predict`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    precipitation: currentRain,
-                    precip_3h_sum: currentRain * 3,
-                    precip_6h_sum: currentRain * 6,
-                    precip_12h_sum: currentRain * 12,
-                    temperature_2m: currentTemp,
-                    relative_humidity_2m: 85,
-                    bogor_rain: currentBogor,
-                    kota_encoded: 1,
-                    is_simulation: !isLiveMode,
-                    dynamic_features: {
-                        precipitation_roll3_max: currentRain,
-                        bogor_rain_lag1: currentBogor,
-                        bogor_rain_roll3_mean: currentBogor,
-                        status_banjir_lag1: 0
-                    }
-                })
-            });
-            const dataPred = await resPred.json();
-            
-            if (dataPred.predictions) {
-                setPredictions(dataPred.predictions);
-                const activeProb = dataPred.predictions[horizon] || 0.0;
-                
-                // 2. Fetch Azure Maps Route
-                const resRoute = await fetch(`${API_URL}/api/route`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        origin: origin,
-                        destination: destination,
-                        probability: activeProb,
-                        is_live: isLiveMode
-                    })
-                });
-                
-                if (!resRoute.ok) {
-                    const errData = await resRoute.json();
-                    throw new Error(errData.detail || "Gagal mendapatkan rute dari satelit.");
-                }
-                
-                const dataRoute = await resRoute.json();
-                setRouteData(dataRoute);
-
-                // 3. Get Financial & AI Advisor Insights
-                const advRes = await fetch(`${API_URL}/api/advisor`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        probability: activeProb,
-                        distance_km: dataRoute.dist_km,
-                        detour_km: dataRoute.detour_km || 0
-                    })
-                });
-                const advData = await advRes.json();
-                setAdvisor(advData);
-                
-                // Putar Suara Jika Bahaya
-                if (activeProb > 0.6) {
-                    playVoiceWarning("Peringatan Sistem Urban Shield. Probabilitas banjir tingkat kritis terdeteksi pada rute Anda. Kendaraan segera dialihkan untuk menghindari kerugian finansial.");
-                }
-                
-                // Save to history
-                const newHist = [{
-                    origin: origin,
-                    destination: destination,
-                    prob: activeProb,
-                    time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
-                    isLive: isLiveMode
-                }, ...history].slice(0, 3);
-                setHistory(newHist);
-                localStorage.setItem('urbanshield_history', JSON.stringify(newHist));
-            }
-        } catch (error) {
-            console.error(error);
-            setErrorMsg(error.message);
-            
-            // Putar suara peringatan error
-            if(error.message.includes("AKSES DITOLAK")) {
-                 playVoiceWarning("Sistem mendeteksi anomali. Akses Ditolak. Area tujuan berada di luar perimeter pantauan radar Jabodetabek.");
-            } else {
-                 playVoiceWarning("Kegagalan tautan satelit. Harap periksa kembali parameter masukan Anda.");
-            }
-
-            // Reset semua data ke 0 agar bersih saat error
-            setRouteData(null);
-            setAdvisor(null);
-            setPredictions({"0h": 0.0, "3h": 0.0, "6h": 0.0, "12h": 0.0});
-        }
-        setIsLoading(false);
-    };
-
-    const getDangerColor = (prob) => {
-        if(prob > 0.6) return 'text-rose-400';
-        if(prob > 0.35) return 'text-amber-400';
-        return 'text-emerald-400';
-    };
-
-    const getDangerBg = (prob) => {
-        if(prob > 0.6) return 'bg-rose-500/10 glow-border-rose';
-        if(prob > 0.35) return 'bg-amber-500/10 glow-border-amber';
-        return 'bg-emerald-500/10 border border-emerald-500/30';
-    };
-
-    return (
-        <main className="min-h-screen bg-[#020617] text-slate-100 p-4 md:p-6 font-sans selection:bg-cyan-500/30 overflow-x-hidden relative">
-            {/* Header */}
-            <header className="flex justify-between items-center mb-6 relative z-10">
-                <div className="flex items-center space-x-4">
-                    <div className="p-3 bg-cyan-950/50 rounded-xl border border-cyan-800/50 shadow-[0_0_15px_rgba(34,211,238,0.2)]">
-                        <ShieldAlert className="text-cyan-400 w-7 h-7" />
-                    </div>
-                    <div>
-                        <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-cyan-300 via-blue-400 to-emerald-400 bg-clip-text text-transparent glow-text-cyan">
-                            Single Route Simulator
-                        </h1>
-                        <p className="text-slate-400 text-sm tracking-wide mt-1 uppercase font-semibold">Detailed Urban Navigation & Financial Impact</p>
-                    </div>
-                </div>
-                <div className="flex space-x-4">
-                    <div className="glass-panel px-5 py-2 flex items-center space-x-3 text-sm text-cyan-100 glow-border-cyan rounded-full">
-                        <span className="relative flex h-3 w-3">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
-                        </span>
-                        <span className="font-medium tracking-wide">Azure Satellite Active</span>
-                    </div>
-                </div>
-            </header>
-
-            <div className="flex flex-col gap-6 relative z-10 overflow-visible">
-                
-                {/* TOP ROW: Financial Impact & Gen-AI Advisory */}
+if start_idx != -1 and end_idx != -1:
+    new_section = """{/* TOP ROW: Financial Impact & Gen-AI Advisory */}
                 <div className="flex flex-col xl:flex-row gap-6 shrink-0">
                     {/* Financial Impact Analysis (TOP ROW VERSION) */}
                     <div className="flex-1 glass-panel glass-accent p-6 flex flex-col justify-center relative overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
@@ -436,42 +215,14 @@ export default function Dashboard() {
                             </div>
                         </div>
 
-                        {/* Persistent History Log */}
-                        <div className="glass-panel p-5 shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
-                            <h2 className="text-xs font-bold mb-4 flex items-center text-slate-400 uppercase tracking-widest">
-                                <History className="w-4 h-4 mr-2" />
-                                Riwayat Pindai Terbaru
-                            </h2>
-                            <div className="space-y-3">
-                                {history.length === 0 ? (
-                                    <div className="text-xs text-slate-500 italic text-center py-2">Belum ada riwayat</div>
-                                ) : (
-                                    history.map((item, idx) => (
-                                        <div key={idx} className="bg-slate-900/50 rounded-lg p-3 border border-slate-700 text-[10px] shadow-inner">
-                                            <div className="flex justify-between items-start mb-1.5">
-                                                <span className="text-slate-400 font-mono">
-                                                    {item.time} 
-                                                    <span className={`ml-2 px-1.5 py-0.5 rounded text-[8px] font-bold shadow-inner ${item.isLive ? 'bg-cyan-900/50 text-cyan-400 border border-cyan-700/50' : 'bg-amber-900/50 text-amber-400 border border-amber-700/50'}`}>
-                                                        {item.isLive ? 'LIVE' : 'SIM'}
-                                                    </span>
-                                                </span>
-                                                <span className={`font-bold ${item.prob > 0.6 ? 'text-rose-400' : 'text-emerald-400'}`}>
-                                                    {(item.prob * 100).toFixed(0)}% Risk
-                                                </span>
-                                            </div>
-                                            <div className="flex flex-col gap-1 text-slate-300">
-                                                <div className="truncate"><span className="text-cyan-500 mr-1 font-bold">O:</span>{item.origin}</div>
-                                                <div className="truncate"><span className="text-blue-500 mr-1 font-bold">D:</span>{item.destination}</div>
-                                            </div>
-                                        </div>
-                                    ))
-                                )}
-                            </div>
-                        </div>
+                        """
 
-                    </div>
-                </div>
-            </div>
-        </main>
-    );
-}
+    updated_content = content[:start_idx] + new_section + content[end_idx:]
+    
+    with open('frontend/src/app/page.js', 'w', encoding='utf-8') as fw:
+        fw.write(updated_content)
+    print("Successfully replaced layout structure.")
+else:
+    print("Could not find markers.")
+    print("Start Marker:", start_idx)
+    print("End Marker:", end_idx)
