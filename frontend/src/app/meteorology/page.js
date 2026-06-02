@@ -35,12 +35,13 @@ export default function MeteorologyHub() {
         setIsMounted(true);
         fetchRealtimeData();
 
-        // Auto-refresh setiap 5 menit (300000 ms)
+        // Auto-refresh setiap 15 menit (900000 ms) agar tidak terlalu memberatkan API
         const interval = setInterval(() => {
             fetchRealtimeData();
-        }, 300000);
+        }, 900000);
 
         return () => clearInterval(interval);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const fetchRealtimeData = async () => {
