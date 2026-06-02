@@ -265,7 +265,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* Gen-AI Advisory (TOP ROW VERSION) */}
-                    <div className="w-full xl:w-[450px] glass-panel p-6 flex flex-col relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
+                    <div className="flex-1 glass-panel p-6 flex flex-col relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
                         <div className="absolute -right-4 -bottom-4 text-slate-800/30 pointer-events-none">
                             <ShieldAlert className="w-32 h-32" />
                         </div>
@@ -298,7 +298,7 @@ export default function Dashboard() {
                 {/* BOTTOM ROW: Map & Sidebar */}
                 <div className="flex-1 flex flex-col xl:flex-row gap-6 pb-4">
                     {/* MAIN AREA: Dynamic Map */}
-                    <div className="flex-grow xl:w-2/3 relative rounded-2xl overflow-hidden border border-cyan-900/50 shadow-[0_0_40px_rgba(8,145,178,0.15)] flex flex-col bg-slate-900/50 group min-h-[500px] xl:min-h-[700px] backdrop-blur-sm">
+                    <div className="xl:w-1/2 relative rounded-2xl overflow-hidden border border-cyan-900/50 shadow-[0_0_40px_rgba(8,145,178,0.15)] flex flex-col bg-slate-900/50 group min-h-[500px] xl:min-h-[700px] backdrop-blur-sm">
                         <div className="flex-1 relative h-full">
                             
                             {/* Error Overlay in the middle of Map */}
@@ -341,7 +341,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* SIDEBAR: Mission Parameters & Matrix */}
-                    <div className="xl:w-1/3 w-full flex flex-col space-y-6 h-full">
+                    <div className="xl:w-1/2 w-full flex flex-col space-y-6 h-full">
                         
                         {/* Mission Parameters (SIDEBAR VERSION) */}
                         <div className="glass-panel p-6 border-t-2 border-t-cyan-500/50 flex flex-col shadow-[0_10px_30px_rgba(0,0,0,0.4)] relative shrink-0">
