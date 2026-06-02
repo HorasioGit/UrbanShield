@@ -242,72 +242,73 @@ export default function Dashboard() {
                             Mission Parameters
                         </h2>
                         
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
-                            <div className="lg:col-span-5 space-y-5">
+                        <div className="flex flex-col gap-6">
+                            {/* Row 1: Lokasi & Tujuan */}
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                 <div>
                                     <label className="text-[10px] text-cyan-500/80 mb-2 block font-bold uppercase tracking-widest">Lokasi Keberangkatan</label>
                                     <div className="relative group">
-                                        <MapPin className="w-4 h-4 absolute left-3 top-2.5 text-slate-500 group-focus-within:text-cyan-400 transition-colors" />
+                                        <MapPin className="w-4 h-4 absolute left-3 top-4 text-slate-500 group-focus-within:text-cyan-400 transition-colors" />
                                         <input suppressHydrationWarning type="text" value={origin} onChange={e => setOrigin(e.target.value)}
-                                            className="w-full bg-slate-900/80 border border-slate-700/50 rounded-lg py-2 pl-10 pr-3 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/50 outline-none transition-all shadow-inner text-slate-200" />
+                                            className="w-full h-12 bg-slate-900/80 border border-slate-700/50 rounded-lg pl-10 pr-3 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/50 outline-none transition-all shadow-inner text-slate-200" />
                                     </div>
                                 </div>
                                 <div>
                                     <label className="text-[10px] text-cyan-500/80 mb-2 block font-bold uppercase tracking-widest">Tujuan Pengiriman</label>
                                     <div className="relative group">
-                                        <MapPin className="w-4 h-4 absolute left-3 top-2.5 text-slate-500 group-focus-within:text-cyan-400 transition-colors" />
+                                        <MapPin className="w-4 h-4 absolute left-3 top-4 text-slate-500 group-focus-within:text-cyan-400 transition-colors" />
                                         <input suppressHydrationWarning type="text" value={destination} onChange={e => setDestination(e.target.value)}
-                                            className="w-full bg-slate-900/80 border border-slate-700/50 rounded-lg py-2 pl-10 pr-3 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/50 outline-none transition-all shadow-inner text-slate-200" />
+                                            className="w-full h-12 bg-slate-900/80 border border-slate-700/50 rounded-lg pl-10 pr-3 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/50 outline-none transition-all shadow-inner text-slate-200" />
                                     </div>
                                 </div>
                             </div>
                             
-                            <div className="lg:col-span-4 space-y-5">
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="text-[10px] text-cyan-500/80 mb-2 block font-bold uppercase tracking-widest">Horizon</label>
-                                        <select suppressHydrationWarning value={horizon} onChange={e => setHorizon(e.target.value)}
-                                            className="w-full bg-slate-900/80 border border-slate-700/50 rounded-lg py-2 px-3 text-sm focus:border-cyan-500 outline-none appearance-none shadow-inner text-slate-200 cursor-pointer">
-                                            <option value="0h">Nowcast</option>
-                                            <option value="3h">+3 Jam</option>
-                                            <option value="6h">+6 Jam</option>
-                                            <option value="12h">+12 Jam</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label className="text-[10px] text-cyan-500/80 mb-2 block font-bold uppercase tracking-widest text-center">Data Source</label>
-                                        <div className="flex bg-slate-900/80 rounded-lg p-1 border border-slate-700/50 shadow-inner">
-                                            <button suppressHydrationWarning onClick={() => setIsLiveMode(true)} className={`flex-1 text-[10px] py-1.5 rounded transition-all duration-300 ${isLiveMode ? 'bg-cyan-500 text-slate-900 font-extrabold shadow-[0_0_10px_rgba(6,182,212,0.8)]' : 'text-slate-500 hover:text-cyan-400'}`}>LIVE (API)</button>
-                                            <button suppressHydrationWarning onClick={() => setIsLiveMode(false)} className={`flex-1 text-[10px] py-1.5 rounded transition-all duration-300 ${!isLiveMode ? 'bg-amber-500 text-slate-900 font-extrabold shadow-[0_0_10px_rgba(245,158,11,0.8)]' : 'text-slate-500 hover:text-amber-400'}`}>SIMULASI</button>
-                                        </div>
+                            {/* Row 2: Settings & Actions */}
+                            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-end">
+                                <div>
+                                    <label className="text-[10px] text-cyan-500/80 mb-2 block font-bold uppercase tracking-widest">Horizon</label>
+                                    <select suppressHydrationWarning value={horizon} onChange={e => setHorizon(e.target.value)}
+                                        className="w-full h-12 bg-slate-900/80 border border-slate-700/50 rounded-lg px-3 text-sm focus:border-cyan-500 outline-none appearance-none shadow-inner text-slate-200 cursor-pointer">
+                                        <option value="0h">Nowcast</option>
+                                        <option value="3h">+3 Jam</option>
+                                        <option value="6h">+6 Jam</option>
+                                        <option value="12h">+12 Jam</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="text-[10px] text-cyan-500/80 mb-2 block font-bold uppercase tracking-widest text-center">Data Source</label>
+                                    <div className="flex h-12 bg-slate-900/80 rounded-lg p-1 border border-slate-700/50 shadow-inner">
+                                        <button suppressHydrationWarning onClick={() => setIsLiveMode(true)} className={`flex-1 text-[11px] rounded transition-all duration-300 ${isLiveMode ? 'bg-cyan-500 text-slate-900 font-extrabold shadow-[0_0_10px_rgba(6,182,212,0.8)]' : 'text-slate-500 hover:text-cyan-400'}`}>LIVE (API)</button>
+                                        <button suppressHydrationWarning onClick={() => setIsLiveMode(false)} className={`flex-1 text-[11px] rounded transition-all duration-300 ${!isLiveMode ? 'bg-amber-500 text-slate-900 font-extrabold shadow-[0_0_10px_rgba(245,158,11,0.8)]' : 'text-slate-500 hover:text-amber-400'}`}>SIMULASI</button>
                                     </div>
                                 </div>
-                                {!isLiveMode ? (
-                                    <div className="pt-2">
-                                        <label className="flex justify-between text-[10px] text-cyan-500/80 mb-2 uppercase font-bold tracking-widest">
-                                            <span className="flex items-center text-amber-400"><CloudRain className="w-3 h-3 mr-1"/> Hujan Extremity</span>
-                                            <span className="font-mono bg-slate-950/80 px-2 py-0.5 rounded border border-amber-900/50 text-amber-400 shadow-inner">{rainIntensity} mm</span>
-                                        </label>
-                                        <input suppressHydrationWarning 
-                                            type="range" min="0" max="50" step="1" value={rainIntensity} onChange={(e) => setRainIntensity(e.target.value)}
-                                            className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none accent-amber-500 cursor-pointer shadow-inner"
-                                        />
-                                    </div>
-                                ) : (
-                                    <div className="pt-1 flex items-center justify-center h-[52px] bg-cyan-950/20 rounded-lg border border-cyan-800/40 shadow-[inset_0_0_15px_rgba(34,211,238,0.1)]">
-                                        <span className="text-[11px] text-cyan-300 font-mono flex items-center tracking-widest uppercase font-bold">
-                                            <span className="relative flex h-2 w-2 mr-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span></span>
-                                            Open-Meteo Active
-                                        </span>
-                                    </div>
-                                )}
-                            </div>
-
-                            <div className="lg:col-span-3 h-full flex flex-col justify-end">
-                                <button suppressHydrationWarning onClick={handleScanRoute} disabled={isLoading}
-                                    className="w-full h-[52px] bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg font-bold tracking-wider uppercase text-sm shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.7)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex justify-center items-center">
-                                    {isLoading ? <><Activity className="w-4 h-4 mr-2 animate-spin" /> Uplinking...</> : <><Zap className="w-4 h-4 mr-2" /> Pindai Rute & Risiko</>}
-                                </button>
+                                <div>
+                                    {!isLiveMode ? (
+                                        <div className="flex flex-col justify-end h-12 pb-2">
+                                            <label className="flex justify-between text-[10px] text-cyan-500/80 mb-2 uppercase font-bold tracking-widest">
+                                                <span className="flex items-center text-amber-400"><CloudRain className="w-3 h-3 mr-1"/> Hujan</span>
+                                                <span className="font-mono bg-slate-950/80 px-2 py-0.5 rounded border border-amber-900/50 text-amber-400 shadow-inner">{rainIntensity} mm</span>
+                                            </label>
+                                            <input suppressHydrationWarning 
+                                                type="range" min="0" max="50" step="1" value={rainIntensity} onChange={(e) => setRainIntensity(e.target.value)}
+                                                className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none accent-amber-500 cursor-pointer shadow-inner"
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="flex items-center justify-center h-12 bg-cyan-950/20 rounded-lg border border-cyan-800/40 shadow-[inset_0_0_15px_rgba(34,211,238,0.1)]">
+                                            <span className="text-[11px] text-cyan-300 font-mono flex items-center tracking-widest uppercase font-bold">
+                                                <span className="relative flex h-2 w-2 mr-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span></span>
+                                                Open-Meteo
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+                                <div>
+                                    <button suppressHydrationWarning onClick={handleScanRoute} disabled={isLoading}
+                                        className="w-full h-12 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg font-bold tracking-wider uppercase text-sm shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.7)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex justify-center items-center">
+                                        {isLoading ? <><Activity className="w-4 h-4 mr-2 animate-spin" /> Uplinking</> : <><Zap className="w-4 h-4 mr-2" /> Pindai Rute</>}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
