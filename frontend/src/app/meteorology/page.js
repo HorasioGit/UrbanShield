@@ -34,6 +34,13 @@ export default function MeteorologyHub() {
     useEffect(() => {
         setIsMounted(true);
         fetchRealtimeData();
+
+        // Auto-refresh setiap 5 menit (300000 ms)
+        const interval = setInterval(() => {
+            fetchRealtimeData();
+        }, 300000);
+
+        return () => clearInterval(interval);
     }, []);
 
     const fetchRealtimeData = async () => {
