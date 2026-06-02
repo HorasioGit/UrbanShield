@@ -15,7 +15,7 @@ export default function Dashboard() {
     const [origin, setOrigin] = useState("Tanjung Priok, Jakarta Utara");
     const [destination, setDestination] = useState("Monas, Jakarta Pusat");
     const [horizon, setHorizon] = useState("0h");
-    const [isLiveMode, setIsLiveMode] = useState(false);
+    const [isLiveMode, setIsLiveMode] = useState(true);
     
     const [predictions, setPredictions] = useState({"0h": 0.0, "3h": 0.0, "6h": 0.0, "12h": 0.0});
     const [advisor, setAdvisor] = useState(null);
@@ -207,10 +207,6 @@ export default function Dashboard() {
 
     return (
         <main className="min-h-screen bg-[#020617] text-slate-100 p-4 md:p-6 font-sans selection:bg-cyan-500/30 overflow-x-hidden relative">
-            {/* Background Ambient Glow */}
-            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-cyan-900/20 blur-[120px] pointer-events-none"></div>
-            <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] rounded-full bg-emerald-900/10 blur-[100px] pointer-events-none"></div>
-
             {/* Header */}
             <header className="flex justify-between items-center mb-6 relative z-10">
                 <div className="flex items-center space-x-4">
@@ -237,58 +233,98 @@ export default function Dashboard() {
 
             <div className="flex flex-col gap-6 relative z-10 overflow-visible">
                 
-                {/* TOP ROW: Scoreboard */}
-                <div className="flex flex-col xl:flex-row gap-6 shrink-0 xl:h-48">
-                    {/* Financial Impact Analysis */}
-                    <div className="flex-1 glass-panel glass-accent p-6 flex flex-col justify-center relative overflow-hidden">
-                        <h2 className="absolute top-4 left-6 text-xs font-bold flex items-center text-cyan-300 uppercase tracking-widest z-10">
-                            <DollarSign className="w-4 h-4 mr-2" />
-                            Financial Impact Analysis
+                {/* TOP ROW: Mission Params & XGBoost Matrix */}
+                <div className="flex flex-col xl:flex-row gap-6 shrink-0">
+                    {/* Mission Parameters (TOP ROW VERSION) */}
+                    <div className="flex-1 glass-panel p-6 border-t-2 border-t-cyan-500/50 flex flex-col justify-center shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
+                        <h2 className="text-base font-bold mb-5 flex items-center text-cyan-300 uppercase tracking-widest text-xs">
+                            <Navigation className="w-4 h-4 mr-2" />
+                            Mission Parameters
                         </h2>
                         
-                        <div className="flex justify-between items-stretch gap-4 mt-6 z-10 relative h-full">
-                            {/* Card 1: Risk */}
-                            <div className="flex-1 bg-slate-900/60 p-4 rounded-xl border border-slate-700 flex flex-col justify-center shadow-inner">
-                                <span className="text-[10px] text-slate-400 uppercase tracking-wide block mb-1">Risk Exposure</span>
-                                <span className="font-mono text-rose-400 font-bold text-xl drop-shadow-[0_0_8px_rgba(244,63,94,0.6)]">Rp {advisor?.financials?.potential_loss?.toLocaleString('id-ID') || '0'}</span>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase">Lokasi Keberangkatan</label>
+                                    <div className="relative group">
+                                        <MapPin className="w-4 h-4 absolute left-3 top-2.5 text-slate-500 group-focus-within:text-cyan-400 transition-colors" />
+                                        <input suppressHydrationWarning type="text" value={origin} onChange={e => setOrigin(e.target.value)}
+                                            className="w-full bg-slate-900/80 border border-slate-700 rounded-lg py-2 pl-9 pr-3 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all shadow-inner" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase">Tujuan Pengiriman</label>
+                                    <div className="relative group">
+                                        <MapPin className="w-4 h-4 absolute left-3 top-2.5 text-slate-500 group-focus-within:text-cyan-400 transition-colors" />
+                                        <input suppressHydrationWarning type="text" value={destination} onChange={e => setDestination(e.target.value)}
+                                            className="w-full bg-slate-900/80 border border-slate-700 rounded-lg py-2 pl-9 pr-3 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all shadow-inner" />
+                                    </div>
+                                </div>
                             </div>
-                            {/* Card 2: Detour */}
-                            <div className="flex-1 bg-slate-900/60 p-4 rounded-xl border border-slate-700 flex flex-col justify-center shadow-inner">
-                                <span className="text-[10px] text-slate-400 uppercase tracking-wide block mb-1">Detour Cost</span>
-                                <span className="font-mono text-amber-300 font-bold text-xl drop-shadow-[0_0_8px_rgba(245,158,11,0.6)]">Rp {advisor?.financials?.detour_cost?.toLocaleString('id-ID') || '0'}</span>
+                            
+                            <div className="space-y-4">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase">Horizon</label>
+                                        <select suppressHydrationWarning value={horizon} onChange={e => setHorizon(e.target.value)}
+                                            className="w-full bg-slate-900/80 border border-slate-700 rounded-lg py-2 px-3 text-sm focus:border-cyan-500 outline-none appearance-none shadow-inner">
+                                            <option value="0h">Nowcast</option>
+                                            <option value="3h">+3 Jam</option>
+                                            <option value="6h">+6 Jam</option>
+                                            <option value="12h">+12 Jam</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase text-center">Data Source</label>
+                                        <div className="flex bg-slate-900/80 rounded-lg p-1 border border-slate-700 shadow-inner">
+                                            <button suppressHydrationWarning onClick={() => setIsLiveMode(true)} className={`flex-1 text-[10px] py-1.5 rounded transition-all duration-300 ${isLiveMode ? 'bg-cyan-500 text-slate-900 font-extrabold shadow-[0_0_10px_rgba(6,182,212,0.8)]' : 'text-slate-500 hover:text-cyan-400'}`}>LIVE (API)</button>
+                                            <button suppressHydrationWarning onClick={() => setIsLiveMode(false)} className={`flex-1 text-[10px] py-1.5 rounded transition-all duration-300 ${!isLiveMode ? 'bg-amber-500 text-slate-900 font-extrabold shadow-[0_0_10px_rgba(245,158,11,0.8)]' : 'text-slate-500 hover:text-amber-400'}`}>SIMULASI</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                {!isLiveMode ? (
+                                    <div className="pt-2">
+                                        <label className="flex justify-between text-xs text-slate-400 mb-2 uppercase font-medium">
+                                            <span className="flex items-center text-amber-400"><CloudRain className="w-3 h-3 mr-1"/> Curah Hujan Extremity</span>
+                                            <span className="font-mono bg-slate-800 px-2 py-0.5 rounded text-amber-300 shadow-inner">{rainIntensity} mm</span>
+                                        </label>
+                                        <input suppressHydrationWarning 
+                                            type="range" min="0" max="50" step="1" value={rainIntensity} onChange={(e) => setRainIntensity(e.target.value)}
+                                            className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none accent-amber-500 cursor-pointer shadow-inner"
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className="pt-2 flex items-center justify-center h-[52px] bg-slate-900/50 rounded-lg border border-cyan-900/30 shadow-inner">
+                                        <span className="text-xs text-cyan-400/70 font-mono animate-pulse flex items-center"><Activity className="w-4 h-4 mr-2" /> Live Open-Meteo Connection Active</span>
+                                    </div>
+                                )}
                             </div>
-                            {/* Card 3: Net Savings */}
-                            <div className="flex-1 bg-emerald-500/10 p-4 rounded-xl border border-emerald-500/30 glow-border-emerald flex flex-col justify-center shadow-[0_0_20px_rgba(16,185,129,0.15)]">
-                                <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wide block mb-1">Net Savings</span>
-                                <span className="font-mono font-black text-emerald-400 text-2xl drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]">Rp {advisor?.financials?.net_savings?.toLocaleString('id-ID') || '0'}</span>
+
+                            <div className="h-full flex flex-col justify-end">
+                                <button suppressHydrationWarning onClick={handleScanRoute} disabled={isLoading}
+                                    className="w-full h-[52px] bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg font-bold tracking-wider uppercase text-sm shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.7)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex justify-center items-center">
+                                    {isLoading ? <><Activity className="w-4 h-4 mr-2 animate-spin" /> Uplinking...</> : <><Zap className="w-4 h-4 mr-2" /> Pindai Rute & Risiko</>}
+                                </button>
                             </div>
                         </div>
                     </div>
 
-                    {/* Gen-AI Advisory */}
-                    <div className="flex-1 glass-panel p-6 flex flex-col relative overflow-hidden">
-                        <div className="absolute -right-4 -top-4 text-slate-800/30 pointer-events-none">
-                            <ShieldAlert className="w-40 h-40" />
-                        </div>
-                        
-                        <h2 className="absolute top-4 left-6 text-xs font-bold flex items-center text-slate-400 uppercase tracking-widest z-10">
-                            Gen-AI Advisory
+                    {/* Forecast Horizon Cards (TOP ROW VERSION) */}
+                    <div className="w-full xl:w-[350px] glass-panel p-6 shrink-0 flex flex-col justify-center shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
+                        <h2 className="text-xs font-bold mb-4 flex items-center text-slate-400 uppercase tracking-widest">
+                            <Clock className="w-4 h-4 mr-2" />
+                            Probability Matrix
                         </h2>
                         
-                        <div className={`mt-6 p-4 rounded-xl flex-1 flex items-center justify-center text-sm leading-relaxed border relative z-10 shadow-inner font-medium transition-all-slow ${
-                            advisor?.action === 'REROUTE' ? 'bg-rose-950/40 border-rose-500/50 text-rose-200' : 
-                            advisor?.action === 'PROCEED_WITH_CAUTION' ? 'bg-amber-950/40 border-amber-500/50 text-amber-200' :
-                            advisor?.action === 'PROCEED' ? 'bg-emerald-950/40 border-emerald-500/50 text-emerald-200' :
-                            'bg-slate-900/50 border-slate-700 text-slate-400 text-center'
-                        }`}>
-                            {isLoading ? (
-                                <div className="flex items-center space-x-2 text-cyan-400 animate-pulse">
-                                    <Activity className="w-5 h-5 animate-spin" />
-                                    <span>Menghitung proyeksi rute dan risiko finansial...</span>
+                        <div className="grid grid-cols-2 gap-3 h-full">
+                            {['0h', '3h', '6h', '12h'].map(h => (
+                                <div key={h} className={`border rounded-xl p-3 flex flex-col justify-center items-center transition-all-slow ${horizon === h ? 'glow-border-cyan bg-cyan-950/20 shadow-[inset_0_0_15px_rgba(34,211,238,0.2)]' : ''} ${horizon !== h ? getDangerBg(predictions[h] || 0) : ''}`}>
+                                    <span className="text-slate-500 text-[10px] font-bold uppercase mb-1 tracking-widest">{h === '0h' ? 'Nowcast' : `+${h} Forecast`}</span>
+                                    <span className={`text-2xl font-black tracking-tighter ${getDangerColor(predictions[h] || 0)}`}>
+                                        {((predictions[h] || 0) * 100).toFixed(0)}%
+                                    </span>
                                 </div>
-                            ) : (
-                                advisor?.text || "SISTEM STANDBY. Masukkan parameter dan pindai satelit untuk memunculkan instruksi manuver."
-                            )}
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -338,93 +374,67 @@ export default function Dashboard() {
                         </div>
                     </div>
 
-                    {/* SIDEBAR: Mission Parameters */}
+                    {/* SIDEBAR: Financial Impact & Advisory */}
                     <div className="xl:w-1/3 w-full flex flex-col space-y-6 h-full">
-                        <div className="glass-panel p-6 border-t-2 border-t-cyan-500/50 shrink-0">
-                            <h2 className="text-base font-bold mb-5 flex items-center text-cyan-300 uppercase tracking-widest text-xs">
-                                <Navigation className="w-4 h-4 mr-2" />
-                                Mission Parameters
+                        
+                        {/* Financial Impact Analysis (SIDEBAR VERSION) */}
+                        <div className="glass-panel glass-accent p-6 flex flex-col justify-center relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
+                            <h2 className="text-xs font-bold flex items-center text-cyan-300 uppercase tracking-widest z-10 mb-5">
+                                <DollarSign className="w-4 h-4 mr-2" />
+                                Financial Impact Analysis
                             </h2>
                             
-                            <div className="space-y-5">
-                                <div>
-                                    <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase">Lokasi Keberangkatan</label>
-                                    <div className="relative group">
-                                        <MapPin className="w-4 h-4 absolute left-3 top-2.5 text-slate-500 group-focus-within:text-cyan-400 transition-colors" />
-                                        <input suppressHydrationWarning type="text" value={origin} onChange={e => setOrigin(e.target.value)}
-                                            className="w-full bg-slate-900/80 border border-slate-700 rounded-lg py-2 pl-9 pr-3 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all" />
-                                    </div>
+                            <div className="flex flex-col gap-4 z-10 relative">
+                                {/* Card 1: Risk */}
+                                <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-700 flex flex-col justify-center shadow-inner relative overflow-hidden">
+                                    <div className="absolute -right-2 -top-2 w-16 h-16 bg-rose-500/10 rounded-full blur-xl pointer-events-none"></div>
+                                    <span className="text-[10px] text-slate-400 uppercase tracking-wide block mb-1">Risk Exposure</span>
+                                    <span className="font-mono text-rose-400 font-bold text-xl drop-shadow-[0_0_8px_rgba(244,63,94,0.6)]">Rp {advisor?.financials?.potential_loss?.toLocaleString('id-ID') || '0'}</span>
                                 </div>
-                                <div>
-                                    <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase">Tujuan Pengiriman</label>
-                                    <div className="relative group">
-                                        <MapPin className="w-4 h-4 absolute left-3 top-2.5 text-slate-500 group-focus-within:text-cyan-400 transition-colors" />
-                                        <input suppressHydrationWarning type="text" value={destination} onChange={e => setDestination(e.target.value)}
-                                            className="w-full bg-slate-900/80 border border-slate-700 rounded-lg py-2 pl-9 pr-3 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all" />
-                                    </div>
+                                {/* Card 2: Detour */}
+                                <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-700 flex flex-col justify-center shadow-inner relative overflow-hidden">
+                                    <div className="absolute -right-2 -top-2 w-16 h-16 bg-amber-500/10 rounded-full blur-xl pointer-events-none"></div>
+                                    <span className="text-[10px] text-slate-400 uppercase tracking-wide block mb-1">Detour Cost</span>
+                                    <span className="font-mono text-amber-300 font-bold text-xl drop-shadow-[0_0_8px_rgba(245,158,11,0.6)]">Rp {advisor?.financials?.detour_cost?.toLocaleString('id-ID') || '0'}</span>
                                 </div>
-                                
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase">Horizon</label>
-                                        <select suppressHydrationWarning value={horizon} onChange={e => setHorizon(e.target.value)}
-                                            className="w-full bg-slate-900/80 border border-slate-700 rounded-lg py-2 px-3 text-sm focus:border-cyan-500 outline-none appearance-none">
-                                            <option value="0h">Nowcast</option>
-                                            <option value="3h">+3 Jam</option>
-                                            <option value="6h">+6 Jam</option>
-                                            <option value="12h">+12 Jam</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label className="text-xs text-slate-400 mb-1.5 block font-medium uppercase">Data Source</label>
-                                        <div className="flex bg-slate-900/80 rounded-lg p-1 border border-slate-700">
-                                            <button suppressHydrationWarning onClick={() => setIsLiveMode(true)} className={`flex-1 text-[10px] py-1 rounded transition-colors ${isLiveMode ? 'bg-cyan-600/30 text-cyan-300 font-bold' : 'text-slate-500'}`}>Live</button>
-                                            <button suppressHydrationWarning onClick={() => setIsLiveMode(false)} className={`flex-1 text-[10px] py-1 rounded transition-colors ${!isLiveMode ? 'bg-amber-600/30 text-amber-300 font-bold' : 'text-slate-500'}`}>Sim</button>
-                                        </div>
-                                    </div>
+                                {/* Card 3: Net Savings */}
+                                <div className="bg-emerald-500/10 p-5 rounded-xl border border-emerald-500/30 glow-border-emerald flex flex-col justify-center shadow-[0_0_20px_rgba(16,185,129,0.15)] relative overflow-hidden">
+                                    <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
+                                    <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wide block mb-1">Net Savings</span>
+                                    <span className="font-mono font-black text-emerald-400 text-3xl drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]">Rp {advisor?.financials?.net_savings?.toLocaleString('id-ID') || '0'}</span>
                                 </div>
-
-                                {!isLiveMode && (
-                                    <div className="pt-3 pb-1 border-t border-slate-800">
-                                        <label className="flex justify-between text-xs text-slate-400 mb-3 uppercase font-medium">
-                                            <span className="flex items-center text-amber-400"><CloudRain className="w-3 h-3 mr-1"/> Curah Hujan Extremity</span>
-                                            <span className="font-mono bg-slate-800 px-2 py-0.5 rounded text-amber-300">{rainIntensity} mm</span>
-                                        </label>
-                                        <input suppressHydrationWarning 
-                                            type="range" min="0" max="50" step="1" value={rainIntensity} onChange={(e) => setRainIntensity(e.target.value)}
-                                            className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none accent-amber-500 cursor-pointer"
-                                        />
-                                    </div>
-                                )}
-
-                                <button suppressHydrationWarning onClick={handleScanRoute} disabled={isLoading}
-                                    className="w-full mt-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg font-bold tracking-wider uppercase text-sm shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.7)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex justify-center items-center">
-                                    {isLoading ? <><Activity className="w-4 h-4 mr-2 animate-spin" /> Uplinking...</> : <><Zap className="w-4 h-4 mr-2" /> Pindai Rute & Risiko</>}
-                                </button>
                             </div>
                         </div>
 
-                        {/* Forecast Horizon Cards */}
-                        <div className="glass-panel p-5 shrink-0">
-                            <h2 className="text-xs font-bold mb-4 flex items-center text-slate-400 uppercase tracking-widest">
-                                <Clock className="w-4 h-4 mr-2" />
-                                XGBoost Probability Matrix
+                        {/* Gen-AI Advisory (SIDEBAR VERSION) */}
+                        <div className="glass-panel p-6 flex flex-col relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.4)] flex-1">
+                            <div className="absolute -right-4 -bottom-4 text-slate-800/30 pointer-events-none">
+                                <ShieldAlert className="w-32 h-32" />
+                            </div>
+                            
+                            <h2 className="text-xs font-bold flex items-center text-slate-400 uppercase tracking-widest z-10 mb-4">
+                                Gen-AI Advisory
                             </h2>
                             
-                            <div className="grid grid-cols-2 gap-3">
-                                {['0h', '3h', '6h', '12h'].map(h => (
-                                    <div key={h} className={`border rounded-xl p-3 flex flex-col justify-center items-center transition-all-slow ${horizon === h ? 'glow-border-cyan bg-cyan-950/20' : ''} ${horizon !== h ? getDangerBg(predictions[h] || 0) : ''}`}>
-                                        <span className="text-slate-500 text-[9px] font-bold uppercase mb-1 tracking-widest">{h === '0h' ? 'Nowcast' : `+${h} Forecast`}</span>
-                                        <span className={`text-2xl font-black tracking-tighter ${getDangerColor(predictions[h] || 0)}`}>
-                                            {((predictions[h] || 0) * 100).toFixed(2)}%
-                                        </span>
+                            <div className={`p-5 rounded-xl flex-1 flex items-center justify-center text-sm leading-relaxed border relative z-10 shadow-inner font-medium transition-all-slow ${
+                                advisor?.action === 'REROUTE' ? 'bg-rose-950/40 border-rose-500/50 text-rose-200' : 
+                                advisor?.action === 'PROCEED_WITH_CAUTION' ? 'bg-amber-950/40 border-amber-500/50 text-amber-200' :
+                                advisor?.action === 'PROCEED' ? 'bg-emerald-950/40 border-emerald-500/50 text-emerald-200' :
+                                'bg-slate-900/50 border-slate-700 text-slate-400 text-center'
+                            }`}>
+                                {isLoading ? (
+                                    <div className="flex flex-col items-center space-y-3 text-cyan-400 animate-pulse">
+                                        <Activity className="w-6 h-6 animate-spin" />
+                                        <span className="text-xs">Menghitung proyeksi rute...</span>
                                     </div>
-                                ))}
+                                ) : (
+                                    advisor?.text || "SISTEM STANDBY. Masukkan parameter dan pindai satelit untuk memunculkan instruksi manuver."
+                                )}
                             </div>
                         </div>
 
                         {/* Persistent History Log */}
-                        <div className="glass-panel p-5 shrink-0">
+                        <div className="glass-panel p-5 shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
                             <h2 className="text-xs font-bold mb-4 flex items-center text-slate-400 uppercase tracking-widest">
                                 <History className="w-4 h-4 mr-2" />
                                 Riwayat Pindai Terbaru
@@ -438,7 +448,7 @@ export default function Dashboard() {
                                             <div className="flex justify-between items-start mb-1.5">
                                                 <span className="text-slate-400 font-mono">
                                                     {item.time} 
-                                                    <span className={`ml-2 px-1.5 py-0.5 rounded text-[8px] font-bold ${item.isLive ? 'bg-cyan-900/50 text-cyan-400 border border-cyan-700/50' : 'bg-amber-900/50 text-amber-400 border border-amber-700/50'}`}>
+                                                    <span className={`ml-2 px-1.5 py-0.5 rounded text-[8px] font-bold shadow-inner ${item.isLive ? 'bg-cyan-900/50 text-cyan-400 border border-cyan-700/50' : 'bg-amber-900/50 text-amber-400 border border-amber-700/50'}`}>
                                                         {item.isLive ? 'LIVE' : 'SIM'}
                                                     </span>
                                                 </span>
@@ -455,6 +465,7 @@ export default function Dashboard() {
                                 )}
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
