@@ -71,11 +71,18 @@ export default function Map({ routeData }) {
                 </Marker>
             )}
 
-            {/* Flood Box (Fix: Azure returns [lon, lat], Leaflet needs [lat, lon]) */}
-            {avoid_box && (
-                <Polygon positions={avoid_box.map(coord => [coord[1], coord[0]])} pathOptions={{ color: '#ef4444', fillColor: '#ef4444', fillOpacity: 0.3 }}>
+            {/* Flood Area (Changed from Box to Circle for visual consistency) */}
+            {avoid_box && avoid_box.length > 0 && (
+                <Circle 
+                    center={[
+                        avoid_box.reduce((sum, coord) => sum + coord[1], 0) / avoid_box.length,
+                        avoid_box.reduce((sum, coord) => sum + coord[0], 0) / avoid_box.length
+                    ]}
+                    radius={2500}
+                    pathOptions={{ color: '#ef4444', fillColor: '#ef4444', fillOpacity: 0.3 }}
+                >
                     <Popup>Zona Blokade Rute (Prediksi AI)</Popup>
-                </Polygon>
+                </Circle>
             )}
 
             {/* Extra Citywide Flood Zones */}
