@@ -78,7 +78,7 @@ export default function Map({ routeData }) {
                         avoid_box.reduce((sum, coord) => sum + coord[1], 0) / avoid_box.length,
                         avoid_box.reduce((sum, coord) => sum + coord[0], 0) / avoid_box.length
                     ]}
-                    radius={2500}
+                    radius={1200}
                     pathOptions={{ color: '#ef4444', fillColor: '#ef4444', fillOpacity: 0.3 }}
                 >
                     <Popup>Zona Blokade Rute (Prediksi AI)</Popup>
