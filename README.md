@@ -36,17 +36,17 @@ Jakarta adalah salah satu kota dengan risiko banjir tertinggi di Asia Tenggara. 
 ┌─────────────────────────────────────────────────────────────┐
 │                    DATA SOURCES (Input)                     │
 │  Open-Meteo API (real-time)  │  BPBD Jakarta + Bogor Hulu   │
-└────────────────┬────────────────────────────────────────────┘
-                 │
-                 ▼
+└─────────────────────────────┬───────────────────────────────┘
+                              │
+                              ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                 BACKEND ENGINE (FastAPI)                    │
 │  - Endpoint /api/route (Route Planning + Weather Injection) │
 │  - Endpoint /api/predict (XGBoost Batch Inference)          │
 │  - Azure Maps Fallback System (Robustness & Fault Tolerance)│
-└────────────────┬────────────────────────────────────────────┘
-                 │ JSON API / REST
-                 ▼
+└─────────────────────────────┬───────────────────────────────┘
+                              │ JSON API / REST
+                              ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                 FRONTEND APP (Next.js App Router)           │
 │  - SSR & CSR Components                                     │
