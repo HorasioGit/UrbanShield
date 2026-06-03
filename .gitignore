@@ -48,3 +48,7 @@ Thumbs.db
 API KEY AZURE MAPS.txt
 .cache.sqlite
 catboost_info/
+
+# Exclude large assets and docs
+Teaser_file/
+*.pdf
