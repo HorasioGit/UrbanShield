@@ -2,6 +2,8 @@
 ### *Sistem Operasi Navigasi & Pemantauan Armada Berbasis AI*
 
 > Sistem peringatan dini banjir kelas Enterprise dan rekomendasi rute evakuasi logistik real-time — dibangun untuk **AI Impact Challenge · Microsoft Elevate × Dicoding 2026**
+> 
+> 🔗 **Live Web App:** [https://wonderful-plant-0abccb100.7.azurestaticapps.net/](https://wonderful-plant-0abccb100.7.azurestaticapps.net/)
 
 [![Next.js](https://img.shields.io/badge/Next.js-14-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
